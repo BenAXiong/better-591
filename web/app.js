@@ -36,6 +36,8 @@
 
   let state = { ...initialState };
   let listingListScrollTop = 0;
+  const listingContactCache = {};
+  const listingContactPending = new Set();
   let appMeta = {
     source: window.__APP_DATA__ ? "embedded" : "empty",
     storage: null,
@@ -81,6 +83,7 @@
     bindToolbarEvents(listings.length);
     bindCardEvents(listings);
     bindThumbnailEvents(activeListing);
+    ensureListingContact(activeListing);
   }
 
   function renderToolbar(options, filteredCount) {
@@ -386,12 +389,14 @@
 
     const currentIndex = state.imageIndexes[listing.id] || 0;
     const currentImage = listing.images[currentIndex] || listing.images[0] || null;
+    const previewMeta = buildPreviewMetaLine(listing);
 
     return `
       <section class="preview">
         <div class="preview__header">
           <div>
             <h2 class="preview__title">${escapeHtml(listing.title)}</h2>
+            ${previewMeta ? `<p class="preview__meta">${escapeHtml(previewMeta)}</p>` : ""}
           </div>
           <div>
             <p class="preview__price">${escapeHtml(listing.priceText || "")}</p>
@@ -1083,6 +1088,76 @@
 
   function getImageSource(image) {
     return image?.remoteUrl || image?.src || "";
+  }
+
+  function buildPreviewMetaLine(listing) {
+    const spec = [listing.type, listing.sizePing ? `${listing.sizePing}坪` : "", listing.floorText]
+      .filter(Boolean)
+      .join(" ");
+    const owner = formatPreviewOwner(listing);
+
+    return [spec, listing.distanceText || "", owner].filter(Boolean).join(" · ");
+  }
+
+  function formatPreviewOwner(listing) {
+    const name = String(listing.contactName || "").trim();
+    const role = formatContactRoleShort(listing.contactRole);
+    const phone = String(listingContactCache[listing.id] || listing.contactPhone || listing.phone || "").trim();
+
+    if (!name && !phone) {
+      return "";
+    }
+
+    const head = [name, role ? `(${role})` : ""].filter(Boolean).join(" ");
+    return [head, phone].filter(Boolean).join(" ");
+  }
+
+  function formatContactRoleShort(role) {
+    if (role === "屋主") {
+      return "主";
+    }
+
+    if (role === "代理人" || role === "仲介" || role === "經紀人") {
+      return "代";
+    }
+
+    return "";
+  }
+
+  async function ensureListingContact(listing) {
+    if (!listing || !listing.id || !listing.sourceUrl) {
+      return;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(listingContactCache, listing.id) || listingContactPending.has(listing.id)) {
+      return;
+    }
+
+    listingContactPending.add(listing.id);
+
+    try {
+      const response = await fetch("/api/listing-contact", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          sourceUrl: listing.sourceUrl,
+        }),
+      });
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || `HTTP ${response.status}`);
+      }
+
+      listingContactCache[listing.id] = String(payload.contactPhone || "").trim();
+      render();
+    } catch {
+      listingContactCache[listing.id] = "";
+    } finally {
+      listingContactPending.delete(listing.id);
+    }
   }
 
   function normalizeTaxonomy(raw) {
