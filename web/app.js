@@ -496,6 +496,9 @@
       element.addEventListener("click", (event) => {
         const key = event.currentTarget.dataset.toggle;
         state[key] = !state[key];
+        if (key === "importAllPages") {
+          updateImportUrlFromSelections();
+        }
         render();
       });
     });
@@ -965,7 +968,7 @@
 
   function updateImportUrlFromSelections() {
     const current = parseImportUrl(state.importUrl);
-    const page = current?.page || "1";
+    const page = current?.page || "";
     const params = new URLSearchParams();
 
     if (state.importRegion) {
@@ -980,7 +983,9 @@
       params.set("section", state.importSection);
     }
 
-    params.set("page", page);
+    if (!state.importAllPages && page && page !== "1") {
+      params.set("page", page);
+    }
     state.importUrl = `https://rent.591.com.tw/list?${params.toString()}`;
   }
 
