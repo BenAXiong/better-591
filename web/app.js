@@ -56,6 +56,15 @@
   let archivedListingReasons = loadArchivedListingReasons();
   let leafletLoaderPromise = null;
   let previewMapToken = 0;
+  let previewMapState = {
+    instance: null,
+    markersLayer: null,
+    markerById: new Map(),
+    tileLayer: null,
+    signature: "",
+    activeId: "",
+    container: null,
+  };
   const listingDetailPending = new Set();
   const listingDetailFailed = new Set();
   let appMeta = {
@@ -591,8 +600,8 @@
               <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
             </div>
             <div class="preview__mode-switch" role="tablist" aria-label="Preview mode" aria-orientation="vertical">
-              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos">Photos</button>
-              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map">Map</button>
+              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos" aria-label="Photos" title="Photos">◫</button>
+              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map" aria-label="Map" title="Map">⌖</button>
             </div>
           </div>
         </div>
@@ -2107,7 +2116,7 @@
           return;
         }
 
-        renderLeafletMap(container, status, mappableListings, activeListing);
+        updateLeafletMap(container, status, mappableListings, activeListing);
       })
       .catch(() => {
         if (token !== previewMapToken || !status) {
@@ -2118,54 +2127,101 @@
       });
   }
 
-  function renderLeafletMap(container, status, listings, activeListing) {
-    container.innerHTML = "";
+  function updateLeafletMap(container, status, listings, activeListing) {
+    const signature = createMapListingSignature(listings);
+    const activeId = String(activeListing?.id || "");
+    let shouldFitBounds = false;
 
-    const map = window.L.map(container, {
-      zoomControl: true,
-      attributionControl: true,
-    });
+    if (!previewMapState.instance || previewMapState.container !== container) {
+      if (previewMapState.instance) {
+        previewMapState.instance.remove();
+      }
 
-    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "&copy; OpenStreetMap contributors",
-    }).addTo(map);
+      const map = window.L.map(container, {
+        zoomControl: true,
+        attributionControl: true,
+      });
 
+      const tileLayer = window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+
+      const markersLayer = window.L.layerGroup().addTo(map);
+
+      previewMapState = {
+        instance: map,
+        markersLayer,
+        markerById: new Map(),
+        tileLayer,
+        signature: "",
+        activeId: "",
+        container,
+      };
+
+      shouldFitBounds = true;
+    }
+
+    const map = previewMapState.instance;
+    const markersLayer = previewMapState.markersLayer;
     const bounds = [];
     let activeMarker = null;
 
-    listings.forEach((listing) => {
-      const lat = Number(listing.latitude);
-      const lng = Number(listing.longitude);
-      const isActive = activeListing && listing.id === activeListing.id;
-      const marker = window.L.circleMarker([lat, lng], getMapMarkerStyle(listing, isActive))
-        .addTo(map)
-        .bindPopup(buildMapPopupHtml(listing));
+    if (previewMapState.signature !== signature) {
+      markersLayer.clearLayers();
+      previewMapState.markerById = new Map();
 
-      marker.on("click", () => {
-        state.pinnedId = listing.id;
-        state.hoveredId = null;
-        render();
+      listings.forEach((listing) => {
+        const lat = Number(listing.latitude);
+        const lng = Number(listing.longitude);
+        const marker = window.L.circleMarker([lat, lng], getMapMarkerStyle(listing, listing.id === activeId))
+          .addTo(markersLayer)
+          .bindPopup(buildMapPopupHtml(listing));
+
+        marker.on("click", () => {
+          state.pinnedId = listing.id;
+          state.hoveredId = null;
+          render();
+        });
+
+        previewMapState.markerById.set(String(listing.id), marker);
+        bounds.push([lat, lng]);
       });
 
-      if (isActive) {
-        activeMarker = marker;
-      }
-
-      bounds.push([lat, lng]);
-    });
-
-    if (bounds.length === 1) {
-      map.setView(bounds[0], 15);
+      previewMapState.signature = signature;
+      shouldFitBounds = true;
     } else {
-      map.fitBounds(bounds, {
-        padding: [28, 28],
+      listings.forEach((listing) => {
+        const lat = Number(listing.latitude);
+        const lng = Number(listing.longitude);
+        bounds.push([lat, lng]);
+        const marker = previewMapState.markerById.get(String(listing.id));
+        if (marker) {
+          marker.setStyle(getMapMarkerStyle(listing, listing.id === activeId));
+          marker.setPopupContent(buildMapPopupHtml(listing));
+        }
       });
+    }
+
+    activeMarker = previewMapState.markerById.get(activeId) || null;
+
+    if (shouldFitBounds && bounds.length) {
+      if (bounds.length === 1) {
+        map.setView(bounds[0], 15);
+      } else {
+        map.fitBounds(bounds, {
+          padding: [28, 28],
+        });
+      }
     }
 
     if (activeMarker) {
       activeMarker.openPopup();
+    } else {
+      map.closePopup();
     }
+
+    previewMapState.activeId = activeId;
 
     requestAnimationFrame(() => {
       map.invalidateSize();
@@ -2173,6 +2229,12 @@
         status.textContent = "";
       }
     });
+  }
+
+  function createMapListingSignature(listings) {
+    return listings
+      .map((listing) => `${listing.id}:${listing.latitude},${listing.longitude}`)
+      .join("|");
   }
 
   function getMapMarkerStyle(listing, isActive) {
