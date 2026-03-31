@@ -368,7 +368,7 @@
           </div>
           <div class="listing-card__right">
             <div class="listing-card__price">${escapeHtml(listing.priceText || "")}</div>
-            <div class="listing-card__deposit">${escapeHtml(depositInfo || "no info")}</div>
+            <div class="listing-card__deposit">${escapeHtml(depositInfo || "no deposit info")}</div>
           </div>
         </div>
       </article>
@@ -400,6 +400,7 @@
           </div>
           <div>
             <p class="preview__price">${escapeHtml(listing.priceText || "")}</p>
+            <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
           </div>
         </div>
 
@@ -920,23 +921,26 @@
   function getRangePresets(group) {
     if (group === "price") {
       return [
-        { label: "<=5k", max: "5000" },
-        { label: "<=6k", max: "6000" },
-        { label: "<=7k", max: "7000" },
-        { label: "<=8k", max: "8000" },
-        { label: "<=9k", max: "9000" },
-        { label: "<=10k", max: "10000" },
-        { label: "<=12k", max: "12000" },
-        { label: "<=14k", max: "14000" },
-        { label: "<=16k", max: "16000" },
-        { label: "<=18k", max: "18000" },
-        { label: "<=20k", max: "20000" },
+        { label: "<5k", max: "5000" },
+        { label: "<6k", max: "6000" },
+        { label: "<7k", max: "7000" },
+        { label: "<8k", max: "8000" },
+        { label: "<9k", max: "9000" },
+        { label: "<10k", max: "10000" },
+        { label: "<12k", max: "12000" },
+        { label: "<14k", max: "14000" },
+        { label: "<16k", max: "16000" },
+        { label: "<18k", max: "18000" },
+        { label: "<20k", max: "20000" },
         { label: "20k+", min: "20000" },
       ];
     }
 
     return [
-      { label: "<=5坪", max: "5" },
+      { label: "<5坪", max: "5" },
+      { label: "5-8坪", min: "5", max: "8" },
+      { label: "5-8坪", min: "5", max: "8" },
+      { label: "5-8坪", min: "5", max: "8" },
       { label: "5-8坪", min: "5", max: "8" },
       { label: "8坪+", min: "8" },
     ];

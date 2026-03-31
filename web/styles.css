@@ -781,6 +781,13 @@ select {
   font-weight: 700;
 }
 
+.preview__deposit {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  text-align: right;
+}
+
 .preview__meta {
   margin: 6px 0 0;
   color: var(--muted);
