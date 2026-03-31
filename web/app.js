@@ -395,7 +395,6 @@
           </div>
           <div>
             <p class="preview__price">${escapeHtml(listing.priceText || "")}</p>
-            ${listing.sourceUrl ? `<div class="preview__meta"><a href="${escapeAttribute(listing.sourceUrl)}" target="_blank" rel="noreferrer">Open listing</a></div>` : ""}
           </div>
         </div>
 
