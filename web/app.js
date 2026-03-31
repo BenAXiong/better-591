@@ -117,9 +117,9 @@
     return `
       <div class="import-panel">
         <div class="import-panel__builder">
-          ${renderImportSelect("importRegion", "Region", importOptions.regions, state.importRegion)}
-          ${renderImportSelect("importKind", "Kind", importOptions.kinds, state.importKind)}
-          ${renderImportSelect("importSection", "Section", importOptions.sections, state.importSection)}
+          ${renderImportSelect("importRegion", "選擇縣市 Select a city/county", importOptions.regions, state.importRegion)}
+          ${renderImportSelect("importSection", "選擇鄉區 Select a township/district", importOptions.sections, state.importSection)}
+          ${renderImportSelect("importKind", "選擇類型 Select a type", importOptions.kinds, state.importKind)}
         </div>
 
         <label class="import-panel__field">
@@ -142,7 +142,7 @@
           <button class="button" id="run-import" type="button" ${state.importPending ? "disabled" : ""}>
             ${state.importPending ? "Importing..." : "Run Import"}
           </button>
-          <span class="import-panel__hint">Imports from live 591 into runtime storage for this deployed app. Fetch photos is on by default and may take longer.</span>
+          <span class="import-panel__hint">Imports from live 591 into runtime storage. Fetch photos is on by default, disable it to speed up the import.</span>
         </div>
 
         ${
@@ -154,12 +154,11 @@
     `;
   }
 
-  function renderImportSelect(key, label, options, currentValue) {
+  function renderImportSelect(key, placeholder, options, currentValue) {
     return `
       <label class="import-panel__field">
-        <span class="import-panel__label">${escapeHtml(label)}</span>
-        <select data-import-select="${key}">
-          <option value="">${escapeHtml(label)}</option>
+        <select data-import-select="${key}" aria-label="${escapeAttribute(placeholder)}">
+          <option value="">${escapeHtml(placeholder)}</option>
           ${options
             .map(
               (option) => `
@@ -788,10 +787,13 @@
       label: region.name,
     }));
 
-    const kinds = (taxonomy.kinds || []).map((kind) => ({
-      value: String(kind.id),
-      label: kind.name,
-    }));
+    const kinds = [
+      { value: "all", label: "全部類型 All types" },
+      ...(taxonomy.kinds || []).map((kind) => ({
+        value: String(kind.id),
+        label: kind.name,
+      })),
+    ];
 
     const sections = (taxonomy.sections || [])
       .filter((section) => !state.importRegion || String(section.regionId) === state.importRegion)
@@ -976,7 +978,9 @@
     }
 
     if (state.importKind) {
-      params.set("kind", state.importKind);
+      if (state.importKind !== "all") {
+        params.set("kind", state.importKind);
+      }
     }
 
     if (state.importSection) {
