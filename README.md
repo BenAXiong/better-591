@@ -38,6 +38,7 @@ This prototype turns pasted 591 search-result pages into a compact local viewer.
 - You can paste multiple full `Ctrl+A` results pages into the same raw `.txt`. The parser scans each `已為你找到...` block and ignores repeated page chrome between them.
 - If the same property appears multiple times across pasted pages or across different dated raw files, it is kept as a single property in the viewer. The newest snapshot wins.
 - The hosted import button defaults to `Fetch photos` off. That mode is much faster and is the recommended default for Vercel.
+- `npm run build` now also generates a minimal [`public`](./public) directory for Vercel deployments.
 
 ## Hosted On Vercel
 
@@ -49,6 +50,7 @@ The repo can now run in two modes:
 ### What is already implemented
 
 - [`index.html`](./index.html) is the deployment entry point for the static UI.
+- [`vercel.json`](./vercel.json) pins the Vercel build to `npm run build` with `public` as the output directory.
 - [`api/data.js`](./api/data.js) returns the current app data.
 - [`api/import-591.js`](./api/import-591.js) imports listings from a live 591 results URL.
 - [`scripts/lib/runtime-store.mjs`](./scripts/lib/runtime-store.mjs) stores runtime data in Vercel Blob when `BLOB_READ_WRITE_TOKEN` is available.
@@ -78,7 +80,7 @@ I do not have a live Vercel account connector in this session, so I cannot creat
    - Root Directory: the repo root
    - Install Command: leave default `npm install`
    - Build Command: leave the detected `npm run build`
-   - Output Directory: leave empty
+   - Output Directory: leave empty in the dashboard, because [`vercel.json`](./vercel.json) now sets it to `public`
 4. After the project exists, add Blob storage from the project dashboard:
    Storage -> Create Database / Blob -> Blob
 5. Attach that Blob store to the same project so Vercel injects `BLOB_READ_WRITE_TOKEN`.
@@ -96,6 +98,8 @@ That refreshes the static seed files:
 
 - [`data/listings.generated.json`](./data/listings.generated.json)
 - [`web/app-data.js`](./web/app-data.js)
+- [`public/index.html`](./public/index.html)
+- [`public/web/app-data.js`](./public/web/app-data.js)
 
 After deployment:
 

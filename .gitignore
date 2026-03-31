@@ -2,6 +2,7 @@ node_modules/
 .vercel/
 .env
 .env.*
+public/
 data/runtime-app-data.json
 web/photos/
 Thumbs.db

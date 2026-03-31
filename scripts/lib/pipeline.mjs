@@ -40,8 +40,15 @@ export function getPaths(rootDir = process.cwd()) {
     photoTargetsFile: path.join(rootDir, "data", "photo-targets.txt"),
     generatedJsonFile: path.join(rootDir, "data", "listings.generated.json"),
     appDataFile: path.join(rootDir, "web", "app-data.js"),
+    rootIndexFile: path.join(rootDir, "index.html"),
     webDir: path.join(rootDir, "web"),
     photoDir: path.join(rootDir, "web", "photos"),
+    publicDir: path.join(rootDir, "public"),
+    publicIndexFile: path.join(rootDir, "public", "index.html"),
+    publicWebDir: path.join(rootDir, "public", "web"),
+    publicAppDataFile: path.join(rootDir, "public", "web", "app-data.js"),
+    publicAppFile: path.join(rootDir, "public", "web", "app.js"),
+    publicStylesFile: path.join(rootDir, "public", "web", "styles.css"),
   };
 }
 
@@ -81,12 +88,33 @@ export async function buildAppData(rootDir = process.cwd()) {
 }
 
 export async function writeBuildOutputs(rootDir, appData) {
-  const { generatedJsonFile, appDataFile } = getPaths(rootDir);
+  const {
+    generatedJsonFile,
+    appDataFile,
+    publicDir,
+    publicIndexFile,
+    publicAppDataFile,
+    publicAppFile,
+    publicStylesFile,
+    rootIndexFile,
+    webDir,
+  } = getPaths(rootDir);
   await fs.mkdir(path.dirname(generatedJsonFile), { recursive: true });
   await fs.mkdir(path.dirname(appDataFile), { recursive: true });
   await fs.writeFile(generatedJsonFile, `${JSON.stringify(appData, null, 2)}\n`, "utf8");
   await fs.writeFile(
     appDataFile,
+    `window.__APP_DATA__ = ${JSON.stringify(appData, null, 2)};\n`,
+    "utf8",
+  );
+
+  await fs.rm(publicDir, { recursive: true, force: true });
+  await fs.mkdir(path.dirname(publicAppDataFile), { recursive: true });
+  await fs.copyFile(rootIndexFile, publicIndexFile);
+  await fs.copyFile(path.join(webDir, "app.js"), publicAppFile);
+  await fs.copyFile(path.join(webDir, "styles.css"), publicStylesFile);
+  await fs.writeFile(
+    publicAppDataFile,
     `window.__APP_DATA__ = ${JSON.stringify(appData, null, 2)};\n`,
     "utf8",
   );
