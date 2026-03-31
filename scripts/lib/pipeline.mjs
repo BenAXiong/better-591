@@ -75,6 +75,18 @@ export async function buildAppData(rootDir = process.cwd()) {
       ...listing,
       sourceUrl: extra.sourceUrl ?? null,
       listingId: extra.listingId ?? null,
+      exactAddress: extra.exactAddress ?? listing.exactAddress ?? "",
+      latitude: parseOptionalNumber(extra.latitude ?? listing.latitude),
+      longitude: parseOptionalNumber(extra.longitude ?? listing.longitude),
+      facilities: Array.isArray(extra.facilities) ? extra.facilities : Array.isArray(listing.facilities) ? listing.facilities : [],
+      serviceNotes: Array.isArray(extra.serviceNotes)
+        ? extra.serviceNotes
+        : Array.isArray(listing.serviceNotes)
+          ? listing.serviceNotes
+          : [],
+      ownerRemark: extra.ownerRemark ?? listing.ownerRemark ?? "",
+      contactPhone: extra.contactPhone ?? listing.contactPhone ?? "",
+      detailFetchedAt: extra.detailFetchedAt ?? listing.detailFetchedAt ?? extra.lastFetchedAt ?? null,
       images: gallery,
       hasPhotos: gallery.length > 0,
       photoCount: gallery.length,
@@ -581,6 +593,11 @@ function createPropertyKey({ title, type, sizePing, floorText, locationText }) {
 
 function createStableId(sourceKey) {
   return createHash("sha1").update(sourceKey).digest("hex").slice(0, 12);
+}
+
+function parseOptionalNumber(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
 }
 
 async function safeReadDir(targetDir) {

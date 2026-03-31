@@ -17,6 +17,7 @@ import {
   saveEnrichment,
   writeBuildOutputs,
 } from "./lib/pipeline.mjs";
+import { extractListingDetailFromHtml } from "./lib/listing-detail.mjs";
 
 const execFileAsync = promisify(execFile);
 const rootDir = process.cwd();
@@ -60,32 +61,41 @@ for (const target of targets) {
     continue;
   }
   const photoUrls = extractPhotoUrlsFromHtml(html);
-
-  if (photoUrls.length === 0) {
-    console.warn(`No photo URLs found in listing page: ${target.url}`);
-    continue;
-  }
+  const detail = extractListingDetailFromHtml(html);
 
   const listingId = extractListingIdFromUrl(target.url) || listing.id;
   const targetDir = path.join(paths.photoDir, listingId);
-  await fs.mkdir(targetDir, { recursive: true });
-
   const images = [];
-  for (let index = 0; index < photoUrls.length; index += 1) {
-    const remoteUrl = photoUrls[index];
-    const fileName = `${String(index + 1).padStart(2, "0")}${getDownloadExtension(remoteUrl)}`;
-    const absoluteFilePath = path.join(targetDir, fileName);
-    try {
-      await downloadFile(remoteUrl, absoluteFilePath, target.url);
-      images.push(buildPhotoRecord(remoteUrl, absoluteFilePath, rootDir));
-    } catch (error) {
-      console.warn(`Failed to download photo: ${remoteUrl} (${error.message})`);
+  if (photoUrls.length === 0) {
+    console.warn(`No photo URLs found in listing page: ${target.url}`);
+  } else {
+    await fs.mkdir(targetDir, { recursive: true });
+
+    for (let index = 0; index < photoUrls.length; index += 1) {
+      const remoteUrl = photoUrls[index];
+      const fileName = `${String(index + 1).padStart(2, "0")}${getDownloadExtension(remoteUrl)}`;
+      const absoluteFilePath = path.join(targetDir, fileName);
+      try {
+        await downloadFile(remoteUrl, absoluteFilePath, target.url);
+        images.push(buildPhotoRecord(remoteUrl, absoluteFilePath, rootDir));
+      } catch (error) {
+        console.warn(`Failed to download photo: ${remoteUrl} (${error.message})`);
+      }
     }
   }
 
   enrichment[listing.propertyKey] = {
+    ...(existing || {}),
     sourceUrl: target.url,
     listingId,
+    exactAddress: detail.exactAddress || existing?.exactAddress || "",
+    latitude: detail.latitude ?? existing?.latitude ?? null,
+    longitude: detail.longitude ?? existing?.longitude ?? null,
+    facilities: Array.isArray(detail.facilities) ? detail.facilities : existing?.facilities || [],
+    serviceNotes: Array.isArray(detail.serviceNotes) ? detail.serviceNotes : existing?.serviceNotes || [],
+    ownerRemark: detail.ownerRemark || existing?.ownerRemark || "",
+    contactPhone: detail.contactPhone || existing?.contactPhone || "",
+    detailFetchedAt: new Date().toISOString(),
     images,
     lastFetchedAt: new Date().toISOString(),
   };

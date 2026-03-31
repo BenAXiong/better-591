@@ -1,5 +1,6 @@
 (function () {
   const PIN_STORAGE_KEY = "591-viewer:pinned:v1";
+  const DETAIL_PREFETCH_LIMIT = 8;
   let appData = window.__APP_DATA__ || { listings: [], generatedAt: null };
   const taxonomy = normalizeTaxonomy(window.__TAXONOMY__);
   const root = document.getElementById("app");
@@ -38,8 +39,8 @@
   let state = { ...initialState };
   let listingListScrollTop = 0;
   let pinnedListingIds = loadPinnedListingIds();
-  const listingContactCache = {};
-  const listingContactPending = new Set();
+  const listingDetailPending = new Set();
+  const listingDetailFailed = new Set();
   let appMeta = {
     source: window.__APP_DATA__ ? "embedded" : "empty",
     storage: null,
@@ -67,7 +68,7 @@
             <div class="listing-list" id="listing-list">
               ${
                 listings.length
-                  ? listings.map((listing) => renderListingCard(listing, activeListing)).join("")
+                  ? renderListingList(listings, activeListing)
                   : '<div class="empty">No listings match the current filters.</div>'
               }
             </div>
@@ -85,7 +86,7 @@
     bindToolbarEvents(listings.length);
     bindCardEvents(listings);
     bindThumbnailEvents(activeListing);
-    ensureListingContact(activeListing);
+    prefetchListingDetails(listings, activeListing);
   }
 
   function renderToolbar(options, filteredCount) {
@@ -316,6 +317,21 @@
     `;
   }
 
+  function renderListingList(listings, activeListing) {
+    const dividerIndex = listings.findIndex((listing) => !isListingPinned(listing.id));
+
+    return listings
+      .map((listing, index) => {
+        const divider =
+          dividerIndex > 0 && index === dividerIndex
+            ? '<div class="listing-list__divider" aria-hidden="true"><span>Others</span></div>'
+            : "";
+
+        return `${divider}${renderListingCard(listing, activeListing)}`;
+      })
+      .join("");
+  }
+
   function renderListingCard(listing, activeListing) {
     const isPinned = isListingPinned(listing.id);
     const isActive = activeListing && activeListing.id === listing.id;
@@ -331,7 +347,8 @@
       listing.contactRole || "no type",
       listing.contactName || "no name",
     ];
-    const mapsUrl = listing.locationText ? buildMapsUrl(listing) : "";
+    const displayAddress = getListingDisplayAddress(listing);
+    const mapsUrl = buildMapsUrl(listing);
 
     return `
       <article class="listing-card ${isActive ? "is-active" : ""} ${isPinned ? "is-pinned" : ""}" data-card-id="${listing.id}">
@@ -352,8 +369,9 @@
                   data-pin-toggle="${listing.id}"
                   aria-pressed="${isPinned ? "true" : "false"}"
                   title="${isPinned ? "Pinned to top" : "Pin to top"}"
+                  aria-label="${isPinned ? "Unpin listing" : "Pin listing"}"
                 >
-                  Pin
+                  <span aria-hidden="true">📌</span>
                 </button>
                 <div class="listing-card__info">
                   <button class="listing-card__info-trigger" type="button" aria-label="Listing info">i</button>
@@ -373,8 +391,8 @@
               <span class="listing-card__divider">|</span>
               ${
                 mapsUrl
-                  ? `<a class="listing-card__map-link" href="${escapeAttribute(mapsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(listing.locationText)}</a>`
-                  : `<span>${escapeHtml(listing.locationText || "No location")}</span>`
+                  ? `<a class="listing-card__map-link" href="${escapeAttribute(mapsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(displayAddress)}</a>`
+                  : `<span>${escapeHtml(displayAddress || "No location")}</span>`
               }
               <span>${escapeHtml(listing.floorText || "-")}</span>
             </div>
@@ -1020,8 +1038,32 @@
   }
 
   function buildMapsUrl(listing) {
-    const query = [listing.captureCity, listing.locationText, "台灣"].filter(Boolean).join(" ");
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    const query = getListingMapQuery(listing);
+    return query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : "";
+  }
+
+  function getListingDisplayAddress(listing) {
+    return String(listing?.exactAddress || listing?.locationText || "").trim();
+  }
+
+  function getListingMapQuery(listing) {
+    const exactAddress = String(listing?.exactAddress || "").trim();
+    if (exactAddress) {
+      return exactAddress;
+    }
+
+    const approximateAddress = String(listing?.locationText || "").trim();
+    if (approximateAddress) {
+      return [listing.captureCity, approximateAddress].filter(Boolean).join(" ");
+    }
+
+    const latitude = Number(listing?.latitude);
+    const longitude = Number(listing?.longitude);
+    if (Number.isFinite(latitude) && Number.isFinite(longitude)) {
+      return `${latitude},${longitude}`;
+    }
+
+    return "";
   }
 
   function getAvailableDistrictsForArea(areaValue, listings = appData.listings) {
@@ -1180,7 +1222,7 @@
   function formatPreviewOwner(listing) {
     const name = String(listing.contactName || "").trim();
     const role = formatContactRoleShort(listing.contactRole);
-    const phone = String(listingContactCache[listing.id] || listing.contactPhone || listing.phone || "").trim();
+    const phone = String(listing.contactPhone || listing.phone || "").trim();
 
     if (!name && !phone) {
       return "";
@@ -1202,24 +1244,54 @@
     return "";
   }
 
-  async function ensureListingContact(listing) {
-    if (!listing || !listing.id || !listing.sourceUrl) {
+  function prefetchListingDetails(listings, activeListing) {
+    const nextCandidate = [activeListing, ...listings]
+      .filter(Boolean)
+      .filter((listing, index, array) => array.findIndex((candidate) => candidate.id === listing.id) === index)
+      .filter((listing) => needsListingDetail(listing))
+      .slice(0, DETAIL_PREFETCH_LIMIT)[0];
+
+    if (nextCandidate) {
+      void ensureListingDetail(nextCandidate);
+    }
+  }
+
+  function needsListingDetail(listing) {
+    if (!listing || !listing.sourceUrl) {
+      return false;
+    }
+
+    if (listing.detailFetchedAt || listingDetailFailed.has(listing.id)) {
+      return false;
+    }
+
+    return !(
+      String(listing.exactAddress || "").trim() &&
+      (Array.isArray(listing.facilities) ? listing.facilities.length > 0 : false) &&
+      String(listing.ownerRemark || "").trim() &&
+      String(listing.contactPhone || "").trim()
+    );
+  }
+
+  async function ensureListingDetail(listing) {
+    if (!listing || !listing.id || !listing.sourceUrl || !needsListingDetail(listing)) {
       return;
     }
 
-    if (Object.prototype.hasOwnProperty.call(listingContactCache, listing.id) || listingContactPending.has(listing.id)) {
+    if (listingDetailPending.has(listing.id)) {
       return;
     }
 
-    listingContactPending.add(listing.id);
+    listingDetailPending.add(listing.id);
 
     try {
-      const response = await fetch("/api/listing-contact", {
+      const response = await fetch("/api/listing-detail", {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify({
+          appListingId: listing.id,
           sourceUrl: listing.sourceUrl,
         }),
       });
@@ -1229,13 +1301,42 @@
         throw new Error(payload.error || `HTTP ${response.status}`);
       }
 
-      listingContactCache[listing.id] = String(payload.contactPhone || "").trim();
+      if (payload.appData?.listings) {
+        appData = payload.appData;
+      } else {
+        mergeListingDetailIntoAppData(listing.id, payload);
+      }
+
       render();
     } catch {
-      listingContactCache[listing.id] = "";
+      listingDetailFailed.add(listing.id);
+      // Ignore transient detail fetch failures and keep the current listing snapshot.
     } finally {
-      listingContactPending.delete(listing.id);
+      listingDetailPending.delete(listing.id);
     }
+  }
+
+  function mergeListingDetailIntoAppData(appListingId, detail) {
+    appData = {
+      ...appData,
+      listings: appData.listings.map((listing) => {
+        if (String(listing.id) !== String(appListingId)) {
+          return listing;
+        }
+
+        return {
+          ...listing,
+          exactAddress: detail.exactAddress || listing.exactAddress || "",
+          latitude: detail.latitude ?? listing.latitude ?? null,
+          longitude: detail.longitude ?? listing.longitude ?? null,
+          facilities: Array.isArray(detail.facilities) ? detail.facilities : listing.facilities || [],
+          serviceNotes: Array.isArray(detail.serviceNotes) ? detail.serviceNotes : listing.serviceNotes || [],
+          ownerRemark: detail.ownerRemark || listing.ownerRemark || "",
+          contactPhone: detail.contactPhone || listing.contactPhone || "",
+          detailFetchedAt: detail.detailFetchedAt || listing.detailFetchedAt || new Date().toISOString(),
+        };
+      }),
+    };
   }
 
   function normalizeTaxonomy(raw) {

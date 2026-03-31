@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { load } from "cheerio";
+import { extractListingDetailFromHtml } from "./listing-detail.mjs";
 import { extractPhotoUrlsFromHtml } from "./pipeline.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -57,9 +58,17 @@ export function mergeAppData(existingAppData, importedAppData) {
   for (const listing of incomingListings) {
     const key = listing.propertyKey || listing.id;
     const existing = latestByPropertyKey.get(key);
-    if (!existing || shouldReplaceListing(existing, listing)) {
+    if (!existing) {
       latestByPropertyKey.set(key, listing);
+      continue;
     }
+
+    if (shouldReplaceListing(existing, listing)) {
+      latestByPropertyKey.set(key, mergeListingMetadata(listing, existing));
+      continue;
+    }
+
+    latestByPropertyKey.set(key, mergeListingMetadata(existing, listing));
   }
 
   const mergedListings = [...latestByPropertyKey.values()];
@@ -245,14 +254,16 @@ async function attachPhotoUrls(listings) {
     try {
       const html = await downloadText(listing.sourceUrl);
       const photoUrls = extractPhotoUrlsFromHtml(html);
+      const detail = extractListingDetailFromHtml(html);
+      const detailedListing = mergeListingDetail(listing, detail);
 
       if (photoUrls.length === 0) {
-        hydrated.push(listing);
+        hydrated.push(detailedListing);
         continue;
       }
 
       hydrated.push({
-        ...listing,
+        ...detailedListing,
         images: photoUrls.map((src, index) => buildImageRecord(listing.listingId || listing.id, src, index)),
         hasPhotos: true,
         photoCount: photoUrls.length,
@@ -449,6 +460,57 @@ function buildImageRecord(seed, src, index) {
     src,
     localPath: null,
     remoteUrl: src,
+  };
+}
+
+function mergeListingDetail(listing, detail) {
+  return {
+    ...listing,
+    exactAddress: detail.exactAddress || listing.exactAddress || "",
+    latitude: detail.latitude ?? listing.latitude ?? null,
+    longitude: detail.longitude ?? listing.longitude ?? null,
+    facilities: Array.isArray(detail.facilities) ? detail.facilities : Array.isArray(listing.facilities) ? listing.facilities : [],
+    serviceNotes: Array.isArray(detail.serviceNotes)
+      ? detail.serviceNotes
+      : Array.isArray(listing.serviceNotes)
+        ? listing.serviceNotes
+        : [],
+    ownerRemark: detail.ownerRemark || listing.ownerRemark || "",
+    contactPhone: detail.contactPhone || listing.contactPhone || "",
+    detailFetchedAt: new Date().toISOString(),
+  };
+}
+
+function mergeListingMetadata(primary, fallback) {
+  const primaryImages = Array.isArray(primary.images) ? primary.images : [];
+  const fallbackImages = Array.isArray(fallback?.images) ? fallback.images : [];
+  const images = primaryImages.length > 0 ? primaryImages : fallbackImages;
+
+  return {
+    ...fallback,
+    ...primary,
+    sourceUrl: primary.sourceUrl || fallback?.sourceUrl || null,
+    listingId: primary.listingId || fallback?.listingId || null,
+    exactAddress: primary.exactAddress || fallback?.exactAddress || "",
+    latitude: primary.latitude ?? fallback?.latitude ?? null,
+    longitude: primary.longitude ?? fallback?.longitude ?? null,
+    facilities: Array.isArray(primary.facilities) && primary.facilities.length > 0
+      ? primary.facilities
+      : Array.isArray(fallback?.facilities)
+        ? fallback.facilities
+        : [],
+    serviceNotes: Array.isArray(primary.serviceNotes) && primary.serviceNotes.length > 0
+      ? primary.serviceNotes
+      : Array.isArray(fallback?.serviceNotes)
+        ? fallback.serviceNotes
+        : [],
+    ownerRemark: primary.ownerRemark || fallback?.ownerRemark || "",
+    contactPhone: primary.contactPhone || fallback?.contactPhone || "",
+    detailFetchedAt: primary.detailFetchedAt || fallback?.detailFetchedAt || null,
+    images,
+    hasPhotos: images.length > 0,
+    photoCount: images.length,
+    lastPhotoFetchAt: primary.lastPhotoFetchAt || fallback?.lastPhotoFetchAt || null,
   };
 }
 

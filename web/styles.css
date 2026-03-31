@@ -554,6 +554,26 @@ select {
   gap: 10px;
 }
 
+.listing-list__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 2px 0 0;
+}
+
+.listing-list__divider::before,
+.listing-list__divider::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: rgba(196, 177, 157, 0.7);
+}
+
 .listing-card {
   min-width: 0;
   border: 1px solid rgba(196, 177, 157, 0.85);
@@ -669,14 +689,17 @@ select {
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1;
-  cursor: help;
   padding: 0;
 }
 
+.listing-card__info-trigger {
+  cursor: help;
+}
+
 .listing-card__pin-button {
-  width: auto;
-  min-width: 36px;
-  padding: 0 8px;
+  width: 22px;
+  height: 22px;
+  font-size: 0.82rem;
   cursor: pointer;
 }
 
@@ -685,6 +708,11 @@ select {
   border-color: var(--accent);
   background: var(--accent-soft);
   color: #73431f;
+}
+
+.listing-card__pin-button span {
+  display: block;
+  transform: translateY(-0.5px);
 }
 
 .listing-card__tooltip {
