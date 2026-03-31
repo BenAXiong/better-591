@@ -4,6 +4,10 @@
   const FAVORITE_STORAGE_KEY = "591-viewer:favorites:v1";
   const ARCHIVE_STORAGE_KEY = "591-viewer:archive:v1";
   const DETAIL_PREFETCH_LIMIT = 8;
+  const LEAFLET_CSS_HREF = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+  const LEAFLET_CSS_INTEGRITY = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
+  const LEAFLET_JS_SRC = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  const LEAFLET_JS_INTEGRITY = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
   const embeddedAppData = normalizeAppData(window.__APP_DATA__);
   const storedAppData = loadStoredAppData();
   let appData = mergeAppDataSets(embeddedAppData, storedAppData);
@@ -30,6 +34,7 @@
     favoriteOnly: false,
     pinnedId: null,
     hoveredId: null,
+    previewMode: "photos",
     openDropdown: null,
     imageIndexes: {},
     importPanelOpen: false,
@@ -49,6 +54,8 @@
   let pinnedListingIds = loadPinnedListingIds();
   let favoriteListingIds = loadFavoriteListingIds();
   let archivedListingReasons = loadArchivedListingReasons();
+  let leafletLoaderPromise = null;
+  let previewMapToken = 0;
   const listingDetailPending = new Set();
   const listingDetailFailed = new Set();
   let appMeta = {
@@ -88,7 +95,7 @@
               }
             </div>
           </section>
-          ${renderPreview(activeListing)}
+          ${renderPreview(activeListing, listings)}
         </div>
       </div>
     `;
@@ -102,6 +109,7 @@
     bindCardEvents(listings);
     bindThumbnailEvents(activeListing);
     prefetchListingDetails(listings, activeListing);
+    syncPreviewMap(listings, activeListing);
   }
 
   function renderToolbar(options, filteredCount) {
@@ -125,7 +133,7 @@
         </div>
 
         <div class="toolbar__actions">
-          <span class="summary">${filteredCount} / ${appData.listings.length} visible</span>
+          <span class="summary">${filteredCount} / ${appData.listings.length}</span>
           <button class="button" id="toggle-import-panel" type="button">${state.importPanelOpen ? "Close Import" : "Import"}</button>
           <button class="button" id="reset-filters" type="button">Reset</button>
         </div>
@@ -549,7 +557,7 @@
     `;
   }
 
-  function renderPreview(listing) {
+  function renderPreview(listing, listings) {
     if (!listing) {
       return `
         <section class="preview">
@@ -564,6 +572,8 @@
     const currentIndex = state.imageIndexes[listing.id] || 0;
     const currentImage = listing.images[currentIndex] || listing.images[0] || null;
     const previewMeta = buildPreviewMetaLine(listing);
+    const mappableListings = getMappableListings(listings);
+    const mappedSummary = `${mappableListings.length} / ${listings.length} mapped`;
 
     return `
       <section class="preview">
@@ -575,42 +585,73 @@
             </div>
             ${previewMeta ? `<p class="preview__meta">${escapeHtml(previewMeta)}</p>` : ""}
           </div>
-          <div>
+          <div class="preview__side">
             <p class="preview__price">${escapeHtml(listing.priceText || "")}</p>
             <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
+            <div class="preview__mode-switch" role="tablist" aria-label="Preview mode">
+              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos">Photos</button>
+              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map">Map</button>
+            </div>
+            ${state.previewMode === "map" ? `<p class="preview__map-summary">${escapeHtml(mappedSummary)}</p>` : ""}
           </div>
         </div>
 
-        <div class="preview__body">
-          <div class="hero">
-            ${
-              currentImage
-                ? `<img src="${escapeAttribute(getImageSource(currentImage))}" alt="${escapeAttribute(listing.title)}" />`
-                : `
-                  <div class="hero__empty">
-                    <strong>No photos available for this listing.</strong>
-                    <p>Use the import panel with <code>Fetch photos</code> enabled to pull item-page galleries into the hosted dataset.</p>
-                  </div>
-                `
-            }
-          </div>
+        ${
+          state.previewMode === "map"
+            ? `
+              <div class="preview__body preview__body--map">
+                ${
+                  mappableListings.length
+                    ? `
+                      <div class="preview__map-wrap">
+                        <div class="preview__map-status" id="preview-map-status">Loading map...</div>
+                        <div class="preview__map" id="preview-map"></div>
+                      </div>
+                    `
+                    : `
+                      <div class="hero hero--map-empty">
+                        <div class="hero__empty">
+                          <strong>No mapped listings in the current results.</strong>
+                          <p>Map mode uses exact coordinates from live 591 detail pages, so only enriched live-import listings will appear here.</p>
+                        </div>
+                      </div>
+                    `
+                }
+              </div>
+            `
+            : `
+              <div class="preview__body">
+                <div class="hero">
+                  ${
+                    currentImage
+                      ? `<img src="${escapeAttribute(getImageSource(currentImage))}" alt="${escapeAttribute(listing.title)}" />`
+                      : `
+                        <div class="hero__empty">
+                          <strong>No photos available for this listing.</strong>
+                          <p>Use the import panel with <code>Fetch photos</code> enabled to pull item-page galleries from live 591 detail pages.</p>
+                        </div>
+                      `
+                  }
+                </div>
 
-          <div class="thumbs">
-            ${
-              listing.images.length
-                ? listing.images
-                    .map(
-                      (image, index) => `
-                        <button class="thumbs__item ${index === currentIndex ? "is-active" : ""}" type="button" data-thumb-index="${index}" data-thumb-listing="${listing.id}">
-                          <img src="${escapeAttribute(getImageSource(image))}" alt="${escapeAttribute(`${listing.title} ${index + 1}`)}" />
-                        </button>
-                      `,
-                    )
-                    .join("")
-                : ""
-            }
-          </div>
-        </div>
+                <div class="thumbs">
+                  ${
+                    listing.images.length
+                      ? listing.images
+                          .map(
+                            (image, index) => `
+                              <button class="thumbs__item ${index === currentIndex ? "is-active" : ""}" type="button" data-thumb-index="${index}" data-thumb-listing="${listing.id}">
+                                <img src="${escapeAttribute(getImageSource(image))}" alt="${escapeAttribute(`${listing.title} ${index + 1}`)}" />
+                              </button>
+                            `,
+                          )
+                          .join("")
+                      : ""
+                  }
+                </div>
+              </div>
+            `
+        }
       </section>
     `;
   }
@@ -714,12 +755,26 @@
       });
     });
 
+    root.querySelectorAll("[data-preview-mode]").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const mode = event.currentTarget.dataset.previewMode;
+        if (!["photos", "map"].includes(mode) || state.previewMode === mode) {
+          return;
+        }
+
+        state.previewMode = mode;
+        render();
+      });
+    });
+
     const resetButton = document.getElementById("reset-filters");
     if (resetButton) {
       resetButton.addEventListener("click", () => {
         state = {
           ...initialState,
           imageIndexes: state.imageIndexes,
+          previewMode: state.previewMode,
           importUrl: state.importUrl,
           importRegion: state.importRegion,
           importKind: state.importKind,
@@ -2010,6 +2065,223 @@
 
   function escapeAttribute(value) {
     return escapeHtml(value).replaceAll("'", "&#39;");
+  }
+
+  function getMappableListings(listings) {
+    return (Array.isArray(listings) ? listings : []).filter((listing) => isFiniteCoordinate(listing?.latitude) && isFiniteCoordinate(listing?.longitude));
+  }
+
+  function isFiniteCoordinate(value) {
+    const numeric = Number(value);
+    return Number.isFinite(numeric);
+  }
+
+  function syncPreviewMap(listings, activeListing) {
+    previewMapToken += 1;
+    const token = previewMapToken;
+
+    if (state.previewMode !== "map") {
+      return;
+    }
+
+    const container = document.getElementById("preview-map");
+    const status = document.getElementById("preview-map-status");
+    const mappableListings = getMappableListings(listings);
+
+    if (!container) {
+      return;
+    }
+
+    if (!mappableListings.length) {
+      if (status) {
+        status.textContent = "No coordinates available for the current results.";
+      }
+      return;
+    }
+
+    void ensureLeafletLoaded()
+      .then(() => {
+        if (token !== previewMapToken || !document.body.contains(container)) {
+          return;
+        }
+
+        renderLeafletMap(container, status, mappableListings, activeListing);
+      })
+      .catch(() => {
+        if (token !== previewMapToken || !status) {
+          return;
+        }
+
+        status.textContent = "Map failed to load.";
+      });
+  }
+
+  function renderLeafletMap(container, status, listings, activeListing) {
+    container.innerHTML = "";
+
+    const map = window.L.map(container, {
+      zoomControl: true,
+      attributionControl: true,
+    });
+
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    const bounds = [];
+    let activeMarker = null;
+
+    listings.forEach((listing) => {
+      const lat = Number(listing.latitude);
+      const lng = Number(listing.longitude);
+      const isActive = activeListing && listing.id === activeListing.id;
+      const marker = window.L.circleMarker([lat, lng], getMapMarkerStyle(listing, isActive))
+        .addTo(map)
+        .bindPopup(buildMapPopupHtml(listing));
+
+      marker.on("click", () => {
+        state.pinnedId = listing.id;
+        state.hoveredId = null;
+        render();
+      });
+
+      if (isActive) {
+        activeMarker = marker;
+      }
+
+      bounds.push([lat, lng]);
+    });
+
+    if (bounds.length === 1) {
+      map.setView(bounds[0], 15);
+    } else {
+      map.fitBounds(bounds, {
+        padding: [28, 28],
+      });
+    }
+
+    if (activeMarker) {
+      activeMarker.openPopup();
+    }
+
+    requestAnimationFrame(() => {
+      map.invalidateSize();
+      if (status) {
+        status.textContent = "";
+      }
+    });
+  }
+
+  function getMapMarkerStyle(listing, isActive) {
+    const archiveReason = getListingArchiveReason(listing.id);
+
+    if (isActive) {
+      return {
+        radius: 9,
+        color: "#8c5528",
+        fillColor: "#c98546",
+        weight: 3,
+        fillOpacity: 0.95,
+      };
+    }
+
+    if (isListingFavorite(listing.id)) {
+      return {
+        radius: 8,
+        color: "#b17a1f",
+        fillColor: "#f0c15e",
+        weight: 2,
+        fillOpacity: 0.9,
+      };
+    }
+
+    if (archiveReason === "blacklist") {
+      return {
+        radius: 8,
+        color: "#9b4033",
+        fillColor: "#cf766b",
+        weight: 2,
+        fillOpacity: 0.88,
+      };
+    }
+
+    if (isListingPinned(listing.id)) {
+      return {
+        radius: 8,
+        color: "#9d5c2f",
+        fillColor: "#e1a463",
+        weight: 2,
+        fillOpacity: 0.9,
+      };
+    }
+
+    return {
+      radius: 7,
+      color: "#7d7368",
+      fillColor: "#b2aaa0",
+      weight: 2,
+      fillOpacity: 0.82,
+    };
+  }
+
+  function buildMapPopupHtml(listing) {
+    const address = getListingDisplayAddress(listing);
+    const details = [listing.type, listing.sizePing ? `${listing.sizePing}坪` : "", listing.floorText].filter(Boolean).join(" ");
+
+    return `
+      <div class="map-popup">
+        <strong>${escapeHtml(listing.title)}</strong>
+        ${listing.priceText ? `<div>${escapeHtml(listing.priceText)}</div>` : ""}
+        ${details ? `<div>${escapeHtml(details)}</div>` : ""}
+        ${address ? `<div>${escapeHtml(address)}</div>` : ""}
+      </div>
+    `;
+  }
+
+  function ensureLeafletLoaded() {
+    if (window.L) {
+      return Promise.resolve(window.L);
+    }
+
+    if (!leafletLoaderPromise) {
+      leafletLoaderPromise = new Promise((resolve, reject) => {
+        ensureLeafletStylesheet();
+
+        const existingScript = document.querySelector("script[data-leaflet-loader='true']");
+        if (existingScript) {
+          existingScript.addEventListener("load", () => resolve(window.L), { once: true });
+          existingScript.addEventListener("error", () => reject(new Error("Leaflet failed to load.")), { once: true });
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = LEAFLET_JS_SRC;
+        script.integrity = LEAFLET_JS_INTEGRITY;
+        script.crossOrigin = "";
+        script.defer = true;
+        script.dataset.leafletLoader = "true";
+        script.onload = () => resolve(window.L);
+        script.onerror = () => reject(new Error("Leaflet failed to load."));
+        document.head.appendChild(script);
+      });
+    }
+
+    return leafletLoaderPromise;
+  }
+
+  function ensureLeafletStylesheet() {
+    if (document.querySelector("link[data-leaflet-style='true']")) {
+      return;
+    }
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = LEAFLET_CSS_HREF;
+    link.integrity = LEAFLET_CSS_INTEGRITY;
+    link.crossOrigin = "";
+    link.dataset.leafletStyle = "true";
+    document.head.appendChild(link);
   }
 
   document.addEventListener("click", (event) => {
