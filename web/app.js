@@ -586,13 +586,14 @@
             ${previewMeta ? `<p class="preview__meta">${escapeHtml(previewMeta)}</p>` : ""}
           </div>
           <div class="preview__side">
-            <p class="preview__price">${escapeHtml(listing.priceText || "")}</p>
-            <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
-            <div class="preview__mode-switch" role="tablist" aria-label="Preview mode">
+            <div class="preview__price-block">
+              <p class="preview__price">${escapeHtml(listing.priceText || "")}</p>
+              <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
+            </div>
+            <div class="preview__mode-switch" role="tablist" aria-label="Preview mode" aria-orientation="vertical">
               <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos">Photos</button>
               <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map">Map</button>
             </div>
-            ${state.previewMode === "map" ? `<p class="preview__map-summary">${escapeHtml(mappedSummary)}</p>` : ""}
           </div>
         </div>
 
@@ -604,6 +605,7 @@
                   mappableListings.length
                     ? `
                       <div class="preview__map-wrap">
+                        <div class="preview__map-summary">${escapeHtml(mappedSummary)}</div>
                         <div class="preview__map-status" id="preview-map-status">Loading map...</div>
                         <div class="preview__map" id="preview-map"></div>
                       </div>
