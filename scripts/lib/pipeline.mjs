@@ -84,6 +84,7 @@ export async function buildAppData(rootDir = process.cwd()) {
         : Array.isArray(listing.serviceNotes)
           ? listing.serviceNotes
           : [],
+      allGendersAllowed: extra.allGendersAllowed ?? listing.allGendersAllowed ?? null,
       ownerRemark: extra.ownerRemark ?? listing.ownerRemark ?? "",
       contactPhone: extra.contactPhone ?? listing.contactPhone ?? "",
       detailFetchedAt: extra.detailFetchedAt ?? listing.detailFetchedAt ?? extra.lastFetchedAt ?? null,

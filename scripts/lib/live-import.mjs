@@ -495,6 +495,7 @@ function mergeListingDetail(listing, detail) {
       : Array.isArray(listing.serviceNotes)
         ? listing.serviceNotes
         : [],
+    allGendersAllowed: detail.allGendersAllowed ?? listing.allGendersAllowed ?? null,
     ownerRemark: detail.ownerRemark || listing.ownerRemark || "",
     contactPhone: detail.contactPhone || listing.contactPhone || "",
     detailFetchedAt: new Date().toISOString(),
@@ -524,6 +525,7 @@ function mergeListingMetadata(primary, fallback) {
       : Array.isArray(fallback?.serviceNotes)
         ? fallback.serviceNotes
         : [],
+    allGendersAllowed: primary.allGendersAllowed ?? fallback?.allGendersAllowed ?? null,
     ownerRemark: primary.ownerRemark || fallback?.ownerRemark || "",
     contactPhone: primary.contactPhone || fallback?.contactPhone || "",
     detailFetchedAt: primary.detailFetchedAt || fallback?.detailFetchedAt || null,

@@ -37,6 +37,7 @@ export function extractListingDetailFromHtml(html) {
     .get()
     .filter(Boolean);
   const ownerRemark = cleanInlineText($(".block.house-condition .house-condition-content .article").first().text());
+  const allGendersAllowed = detectAllGendersAllowed(serviceNotes);
 
   return {
     exactAddress: exactAddress || "",
@@ -44,6 +45,7 @@ export function extractListingDetailFromHtml(html) {
     longitude: coordinates.longitude,
     facilities,
     serviceNotes,
+    allGendersAllowed,
     ownerRemark,
     contactPhone: extractContactPhoneFromHtml(text),
   };
@@ -137,6 +139,17 @@ async function downloadText(url) {
 
 function cleanInlineText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
+}
+
+function detectAllGendersAllowed(serviceNotes) {
+  if (!Array.isArray(serviceNotes) || serviceNotes.length === 0) {
+    return null;
+  }
+
+  return serviceNotes.some((note) => {
+    const haystack = [note?.label, note?.value].filter(Boolean).join(" ");
+    return /男女皆可|性別不限|不限性別/.test(haystack);
+  });
 }
 
 function compactText(value) {

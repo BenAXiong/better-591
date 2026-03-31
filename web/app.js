@@ -21,6 +21,7 @@
     ownerDirectOnly: false,
     shortRentOnly: false,
     cookOnly: false,
+    allGendersAllowedOnly: false,
     newOnly: false,
     availableNowOnly: false,
     pinnedId: null,
@@ -110,6 +111,7 @@
           ${renderToggle("ownerDirectOnly", "屋主直租", state.ownerDirectOnly)}
           ${renderToggle("shortRentOnly", "可短租", state.shortRentOnly)}
           ${renderToggle("cookOnly", "可開伙", state.cookOnly)}
+          ${renderToggle("allGendersAllowedOnly", "男女皆可", state.allGendersAllowedOnly)}
           ${renderToggle("newOnly", "新上架", state.newOnly)}
           ${renderToggle("availableNowOnly", "隨時可遷入", state.availableNowOnly)}
         </div>
@@ -837,6 +839,10 @@
         return false;
       }
 
+      if (state.allGendersAllowedOnly && !listingAllowsAllGenders(listing)) {
+        return false;
+      }
+
       if (state.newOnly && !(listing.tags || []).includes("新上架")) {
         return false;
       }
@@ -1285,6 +1291,10 @@
         : Array.isArray(fallback?.serviceNotes)
           ? fallback.serviceNotes
           : [],
+      allGendersAllowed: primary?.allGendersAllowed
+        ?? fallback?.allGendersAllowed
+        ?? detectAllGendersAllowed(primary?.serviceNotes)
+        ?? detectAllGendersAllowed(fallback?.serviceNotes),
       ownerRemark: primary?.ownerRemark || fallback?.ownerRemark || "",
       contactPhone: primary?.contactPhone || fallback?.contactPhone || "",
       detailFetchedAt: primary?.detailFetchedAt || fallback?.detailFetchedAt || null,
@@ -1470,6 +1480,10 @@
           longitude: detail.longitude ?? listing.longitude ?? null,
           facilities: Array.isArray(detail.facilities) ? detail.facilities : listing.facilities || [],
           serviceNotes: Array.isArray(detail.serviceNotes) ? detail.serviceNotes : listing.serviceNotes || [],
+          allGendersAllowed: detail.allGendersAllowed
+            ?? detectAllGendersAllowed(detail.serviceNotes)
+            ?? listing.allGendersAllowed
+            ?? detectAllGendersAllowed(listing.serviceNotes),
           ownerRemark: detail.ownerRemark || listing.ownerRemark || "",
           contactPhone: detail.contactPhone || listing.contactPhone || "",
           detailFetchedAt: detail.detailFetchedAt || listing.detailFetchedAt || new Date().toISOString(),
@@ -1488,6 +1502,25 @@
       kinds: Array.isArray(raw.kinds) ? [...raw.kinds] : [],
       sections: Array.isArray(raw.sections) ? [...raw.sections] : [],
     };
+  }
+
+  function listingAllowsAllGenders(listing) {
+    if (listing?.allGendersAllowed === true) {
+      return true;
+    }
+
+    return detectAllGendersAllowed(listing?.serviceNotes);
+  }
+
+  function detectAllGendersAllowed(serviceNotes) {
+    if (!Array.isArray(serviceNotes) || serviceNotes.length === 0) {
+      return null;
+    }
+
+    return serviceNotes.some((note) => {
+      const haystack = [note?.label, note?.value].filter(Boolean).join(" ");
+      return /男女皆可|性別不限|不限性別/.test(haystack);
+    });
   }
 
   function applyImportSelection(key, value) {
