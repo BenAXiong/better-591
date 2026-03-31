@@ -7,3 +7,5 @@ data/runtime-app-data.json
 web/photos/
 Thumbs.db
 .DS_Store
+
+.vercel

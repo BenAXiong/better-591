@@ -4,7 +4,6 @@
   const root = document.getElementById("app");
 
   const initialState = {
-    date: "all",
     location: "all",
     type: "all",
     priceMin: "",
@@ -86,8 +85,7 @@
   function renderToolbar(options, filteredCount) {
     return `
       <header class="toolbar">
-        ${renderSelectField("date", "Date", options.dates, state.date)}
-        ${renderSelectField("location", "Location", options.locations, state.location)}
+        ${renderSelectField("location", "Area / District", options.locations, state.location)}
         ${renderSelectField("type", "Type", options.types, state.type, true)}
         ${renderRangeField("price", "Price", state.priceMin, state.priceMax)}
         ${renderRangeField("size", "Size", state.sizeMin, state.sizeMax)}
@@ -324,7 +322,13 @@
         <div class="listing-card__layout">
           <div class="listing-card__left">
             <div class="listing-card__name-row">
-              <h3 class="listing-card__name">${escapeHtml(listing.title)}</h3>
+              <h3 class="listing-card__name">
+                ${
+                  listing.sourceUrl
+                    ? `<a class="listing-card__title-link" href="${escapeAttribute(listing.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(listing.title)}</a>`
+                    : escapeHtml(listing.title)
+                }
+              </h3>
               <div class="listing-card__info">
                 <button class="listing-card__info-trigger" type="button" aria-label="Listing info">i</button>
                 <div class="listing-card__tooltip">
@@ -565,6 +569,12 @@
       });
     });
 
+    root.querySelectorAll(".listing-card__title-link").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+    });
+
     root.querySelectorAll(".listing-card__info-trigger").forEach((button) => {
       button.addEventListener("click", (event) => {
         event.stopPropagation();
@@ -704,11 +714,7 @@
 
   function getFilteredListings() {
     const filtered = appData.listings.filter((listing) => {
-      if (state.date !== "all" && listing.captureDate !== state.date) {
-        return false;
-      }
-
-      if (state.location !== "all" && listing.locationGroup !== state.location) {
+      if (state.location !== "all" && getLocationFilterValue(listing) !== state.location) {
         return false;
       }
 
@@ -776,8 +782,7 @@
 
   function buildOptions(listings) {
     return {
-      dates: uniqueValues(listings.map((listing) => listing.captureDate)),
-      locations: uniqueValues(listings.map((listing) => listing.locationGroup)),
+      locations: uniqueValues(listings.map((listing) => getLocationFilterValue(listing))),
       types: uniqueValues(listings.map((listing) => listing.type)),
     };
   }
@@ -931,6 +936,27 @@
   function buildMapsUrl(listing) {
     const query = [listing.captureCity, listing.locationText, "台灣"].filter(Boolean).join(" ");
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  }
+
+  function getLocationFilterValue(listing) {
+    const area = cleanFilterPart(listing.captureCity || listing.captureArea || listing.regionName || "");
+    const district = cleanFilterPart(listing.locationGroup || listing.sectionName || extractDistrictFromLocation(listing.locationText) || "");
+
+    if (area && district && area !== district) {
+      return `${area} · ${district}`;
+    }
+
+    return area || district || "未分類";
+  }
+
+  function extractDistrictFromLocation(locationText) {
+    const head = String(locationText || "").split("-")[0] || "";
+    const matches = [...head.matchAll(/[\u4e00-\u9fffA-Za-z0-9]+(?:市|區|鄉|鎮)/g)].map((match) => match[0].trim());
+    return matches.at(-1) || "";
+  }
+
+  function cleanFilterPart(value) {
+    return String(value || "").trim();
   }
 
   function getImageSource(image) {
