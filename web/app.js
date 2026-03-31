@@ -1,7 +1,10 @@
 (function () {
+  const APP_DATA_STORAGE_KEY = "591-viewer:app-data:v1";
   const PIN_STORAGE_KEY = "591-viewer:pinned:v1";
   const DETAIL_PREFETCH_LIMIT = 8;
-  let appData = window.__APP_DATA__ || { listings: [], generatedAt: null };
+  const embeddedAppData = normalizeAppData(window.__APP_DATA__);
+  const storedAppData = loadStoredAppData();
+  let appData = mergeAppDataSets(embeddedAppData, storedAppData);
   const taxonomy = normalizeTaxonomy(window.__TAXONOMY__);
   const root = document.getElementById("app");
 
@@ -42,8 +45,13 @@
   const listingDetailPending = new Set();
   const listingDetailFailed = new Set();
   let appMeta = {
-    source: window.__APP_DATA__ ? "embedded" : "empty",
-    storage: null,
+    source: storedAppData ? "browser-local" : window.__APP_DATA__ ? "embedded" : "empty",
+    storage: storedAppData
+      ? {
+          mode: "browser-local",
+          target: "window.localStorage",
+        }
+      : null,
   };
 
   function render() {
@@ -130,14 +138,14 @@
           </div>
 
           <div class="import-panel__controls">
-            ${renderToggle("importAllPages", "All pages", state.importAllPages)}
-            ${renderToggle("importPhotos", "Fetch photos", state.importPhotos)}
+              ${renderToggle("importAllPages", "All pages", state.importAllPages)}
+              ${renderToggle("importPhotos", "Fetch photos", state.importPhotos)}
             <button class="button" id="run-import" type="button" ${state.importPending ? "disabled" : ""}>
               ${state.importPending ? "Importing..." : "Run Import"}
             </button>
             <span class="import-panel__info">
               <button class="import-panel__info-trigger" type="button" aria-label="Import info">i</button>
-              <span class="import-panel__info-tooltip">Imports from live 591 into runtime storage. Fetch photos is on by default, disable it to speed up the import.</span>
+              <span class="import-panel__info-tooltip">Imports from live 591 stay in this browser only. Fetch photos is on by default, disable it to speed up the import.</span>
             </span>
           </div>
         </div>
@@ -732,10 +740,14 @@
         throw new Error(payload.error || `Import failed with HTTP ${response.status}`);
       }
 
-      appData = payload.appData || appData;
+      appData = mergeAppDataSets(appData, payload.importedAppData);
+      saveStoredAppData(appData);
       appMeta = {
-        source: "runtime",
-        storage: payload.storage || null,
+        source: "browser-local",
+        storage: {
+          mode: "browser-local",
+          target: "window.localStorage",
+        },
       };
       state.importPending = false;
       state.importMessage = `Imported ${payload.importedCount || 0} listing(s).`;
@@ -761,10 +773,15 @@
 
       const payload = await response.json();
       if (payload?.appData) {
-        appData = payload.appData;
+        appData = mergeAppDataSets(payload.appData, loadStoredAppData());
         appMeta = {
-          source: payload.source || "runtime",
-          storage: payload.storage || null,
+          source: hasStoredAppData() ? "browser-local" : payload.source || "local-build",
+          storage: hasStoredAppData()
+            ? {
+                mode: "browser-local",
+                target: "window.localStorage",
+              }
+            : payload.storage || null,
         };
         render();
       }
@@ -1171,6 +1188,110 @@
     return image?.remoteUrl || image?.src || "";
   }
 
+  function normalizeAppData(raw) {
+    const listings = Array.isArray(raw?.listings) ? raw.listings : [];
+    return {
+      generatedAt: raw?.generatedAt || null,
+      listingCount: listings.length,
+      rawFileCount: Number(raw?.rawFileCount || 0) || 0,
+      importMeta: raw?.importMeta || null,
+      listings,
+    };
+  }
+
+  function loadStoredAppData() {
+    try {
+      const raw = window.localStorage.getItem(APP_DATA_STORAGE_KEY);
+      if (!raw) {
+        return null;
+      }
+
+      return normalizeAppData(JSON.parse(raw));
+    } catch {
+      return null;
+    }
+  }
+
+  function hasStoredAppData() {
+    return Boolean(loadStoredAppData());
+  }
+
+  function saveStoredAppData(nextAppData) {
+    try {
+      window.localStorage.setItem(APP_DATA_STORAGE_KEY, JSON.stringify(normalizeAppData(nextAppData)));
+    } catch {
+      // Ignore storage quota failures and keep the in-memory state for the current tab.
+    }
+  }
+
+  function mergeAppDataSets(baseAppData, overrideAppData) {
+    const base = normalizeAppData(baseAppData);
+    const override = normalizeAppData(overrideAppData);
+
+    if (override.listings.length === 0) {
+      return base;
+    }
+
+    const latestByPropertyKey = new Map();
+
+    base.listings.forEach((listing) => {
+      latestByPropertyKey.set(listing.propertyKey || listing.id, listing);
+    });
+
+    override.listings.forEach((listing) => {
+      const key = listing.propertyKey || listing.id;
+      const existing = latestByPropertyKey.get(key);
+      if (!existing) {
+        latestByPropertyKey.set(key, listing);
+        return;
+      }
+
+      latestByPropertyKey.set(key, mergeListingSnapshots(listing, existing));
+    });
+
+    const mergedListings = [...latestByPropertyKey.values()];
+    return {
+      generatedAt: override.generatedAt || base.generatedAt || null,
+      listingCount: mergedListings.length,
+      rawFileCount: Math.max(base.rawFileCount || 0, override.rawFileCount || 0),
+      importMeta: override.importMeta || base.importMeta || null,
+      listings: mergedListings,
+    };
+  }
+
+  function mergeListingSnapshots(primary, fallback) {
+    const primaryImages = Array.isArray(primary?.images) ? primary.images : [];
+    const fallbackImages = Array.isArray(fallback?.images) ? fallback.images : [];
+    const images = primaryImages.length > 0 ? primaryImages : fallbackImages;
+
+    return {
+      ...fallback,
+      ...primary,
+      sourceUrl: primary?.sourceUrl || fallback?.sourceUrl || null,
+      listingId: primary?.listingId || fallback?.listingId || null,
+      exactAddress: primary?.exactAddress || fallback?.exactAddress || "",
+      latitude: primary?.latitude ?? fallback?.latitude ?? null,
+      longitude: primary?.longitude ?? fallback?.longitude ?? null,
+      facilities: Array.isArray(primary?.facilities) && primary.facilities.length > 0
+        ? primary.facilities
+        : Array.isArray(fallback?.facilities)
+          ? fallback.facilities
+          : [],
+      serviceNotes: Array.isArray(primary?.serviceNotes) && primary.serviceNotes.length > 0
+        ? primary.serviceNotes
+        : Array.isArray(fallback?.serviceNotes)
+          ? fallback.serviceNotes
+          : [],
+      ownerRemark: primary?.ownerRemark || fallback?.ownerRemark || "",
+      contactPhone: primary?.contactPhone || fallback?.contactPhone || "",
+      detailFetchedAt: primary?.detailFetchedAt || fallback?.detailFetchedAt || null,
+      images,
+      hasPhotos: images.length > 0,
+      photoCount: images.length,
+      lastPhotoFetchAt: primary?.lastPhotoFetchAt || fallback?.lastPhotoFetchAt || null,
+    };
+  }
+
   function loadPinnedListingIds() {
     try {
       const raw = window.localStorage.getItem(PIN_STORAGE_KEY);
@@ -1301,12 +1422,8 @@
         throw new Error(payload.error || `HTTP ${response.status}`);
       }
 
-      if (payload.appData?.listings) {
-        appData = payload.appData;
-      } else {
-        mergeListingDetailIntoAppData(listing.id, payload);
-      }
-
+      mergeListingDetailIntoAppData(listing.id, payload);
+      saveStoredAppData(appData);
       render();
     } catch {
       listingDetailFailed.add(listing.id);
