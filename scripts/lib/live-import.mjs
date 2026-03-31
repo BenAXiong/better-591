@@ -495,7 +495,7 @@ function mergeListingDetail(listing, detail) {
       : Array.isArray(listing.serviceNotes)
         ? listing.serviceNotes
         : [],
-    allGendersAllowed: detail.allGendersAllowed ?? listing.allGendersAllowed ?? null,
+    genderPolicy: detail.genderPolicy ?? listing.genderPolicy ?? mapLegacyGenderPolicy(listing.allGendersAllowed),
     ownerRemark: detail.ownerRemark || listing.ownerRemark || "",
     contactPhone: detail.contactPhone || listing.contactPhone || "",
     detailFetchedAt: new Date().toISOString(),
@@ -525,7 +525,7 @@ function mergeListingMetadata(primary, fallback) {
       : Array.isArray(fallback?.serviceNotes)
         ? fallback.serviceNotes
         : [],
-    allGendersAllowed: primary.allGendersAllowed ?? fallback?.allGendersAllowed ?? null,
+    genderPolicy: primary.genderPolicy ?? fallback?.genderPolicy ?? mapLegacyGenderPolicy(primary.allGendersAllowed) ?? mapLegacyGenderPolicy(fallback?.allGendersAllowed),
     ownerRemark: primary.ownerRemark || fallback?.ownerRemark || "",
     contactPhone: primary.contactPhone || fallback?.contactPhone || "",
     detailFetchedAt: primary.detailFetchedAt || fallback?.detailFetchedAt || null,
@@ -534,6 +534,10 @@ function mergeListingMetadata(primary, fallback) {
     photoCount: images.length,
     lastPhotoFetchAt: primary.lastPhotoFetchAt || fallback?.lastPhotoFetchAt || null,
   };
+}
+
+function mapLegacyGenderPolicy(allGendersAllowed) {
+  return allGendersAllowed === true ? "any" : null;
 }
 
 function getTaipeiDate() {

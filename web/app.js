@@ -21,7 +21,7 @@
     ownerDirectOnly: false,
     shortRentOnly: false,
     cookOnly: false,
-    allGendersAllowedOnly: false,
+    genderPolicyFilter: "all",
     newOnly: false,
     availableNowOnly: false,
     pinnedId: null,
@@ -111,7 +111,7 @@
           ${renderToggle("ownerDirectOnly", "屋主直租", state.ownerDirectOnly)}
           ${renderToggle("shortRentOnly", "可短租", state.shortRentOnly)}
           ${renderToggle("cookOnly", "可開伙", state.cookOnly)}
-          ${renderToggle("allGendersAllowedOnly", "男女皆可", state.allGendersAllowedOnly)}
+          ${renderGenderPolicyToggle(state.genderPolicyFilter)}
           ${renderToggle("newOnly", "新上架", state.newOnly)}
           ${renderToggle("availableNowOnly", "隨時可遷入", state.availableNowOnly)}
         </div>
@@ -323,6 +323,20 @@
         aria-pressed="${checked ? "true" : "false"}"
       >
         ${label}
+      </button>
+    `;
+  }
+
+  function renderGenderPolicyToggle(filter) {
+    return `
+      <button
+        class="toggle-button ${filter !== "all" ? "is-active" : ""}"
+        type="button"
+        data-cycle-toggle="genderPolicyFilter"
+        data-cycle-value="${escapeAttribute(filter)}"
+        aria-pressed="${filter !== "all" ? "true" : "false"}"
+      >
+        ${getGenderPolicyFilterLabel(filter)}
       </button>
     `;
   }
@@ -569,6 +583,14 @@
         if (key === "importAllPages") {
           updateImportUrlFromSelections();
         }
+        render();
+      });
+    });
+
+    root.querySelectorAll("[data-cycle-toggle]").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        const key = event.currentTarget.dataset.cycleToggle;
+        state[key] = getNextGenderPolicyFilter(state[key]);
         render();
       });
     });
@@ -839,7 +861,7 @@
         return false;
       }
 
-      if (state.allGendersAllowedOnly && !listingAllowsAllGenders(listing)) {
+      if (state.genderPolicyFilter !== "all" && getListingGenderPolicy(listing) !== state.genderPolicyFilter) {
         return false;
       }
 
@@ -1291,10 +1313,13 @@
         : Array.isArray(fallback?.serviceNotes)
           ? fallback.serviceNotes
           : [],
-      allGendersAllowed: primary?.allGendersAllowed
-        ?? fallback?.allGendersAllowed
-        ?? detectAllGendersAllowed(primary?.serviceNotes)
-        ?? detectAllGendersAllowed(fallback?.serviceNotes),
+      genderPolicy: primary?.genderPolicy
+        ?? fallback?.genderPolicy
+        ?? mapLegacyGenderPolicy(primary?.allGendersAllowed)
+        ?? mapLegacyGenderPolicy(fallback?.allGendersAllowed)
+        ?? detectGenderPolicy(primary?.serviceNotes, primary?.ownerRemark)
+        ?? detectGenderPolicy(fallback?.serviceNotes, fallback?.ownerRemark)
+        ?? "unknown",
       ownerRemark: primary?.ownerRemark || fallback?.ownerRemark || "",
       contactPhone: primary?.contactPhone || fallback?.contactPhone || "",
       detailFetchedAt: primary?.detailFetchedAt || fallback?.detailFetchedAt || null,
@@ -1480,10 +1505,12 @@
           longitude: detail.longitude ?? listing.longitude ?? null,
           facilities: Array.isArray(detail.facilities) ? detail.facilities : listing.facilities || [],
           serviceNotes: Array.isArray(detail.serviceNotes) ? detail.serviceNotes : listing.serviceNotes || [],
-          allGendersAllowed: detail.allGendersAllowed
-            ?? detectAllGendersAllowed(detail.serviceNotes)
-            ?? listing.allGendersAllowed
-            ?? detectAllGendersAllowed(listing.serviceNotes),
+          genderPolicy: detail.genderPolicy
+            ?? detectGenderPolicy(detail.serviceNotes, detail.ownerRemark)
+            ?? listing.genderPolicy
+            ?? mapLegacyGenderPolicy(listing.allGendersAllowed)
+            ?? detectGenderPolicy(listing.serviceNotes, listing.ownerRemark)
+            ?? "unknown",
           ownerRemark: detail.ownerRemark || listing.ownerRemark || "",
           contactPhone: detail.contactPhone || listing.contactPhone || "",
           detailFetchedAt: detail.detailFetchedAt || listing.detailFetchedAt || new Date().toISOString(),
@@ -1504,23 +1531,69 @@
     };
   }
 
-  function listingAllowsAllGenders(listing) {
-    if (listing?.allGendersAllowed === true) {
-      return true;
-    }
-
-    return detectAllGendersAllowed(listing?.serviceNotes);
+  function getListingGenderPolicy(listing) {
+    return listing?.genderPolicy
+      ?? mapLegacyGenderPolicy(listing?.allGendersAllowed)
+      ?? detectGenderPolicy(listing?.serviceNotes, listing?.ownerRemark)
+      ?? "unknown";
   }
 
-  function detectAllGendersAllowed(serviceNotes) {
-    if (!Array.isArray(serviceNotes) || serviceNotes.length === 0) {
+  function detectGenderPolicy(serviceNotes, ownerRemark) {
+    const normalizedNotes = Array.isArray(serviceNotes) ? serviceNotes : [];
+    const rulesText = normalizedNotes
+      .filter((note) => /房屋守則|租住說明/.test(String(note?.label || "")))
+      .map((note) => [note?.label, note?.value].filter(Boolean).join(" "))
+      .join(" ");
+    const fallbackText = String(ownerRemark || "").trim();
+
+    return parseGenderPolicy(rulesText || fallbackText || normalizedNotes.map((note) => [note?.label, note?.value].filter(Boolean).join(" ")).join(" "));
+  }
+
+  function parseGenderPolicy(text) {
+    const haystack = String(text || "").replace(/\s+/g, " ").trim();
+    if (!haystack) {
       return null;
     }
 
-    return serviceNotes.some((note) => {
-      const haystack = [note?.label, note?.value].filter(Boolean).join(" ");
-      return /男女皆可|性別不限|不限性別/.test(haystack);
-    });
+    if (/男女皆可|不限性別|性別不限/.test(haystack)) {
+      return "any";
+    }
+
+    if (/限(?:女|女生|女性)|(?:僅|只)限(?:女|女生|女性)/.test(haystack)) {
+      return "female-only";
+    }
+
+    if (/限(?:男|男生|男性)|(?:僅|只)限(?:男|男生|男性)/.test(haystack)) {
+      return "male-only";
+    }
+
+    return "unknown";
+  }
+
+  function mapLegacyGenderPolicy(allGendersAllowed) {
+    return allGendersAllowed === true ? "any" : null;
+  }
+
+  function getNextGenderPolicyFilter(current) {
+    const order = ["all", "any", "female-only", "male-only"];
+    const index = order.indexOf(current);
+    return order[(index + 1 + order.length) % order.length];
+  }
+
+  function getGenderPolicyFilterLabel(filter) {
+    if (filter === "any") {
+      return "男女皆可";
+    }
+
+    if (filter === "female-only") {
+      return "限女生";
+    }
+
+    if (filter === "male-only") {
+      return "限男生";
+    }
+
+    return "性別";
   }
 
   function applyImportSelection(key, value) {

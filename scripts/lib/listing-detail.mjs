@@ -37,7 +37,7 @@ export function extractListingDetailFromHtml(html) {
     .get()
     .filter(Boolean);
   const ownerRemark = cleanInlineText($(".block.house-condition .house-condition-content .article").first().text());
-  const allGendersAllowed = detectAllGendersAllowed(serviceNotes);
+  const genderPolicy = detectGenderPolicy(serviceNotes, ownerRemark);
 
   return {
     exactAddress: exactAddress || "",
@@ -45,7 +45,7 @@ export function extractListingDetailFromHtml(html) {
     longitude: coordinates.longitude,
     facilities,
     serviceNotes,
-    allGendersAllowed,
+    genderPolicy,
     ownerRemark,
     contactPhone: extractContactPhoneFromHtml(text),
   };
@@ -141,15 +141,36 @@ function cleanInlineText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
-function detectAllGendersAllowed(serviceNotes) {
-  if (!Array.isArray(serviceNotes) || serviceNotes.length === 0) {
-    return null;
+function detectGenderPolicy(serviceNotes, ownerRemark) {
+  const normalizedNotes = Array.isArray(serviceNotes) ? serviceNotes : [];
+  const rulesText = normalizedNotes
+    .filter((note) => /房屋守則|租住說明/.test(String(note?.label || "")))
+    .map((note) => [note?.label, note?.value].filter(Boolean).join(" "))
+    .join(" ");
+  const fallbackText = String(ownerRemark || "").trim();
+
+  return parseGenderPolicy(rulesText || fallbackText || normalizedNotes.map((note) => [note?.label, note?.value].filter(Boolean).join(" ")).join(" "));
+}
+
+function parseGenderPolicy(text) {
+  const haystack = cleanInlineText(text);
+  if (!haystack) {
+    return "unknown";
   }
 
-  return serviceNotes.some((note) => {
-    const haystack = [note?.label, note?.value].filter(Boolean).join(" ");
-    return /男女皆可|性別不限|不限性別/.test(haystack);
-  });
+  if (/男女皆可|不限性別|性別不限/.test(haystack)) {
+    return "any";
+  }
+
+  if (/限(?:女|女生|女性)|(?:僅|只)限(?:女|女生|女性)/.test(haystack)) {
+    return "female-only";
+  }
+
+  if (/限(?:男|男生|男性)|(?:僅|只)限(?:男|男生|男性)/.test(haystack)) {
+    return "male-only";
+  }
+
+  return "unknown";
 }
 
 function compactText(value) {

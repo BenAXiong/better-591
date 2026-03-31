@@ -84,7 +84,7 @@ export async function buildAppData(rootDir = process.cwd()) {
         : Array.isArray(listing.serviceNotes)
           ? listing.serviceNotes
           : [],
-      allGendersAllowed: extra.allGendersAllowed ?? listing.allGendersAllowed ?? null,
+      genderPolicy: extra.genderPolicy ?? listing.genderPolicy ?? mapLegacyGenderPolicy(extra.allGendersAllowed) ?? mapLegacyGenderPolicy(listing.allGendersAllowed) ?? "unknown",
       ownerRemark: extra.ownerRemark ?? listing.ownerRemark ?? "",
       contactPhone: extra.contactPhone ?? listing.contactPhone ?? "",
       detailFetchedAt: extra.detailFetchedAt ?? listing.detailFetchedAt ?? extra.lastFetchedAt ?? null,
@@ -101,6 +101,10 @@ export async function buildAppData(rootDir = process.cwd()) {
     rawFileCount: new Set(rawListings.map((listing) => listing.sourceFile)).size,
     listings: mergedListings,
   };
+}
+
+function mapLegacyGenderPolicy(allGendersAllowed) {
+  return allGendersAllowed === true ? "any" : null;
 }
 
 export async function writeBuildOutputs(rootDir, appData) {
