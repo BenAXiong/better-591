@@ -434,7 +434,10 @@
       <section class="preview">
         <div class="preview__header">
           <div>
-            <h2 class="preview__title">${escapeHtml(listing.title)}</h2>
+            <div class="preview__title-row">
+              <h2 class="preview__title">${escapeHtml(listing.title)}</h2>
+              ${listing.updateText ? `<span class="preview__updated">${escapeHtml(listing.updateText)}</span>` : ""}
+            </div>
             ${previewMeta ? `<p class="preview__meta">${escapeHtml(previewMeta)}</p>` : ""}
           </div>
           <div>
