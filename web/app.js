@@ -116,34 +116,35 @@
 
     return `
       <div class="import-panel">
-        <div class="import-panel__builder">
-          ${renderImportSelect("importRegion", "選擇縣市 Select a city/county", importOptions.regions, state.importRegion)}
-          ${renderImportSelect("importSection", "選擇鄉區 Select a township/district", importOptions.sections, state.importSection)}
-          ${renderImportSelect("importKind", "選擇類型 Select a type", importOptions.kinds, state.importKind)}
+        <div class="import-panel__top">
+          <div class="import-panel__builder">
+            ${renderImportSelect("importRegion", "選擇縣市 Select a city/county", importOptions.regions, state.importRegion)}
+            ${renderImportSelect("importSection", "選擇鄉區 Select a township/district", importOptions.sections, state.importSection)}
+            ${renderImportSelect("importKind", "選擇類型 Select a type", importOptions.kinds, state.importKind)}
+          </div>
+
+          <div class="import-panel__controls">
+            ${renderToggle("importAllPages", "All pages", state.importAllPages)}
+            ${renderToggle("importPhotos", "Fetch photos", state.importPhotos)}
+            <button class="button" id="run-import" type="button" ${state.importPending ? "disabled" : ""}>
+              ${state.importPending ? "Importing..." : "Run Import"}
+            </button>
+            <span class="import-panel__info">
+              <button class="import-panel__info-trigger" type="button" aria-label="Import info">i</button>
+              <span class="import-panel__info-tooltip">Imports from live 591 into runtime storage. Fetch photos is on by default, disable it to speed up the import.</span>
+            </span>
+          </div>
         </div>
 
         <label class="import-panel__field">
-          <span class="import-panel__label">591 list URL</span>
           <input
             id="import-url"
             type="url"
             inputmode="url"
-            placeholder="https://rent.591.com.tw/list?region=22&kind=2&section=341&page=1"
+            placeholder="https://rent.591.com.tw/list?region=22&kind=2&section=341"
             value="${escapeAttribute(state.importUrl)}"
           />
         </label>
-
-        <div class="toggle-row">
-          ${renderToggle("importAllPages", "All pages", state.importAllPages)}
-          ${renderToggle("importPhotos", "Fetch photos", state.importPhotos)}
-        </div>
-
-        <div class="import-panel__actions">
-          <button class="button" id="run-import" type="button" ${state.importPending ? "disabled" : ""}>
-            ${state.importPending ? "Importing..." : "Run Import"}
-          </button>
-          <span class="import-panel__hint">Imports from live 591 into runtime storage. Fetch photos is on by default, disable it to speed up the import.</span>
-        </div>
 
         ${
           state.importMessage

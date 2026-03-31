@@ -404,7 +404,15 @@ select {
   min-width: 0;
 }
 
+.import-panel__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
 .import-panel__builder {
+  flex: 0 1 min(50vw, 560px);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
@@ -428,11 +436,69 @@ select {
   color: var(--text);
 }
 
-.import-panel__actions {
+.import-panel__controls {
   display: flex;
-  flex-wrap: wrap;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 10px;
+  justify-content: flex-end;
+}
+
+.import-panel__info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.import-panel__info-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel-strong);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: help;
+}
+
+.import-panel__info:hover .import-panel__info-trigger,
+.import-panel__info:focus-within .import-panel__info-trigger {
+  border-color: var(--accent);
+  color: #73431f;
+}
+
+.import-panel__info-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 35;
+  width: 280px;
+  padding: 9px 11px;
+  border: 1px solid rgba(196, 177, 157, 0.9);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 252, 247, 0.98);
+  box-shadow: 0 12px 30px rgba(80, 53, 28, 0.14);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.import-panel__info:hover .import-panel__info-tooltip,
+.import-panel__info:focus-within .import-panel__info-tooltip {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .import-panel__message {
@@ -798,8 +864,19 @@ select {
     overflow: auto;
   }
 
+  .import-panel__top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .import-panel__builder {
+    flex: 1 1 auto;
     grid-template-columns: 1fr;
+  }
+
+  .import-panel__controls {
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
   .shell {
