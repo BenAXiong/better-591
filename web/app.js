@@ -4,7 +4,8 @@
   const root = document.getElementById("app");
 
   const initialState = {
-    location: "all",
+    area: "all",
+    district: "all",
     type: "all",
     priceMin: "",
     priceMax: "",
@@ -85,7 +86,8 @@
   function renderToolbar(options, filteredCount) {
     return `
       <header class="toolbar">
-        ${renderSelectField("location", "Area / District", options.locations, state.location)}
+        ${renderSelectField("area", "Area", options.areas, state.area)}
+        ${renderSelectField("district", "District", options.districts, state.district, true)}
         ${renderSelectField("type", "Type", options.types, state.type, true)}
         ${renderRangeField("price", "Price", state.priceMin, state.priceMax)}
         ${renderRangeField("size", "Size", state.sizeMin, state.sizeMax)}
@@ -438,6 +440,12 @@
         const key = event.currentTarget.dataset.dropdownOption;
         const value = event.currentTarget.dataset.value;
         state[key] = value;
+        if (key === "area") {
+          const districts = getAvailableDistrictsForArea(value);
+          if (state.district !== "all" && !districts.includes(state.district)) {
+            state.district = "all";
+          }
+        }
         state.openDropdown = null;
         render();
       });
@@ -714,7 +722,11 @@
 
   function getFilteredListings() {
     const filtered = appData.listings.filter((listing) => {
-      if (state.location !== "all" && getLocationFilterValue(listing) !== state.location) {
+      if (state.area !== "all" && getAreaFilterValue(listing) !== state.area) {
+        return false;
+      }
+
+      if (state.district !== "all" && getDistrictFilterValue(listing) !== state.district) {
         return false;
       }
 
@@ -781,8 +793,12 @@
   }
 
   function buildOptions(listings) {
+    const areas = uniqueValues(listings.map((listing) => getAreaFilterValue(listing)));
+    const districts = getAvailableDistrictsForArea(state.area, listings);
+
     return {
-      locations: uniqueValues(listings.map((listing) => getLocationFilterValue(listing))),
+      areas,
+      districts,
       types: uniqueValues(listings.map((listing) => listing.type)),
     };
   }
@@ -938,15 +954,39 @@
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
   }
 
-  function getLocationFilterValue(listing) {
-    const area = cleanFilterPart(listing.captureCity || listing.captureArea || listing.regionName || "");
-    const district = cleanFilterPart(listing.locationGroup || listing.sectionName || extractDistrictFromLocation(listing.locationText) || "");
+  function getAvailableDistrictsForArea(areaValue, listings = appData.listings) {
+    const scopedListings =
+      areaValue && areaValue !== "all"
+        ? listings.filter((listing) => getAreaFilterValue(listing) === areaValue)
+        : listings;
 
-    if (area && district && area !== district) {
-      return `${area} · ${district}`;
+    return uniqueValues(scopedListings.map((listing) => getDistrictFilterValue(listing)));
+  }
+
+  function getAreaFilterValue(listing) {
+    const explicitArea = cleanFilterPart(listing.captureArea || listing.regionName || "");
+    if (explicitArea) {
+      return explicitArea;
     }
 
-    return area || district || "未分類";
+    const district = getDistrictFilterValue(listing);
+    const matchedSection = findMatchingSection(district);
+    if (matchedSection?.regionName) {
+      return matchedSection.regionName;
+    }
+
+    const cityMatch = findMatchingSection(cleanFilterPart(listing.captureCity || ""));
+    if (cityMatch?.regionName) {
+      return cityMatch.regionName;
+    }
+
+    return cleanFilterPart(listing.captureCity || "");
+  }
+
+  function getDistrictFilterValue(listing) {
+    return cleanFilterPart(
+      listing.sectionName || listing.locationGroup || extractDistrictFromLocation(listing.locationText) || listing.captureCity || "",
+    );
   }
 
   function extractDistrictFromLocation(locationText) {
@@ -955,8 +995,21 @@
     return matches.at(-1) || "";
   }
 
+  function findMatchingSection(name) {
+    const normalizedName = normalizePlaceName(name);
+    if (!normalizedName) {
+      return null;
+    }
+
+    return (taxonomy.sections || []).find((section) => normalizePlaceName(section.name) === normalizedName) || null;
+  }
+
   function cleanFilterPart(value) {
     return String(value || "").trim();
+  }
+
+  function normalizePlaceName(value) {
+    return cleanFilterPart(value).replaceAll("臺", "台");
   }
 
   function getImageSource(image) {
