@@ -1,5 +1,6 @@
 (function () {
   let appData = window.__APP_DATA__ || { listings: [], generatedAt: null };
+  const taxonomy = normalizeTaxonomy(window.__TAXONOMY__);
   const root = document.getElementById("app");
 
   const initialState = {
@@ -23,8 +24,11 @@
     imageIndexes: {},
     importPanelOpen: false,
     importUrl: "",
+    importRegion: "",
+    importKind: "",
+    importSection: "",
     importAllPages: true,
-    importPhotos: false,
+    importPhotos: true,
     importPending: false,
     importMessage: "",
     importTone: "muted",
@@ -109,8 +113,16 @@
   }
 
   function renderImportPanel() {
+    const importOptions = buildImportOptions();
+
     return `
       <div class="import-panel">
+        <div class="import-panel__builder">
+          ${renderImportSelect("importRegion", "Region", importOptions.regions, state.importRegion)}
+          ${renderImportSelect("importKind", "Kind", importOptions.kinds, state.importKind)}
+          ${renderImportSelect("importSection", "Section", importOptions.sections, state.importSection)}
+        </div>
+
         <label class="import-panel__field">
           <span class="import-panel__label">591 list URL</span>
           <input
@@ -131,7 +143,7 @@
           <button class="button" id="run-import" type="button" ${state.importPending ? "disabled" : ""}>
             ${state.importPending ? "Importing..." : "Run Import"}
           </button>
-          <span class="import-panel__hint">Imports from live 591 into runtime storage for this deployed app. Leave Fetch photos off unless you want the slower full item-page pass.</span>
+          <span class="import-panel__hint">Imports from live 591 into runtime storage for this deployed app. Fetch photos is on by default and may take longer.</span>
         </div>
 
         ${
@@ -140,6 +152,26 @@
             : ""
         }
       </div>
+    `;
+  }
+
+  function renderImportSelect(key, label, options, currentValue) {
+    return `
+      <label class="import-panel__field">
+        <span class="import-panel__label">${escapeHtml(label)}</span>
+        <select data-import-select="${key}">
+          <option value="">${escapeHtml(label)}</option>
+          ${options
+            .map(
+              (option) => `
+                <option value="${escapeAttribute(option.value)}" ${option.value === currentValue ? "selected" : ""}>
+                  ${escapeHtml(option.label)}
+                </option>
+              `,
+            )
+            .join("")}
+        </select>
+      </label>
     `;
   }
 
@@ -476,6 +508,9 @@
           ...initialState,
           imageIndexes: state.imageIndexes,
           importUrl: state.importUrl,
+          importRegion: state.importRegion,
+          importKind: state.importKind,
+          importSection: state.importSection,
           importAllPages: state.importAllPages,
           importPhotos: state.importPhotos,
           importPanelOpen: state.importPanelOpen,
@@ -497,8 +532,19 @@
     if (importUrlInput) {
       importUrlInput.addEventListener("input", (event) => {
         state.importUrl = event.currentTarget.value;
+        syncImportSelectionsFromUrl(state.importUrl);
+        syncImportSelectControls();
       });
     }
+
+    root.querySelectorAll("[data-import-select]").forEach((element) => {
+      element.addEventListener("change", (event) => {
+        const key = event.currentTarget.dataset.importSelect;
+        const value = event.currentTarget.value;
+        applyImportSelection(key, value);
+        render();
+      });
+    });
 
     const runImportButton = document.getElementById("run-import");
     if (runImportButton) {
@@ -734,6 +780,27 @@
     };
   }
 
+  function buildImportOptions() {
+    const regions = (taxonomy.regions || []).map((region) => ({
+      value: String(region.id),
+      label: region.name,
+    }));
+
+    const kinds = (taxonomy.kinds || []).map((kind) => ({
+      value: String(kind.id),
+      label: kind.name,
+    }));
+
+    const sections = (taxonomy.sections || [])
+      .filter((section) => !state.importRegion || String(section.regionId) === state.importRegion)
+      .map((section) => ({
+        value: String(section.id),
+        label: state.importRegion ? section.name : `${section.regionName} · ${section.name}`,
+      }));
+
+    return { regions, kinds, sections };
+  }
+
   function uniqueValues(values) {
     return [...new Set(values.filter(Boolean))].sort((left, right) => left.localeCompare(right, "zh-Hant"));
   }
@@ -863,6 +930,104 @@
 
   function getImageSource(image) {
     return image?.remoteUrl || image?.src || "";
+  }
+
+  function normalizeTaxonomy(raw) {
+    if (!raw || typeof raw !== "object") {
+      return { regions: [], kinds: [], sections: [] };
+    }
+
+    return {
+      regions: Array.isArray(raw.regions) ? [...raw.regions] : [],
+      kinds: Array.isArray(raw.kinds) ? [...raw.kinds] : [],
+      sections: Array.isArray(raw.sections) ? [...raw.sections] : [],
+    };
+  }
+
+  function applyImportSelection(key, value) {
+    state[key] = value;
+
+    if (key === "importSection" && value) {
+      const section = (taxonomy.sections || []).find((entry) => String(entry.id) === value);
+      if (section) {
+        state.importRegion = String(section.regionId);
+      }
+    }
+
+    if (key === "importRegion" && state.importSection) {
+      const currentSection = (taxonomy.sections || []).find((entry) => String(entry.id) === state.importSection);
+      if (!currentSection || String(currentSection.regionId) !== state.importRegion) {
+        state.importSection = "";
+      }
+    }
+
+    updateImportUrlFromSelections();
+  }
+
+  function updateImportUrlFromSelections() {
+    const current = parseImportUrl(state.importUrl);
+    const page = current?.page || "1";
+    const params = new URLSearchParams();
+
+    if (state.importRegion) {
+      params.set("region", state.importRegion);
+    }
+
+    if (state.importKind) {
+      params.set("kind", state.importKind);
+    }
+
+    if (state.importSection) {
+      params.set("section", state.importSection);
+    }
+
+    params.set("page", page);
+    state.importUrl = `https://rent.591.com.tw/list?${params.toString()}`;
+  }
+
+  function syncImportSelectionsFromUrl(url) {
+    const parsed = parseImportUrl(url);
+    if (!parsed) {
+      return;
+    }
+
+    state.importRegion = parsed.region;
+    state.importKind = parsed.kind;
+    state.importSection = parsed.section;
+
+    if (state.importSection) {
+      const section = (taxonomy.sections || []).find((entry) => String(entry.id) === state.importSection);
+      if (section) {
+        state.importRegion = String(section.regionId);
+      }
+    }
+  }
+
+  function syncImportSelectControls() {
+    root.querySelectorAll("[data-import-select]").forEach((element) => {
+      const key = element.dataset.importSelect;
+      if (key && Object.prototype.hasOwnProperty.call(state, key)) {
+        element.value = state[key];
+      }
+    });
+  }
+
+  function parseImportUrl(url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.origin !== "https://rent.591.com.tw" || parsed.pathname !== "/list") {
+        return null;
+      }
+
+      return {
+        region: parsed.searchParams.get("region") || "",
+        kind: parsed.searchParams.get("kind") || "",
+        section: parsed.searchParams.get("section") || "",
+        page: parsed.searchParams.get("page") || "1",
+      };
+    } catch {
+      return null;
+    }
   }
 
   function formatGeneratedAt(value) {

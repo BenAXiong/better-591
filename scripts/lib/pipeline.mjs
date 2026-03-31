@@ -38,8 +38,10 @@ export function getPaths(rootDir = process.cwd()) {
     rawDir: path.join(rootDir, "data", "raw"),
     enrichmentFile: path.join(rootDir, "data", "enrichment.json"),
     photoTargetsFile: path.join(rootDir, "data", "photo-targets.txt"),
+    taxonomyFile: path.join(rootDir, "data", "591-taxonomy.generated.json"),
     generatedJsonFile: path.join(rootDir, "data", "listings.generated.json"),
     appDataFile: path.join(rootDir, "web", "app-data.js"),
+    taxonomyDataFile: path.join(rootDir, "web", "taxonomy-data.js"),
     rootIndexFile: path.join(rootDir, "index.html"),
     webDir: path.join(rootDir, "web"),
     photoDir: path.join(rootDir, "web", "photos"),
@@ -47,6 +49,7 @@ export function getPaths(rootDir = process.cwd()) {
     publicIndexFile: path.join(rootDir, "public", "index.html"),
     publicWebDir: path.join(rootDir, "public", "web"),
     publicAppDataFile: path.join(rootDir, "public", "web", "app-data.js"),
+    publicTaxonomyDataFile: path.join(rootDir, "public", "web", "taxonomy-data.js"),
     publicAppFile: path.join(rootDir, "public", "web", "app.js"),
     publicStylesFile: path.join(rootDir, "public", "web", "styles.css"),
   };
@@ -91,9 +94,12 @@ export async function writeBuildOutputs(rootDir, appData) {
   const {
     generatedJsonFile,
     appDataFile,
+    taxonomyFile,
+    taxonomyDataFile,
     publicDir,
     publicIndexFile,
     publicAppDataFile,
+    publicTaxonomyDataFile,
     publicAppFile,
     publicStylesFile,
     rootIndexFile,
@@ -108,6 +114,13 @@ export async function writeBuildOutputs(rootDir, appData) {
     "utf8",
   );
 
+  const taxonomy = await loadTaxonomy(taxonomyFile);
+  await fs.writeFile(
+    taxonomyDataFile,
+    `window.__TAXONOMY__ = ${JSON.stringify(taxonomy, null, 2)};\n`,
+    "utf8",
+  );
+
   await fs.rm(publicDir, { recursive: true, force: true });
   await fs.mkdir(path.dirname(publicAppDataFile), { recursive: true });
   await fs.copyFile(rootIndexFile, publicIndexFile);
@@ -118,6 +131,24 @@ export async function writeBuildOutputs(rootDir, appData) {
     `window.__APP_DATA__ = ${JSON.stringify(appData, null, 2)};\n`,
     "utf8",
   );
+  await fs.writeFile(
+    publicTaxonomyDataFile,
+    `window.__TAXONOMY__ = ${JSON.stringify(taxonomy, null, 2)};\n`,
+    "utf8",
+  );
+}
+
+async function loadTaxonomy(taxonomyFile) {
+  try {
+    const raw = await fs.readFile(taxonomyFile, "utf8");
+    const parsed = JSON.parse(raw);
+    return isObject(parsed) ? parsed : { regions: [], kinds: [], sections: [] };
+  } catch (error) {
+    if (error && error.code === "ENOENT") {
+      return { regions: [], kinds: [], sections: [] };
+    }
+    throw error;
+  }
 }
 
 export async function loadRawListings(rootDir = process.cwd()) {

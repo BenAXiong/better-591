@@ -37,7 +37,7 @@ export async function getViewerData() {
 export async function importViewerData(body) {
   const searchUrl = String(body?.searchUrl || "").trim();
   const importAllPages = Boolean(body?.importAllPages);
-  const includePhotos = body?.includePhotos === true;
+  const includePhotos = body?.includePhotos !== false;
 
   if (!searchUrl) {
     return failure(400, "searchUrl is required.");

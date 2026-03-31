@@ -404,6 +404,12 @@ select {
   min-width: 0;
 }
 
+.import-panel__builder {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .import-panel__label,
 .import-panel__hint,
 .import-panel__message {
@@ -411,7 +417,8 @@ select {
   color: var(--muted);
 }
 
-.import-panel__field input {
+.import-panel__field input,
+.import-panel__field select {
   width: 100%;
   min-height: 36px;
   padding: 7px 10px;
@@ -789,6 +796,10 @@ select {
 @media (max-width: 900px) {
   body {
     overflow: auto;
+  }
+
+  .import-panel__builder {
+    grid-template-columns: 1fr;
   }
 
   .shell {
