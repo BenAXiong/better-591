@@ -302,6 +302,11 @@ select {
   box-shadow: 0 12px 30px rgba(80, 53, 28, 0.14);
 }
 
+.toolbar .field--dropdown .dropdown__menu {
+  max-height: none;
+  overflow: visible;
+}
+
 .dropdown__option {
   width: 100%;
   padding: 6px 8px;
