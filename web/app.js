@@ -1,6 +1,8 @@
 (function () {
   const APP_DATA_STORAGE_KEY = "591-viewer:app-data:v1";
   const PIN_STORAGE_KEY = "591-viewer:pinned:v1";
+  const FAVORITE_STORAGE_KEY = "591-viewer:favorites:v1";
+  const ARCHIVE_STORAGE_KEY = "591-viewer:archive:v1";
   const DETAIL_PREFETCH_LIMIT = 8;
   const embeddedAppData = normalizeAppData(window.__APP_DATA__);
   const storedAppData = loadStoredAppData();
@@ -18,12 +20,14 @@
     sizeMax: "",
     sortPrice: "none",
     sortSize: "none",
+    archiveFilter: "active",
     ownerDirectOnly: false,
     shortRentOnly: false,
     cookOnly: false,
     genderPolicyFilter: "all",
     newOnly: false,
     availableNowOnly: false,
+    favoriteOnly: false,
     pinnedId: null,
     hoveredId: null,
     openDropdown: null,
@@ -43,6 +47,8 @@
   let state = { ...initialState };
   let listingListScrollTop = 0;
   let pinnedListingIds = loadPinnedListingIds();
+  let favoriteListingIds = loadFavoriteListingIds();
+  let archivedListingReasons = loadArchivedListingReasons();
   const listingDetailPending = new Set();
   const listingDetailFailed = new Set();
   let appMeta = {
@@ -106,8 +112,10 @@
         ${renderSelectField("type", "Type", options.types, state.type, true)}
         ${renderRangeField("price", "Price", state.priceMin, state.priceMax)}
         ${renderRangeField("size", "Size", state.sizeMin, state.sizeMax)}
+        ${renderArchiveFilterField(state.archiveFilter)}
 
         <div class="toggle-row">
+          ${renderFavoriteToggle(state.favoriteOnly)}
           ${renderToggle("ownerDirectOnly", "屋主直租", state.ownerDirectOnly)}
           ${renderToggle("shortRentOnly", "可短租", state.shortRentOnly)}
           ${renderToggle("cookOnly", "可開伙", state.cookOnly)}
@@ -314,6 +322,52 @@
     `;
   }
 
+  function renderArchiveFilterField(currentValue) {
+    const options = getArchiveFilterOptions();
+    const currentOption = options.find((option) => option.value === currentValue) || options[0];
+    const isOpen = state.openDropdown === "archiveFilter";
+    const triggerLabel = currentValue === "active" ? "Archived" : currentOption.label;
+
+    return `
+      <div class="field field--dropdown field--archive">
+        <div class="dropdown">
+          <button
+            class="dropdown__trigger dropdown__trigger--archive ${isOpen ? "is-open" : ""} ${currentValue !== "active" ? "is-filtered" : ""}"
+            type="button"
+            data-dropdown-trigger="archiveFilter"
+            aria-expanded="${isOpen ? "true" : "false"}"
+            aria-label="${escapeAttribute(`Archived: ${currentOption.label}`)}"
+          >
+            <span class="dropdown__trigger-text">${escapeHtml(triggerLabel)}</span>
+            <span class="dropdown__caret">▾</span>
+          </button>
+          ${
+            isOpen
+              ? `
+                <div class="dropdown__menu dropdown__menu--archive">
+                  ${options
+                    .map((option) => {
+                      return `
+                        <button
+                          class="dropdown__option ${option.value === currentValue ? "is-active" : ""}"
+                          type="button"
+                          data-dropdown-option="archiveFilter"
+                          data-value="${escapeAttribute(option.value)}"
+                        >
+                          ${escapeHtml(option.label)}
+                        </button>
+                      `;
+                    })
+                    .join("")}
+                </div>
+              `
+              : ""
+          }
+        </div>
+      </div>
+    `;
+  }
+
   function renderToggle(key, label, checked) {
     return `
       <button
@@ -323,6 +377,20 @@
         aria-pressed="${checked ? "true" : "false"}"
       >
         ${label}
+      </button>
+    `;
+  }
+
+  function renderFavoriteToggle(checked) {
+    return `
+      <button
+        class="toggle-button toggle-button--favorite ${checked ? "is-active" : ""}"
+        type="button"
+        data-toggle="favoriteOnly"
+        aria-pressed="${checked ? "true" : "false"}"
+      >
+        <span class="toggle-button__icon" aria-hidden="true">★</span>
+        <span>Favorites</span>
       </button>
     `;
   }
@@ -358,7 +426,11 @@
 
   function renderListingCard(listing, activeListing) {
     const isPinned = isListingPinned(listing.id);
+    const isFavorite = isListingFavorite(listing.id);
     const isActive = activeListing && activeListing.id === listing.id;
+    const archiveReason = getListingArchiveReason(listing.id);
+    const hideMenuKey = `hide:${listing.id}`;
+    const hideMenuOpen = state.openDropdown === hideMenuKey;
     const depositInfo = getDepositInfo(listing);
     const tooltipPills = [...new Set([]
       .concat((listing.cardLabels || []).filter((tag) => !["精選", "置頂"].includes(tag)))
@@ -375,7 +447,7 @@
     const mapsUrl = buildMapsUrl(listing);
 
     return `
-      <article class="listing-card ${isActive ? "is-active" : ""} ${isPinned ? "is-pinned" : ""}" data-card-id="${listing.id}">
+      <article class="listing-card ${isActive ? "is-active" : ""} ${isPinned ? "is-pinned" : ""} ${isFavorite ? "is-favorite" : ""} ${archiveReason ? `is-archived is-archived--${archiveReason}` : ""}" data-card-id="${listing.id}">
         <div class="listing-card__layout">
           <div class="listing-card__left">
             <div class="listing-card__name-row">
@@ -397,6 +469,39 @@
                 >
                   <span aria-hidden="true">📌</span>
                 </button>
+                <button
+                  class="listing-card__fav-button ${isFavorite ? "is-active" : ""}"
+                  type="button"
+                  data-favorite-toggle="${listing.id}"
+                  aria-pressed="${isFavorite ? "true" : "false"}"
+                  title="${isFavorite ? "Favorite" : "Add to favorites"}"
+                  aria-label="${isFavorite ? "Remove favorite" : "Favorite listing"}"
+                >
+                  <span aria-hidden="true">★</span>
+                </button>
+                <div class="listing-card__hide">
+                  <button
+                    class="listing-card__hide-button ${archiveReason ? "is-active" : ""}"
+                    type="button"
+                    data-hide-trigger="${listing.id}"
+                    aria-expanded="${hideMenuOpen ? "true" : "false"}"
+                    aria-label="${escapeAttribute(archiveReason ? `Hidden as ${archiveReason}` : "Hide listing")}"
+                    title="${escapeAttribute(archiveReason ? `Hidden as ${archiveReason}` : "Hide listing")}"
+                  >
+                    <span aria-hidden="true">👁</span>
+                  </button>
+                  ${
+                    hideMenuOpen
+                      ? `
+                        <div class="listing-card__hide-menu">
+                          ${renderHideReasonOption(listing.id, archiveReason, "archive", "Archive")}
+                          ${renderHideReasonOption(listing.id, archiveReason, "blacklist", "Blacklist")}
+                          ${renderHideReasonOption(listing.id, archiveReason, "other", "Other")}
+                        </div>
+                      `
+                      : ""
+                  }
+                </div>
                 <div class="listing-card__info">
                   <button class="listing-card__info-trigger" type="button" aria-label="Listing info">i</button>
                   <div class="listing-card__tooltip">
@@ -427,6 +532,19 @@
           </div>
         </div>
       </article>
+    `;
+  }
+
+  function renderHideReasonOption(listingId, currentReason, reason, label) {
+    return `
+      <button
+        class="listing-card__hide-option ${currentReason === reason ? "is-active" : ""}"
+        type="button"
+        data-hide-option="${escapeAttribute(listingId)}"
+        data-reason="${escapeAttribute(reason)}"
+      >
+        ${escapeHtml(label)}
+      </button>
     `;
   }
 
@@ -669,6 +787,41 @@
       });
     });
 
+    root.querySelectorAll("[data-favorite-toggle]").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleFavoriteListing(event.currentTarget.dataset.favoriteToggle);
+        render();
+      });
+    });
+
+    root.querySelectorAll("[data-hide-trigger]").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const listingId = event.currentTarget.dataset.hideTrigger;
+        const key = `hide:${listingId}`;
+        state.openDropdown = state.openDropdown === key ? null : key;
+        render();
+      });
+    });
+
+    root.querySelectorAll("[data-hide-option]").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const listingId = event.currentTarget.dataset.hideOption;
+        const reason = event.currentTarget.dataset.reason;
+        toggleListingArchiveReason(listingId, reason);
+        state.openDropdown = null;
+        render();
+      });
+    });
+
+    root.querySelectorAll(".listing-card__hide-menu").forEach((menu) => {
+      menu.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+    });
+
     root.querySelectorAll("[data-pin-toggle]").forEach((button) => {
       button.addEventListener("click", (event) => {
         event.stopPropagation();
@@ -833,6 +986,20 @@
         return false;
       }
 
+      const archiveReason = getListingArchiveReason(listing.id);
+
+      if (state.archiveFilter === "active" && archiveReason) {
+        return false;
+      }
+
+      if (state.archiveFilter === "all-hidden" && !archiveReason) {
+        return false;
+      }
+
+      if (["archive", "blacklist", "other"].includes(state.archiveFilter) && archiveReason !== state.archiveFilter) {
+        return false;
+      }
+
       if (state.priceMin && Number(listing.priceMonthly || 0) < Number(state.priceMin)) {
         return false;
       }
@@ -870,6 +1037,10 @@
       }
 
       if (state.availableNowOnly && !(listing.tags || []).includes("隨時可遷入")) {
+        return false;
+      }
+
+      if (state.favoriteOnly && !isListingFavorite(listing.id)) {
         return false;
       }
 
@@ -1375,6 +1546,89 @@
     return pinnedListingIds.includes(String(listingId));
   }
 
+  function loadFavoriteListingIds() {
+    try {
+      const raw = window.localStorage.getItem(FAVORITE_STORAGE_KEY);
+      if (!raw) {
+        return [];
+      }
+
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.map((value) => String(value)) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveFavoriteListingIds() {
+    try {
+      window.localStorage.setItem(FAVORITE_STORAGE_KEY, JSON.stringify(favoriteListingIds));
+    } catch {
+      // Ignore storage failures and keep the session state only.
+    }
+  }
+
+  function isListingFavorite(listingId) {
+    return favoriteListingIds.includes(String(listingId));
+  }
+
+  function toggleFavoriteListing(listingId) {
+    const normalizedId = String(listingId || "").trim();
+    if (!normalizedId) {
+      return;
+    }
+
+    favoriteListingIds = isListingFavorite(normalizedId)
+      ? favoriteListingIds.filter((value) => value !== normalizedId)
+      : [...favoriteListingIds, normalizedId];
+
+    saveFavoriteListingIds();
+  }
+
+  function loadArchivedListingReasons() {
+    try {
+      const raw = window.localStorage.getItem(ARCHIVE_STORAGE_KEY);
+      if (!raw) {
+        return {};
+      }
+
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveArchivedListingReasons() {
+    try {
+      window.localStorage.setItem(ARCHIVE_STORAGE_KEY, JSON.stringify(archivedListingReasons));
+    } catch {
+      // Ignore storage failures and keep the session state only.
+    }
+  }
+
+  function getListingArchiveReason(listingId) {
+    const reason = archivedListingReasons[String(listingId || "").trim()];
+    return ["archive", "blacklist", "other"].includes(reason) ? reason : "";
+  }
+
+  function toggleListingArchiveReason(listingId, reason) {
+    const normalizedId = String(listingId || "").trim();
+    if (!normalizedId || !["archive", "blacklist", "other"].includes(reason)) {
+      return;
+    }
+
+    const nextReasons = { ...archivedListingReasons };
+    if (nextReasons[normalizedId] === reason) {
+      delete nextReasons[normalizedId];
+    } else {
+      nextReasons[normalizedId] = reason;
+    }
+
+    archivedListingReasons = nextReasons;
+    saveArchivedListingReasons();
+  }
+
   function togglePinnedListing(listingId) {
     const normalizedId = String(listingId || "").trim();
     if (!normalizedId) {
@@ -1596,6 +1850,16 @@
     return "性別";
   }
 
+  function getArchiveFilterOptions() {
+    return [
+      { value: "active", label: "Active" },
+      { value: "all-hidden", label: "All hidden" },
+      { value: "archive", label: "Archive" },
+      { value: "blacklist", label: "Blacklist" },
+      { value: "other", label: "Other" },
+    ];
+  }
+
   function applyImportSelection(key, value) {
     state[key] = value;
 
@@ -1718,7 +1982,7 @@
   }
 
   document.addEventListener("click", (event) => {
-    if (state.openDropdown && !event.target.closest(".dropdown, .range-filter")) {
+    if (state.openDropdown && !event.target.closest(".dropdown, .range-filter, .listing-card__hide")) {
       state.openDropdown = null;
       render();
     }
