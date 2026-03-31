@@ -412,7 +412,8 @@ select {
 }
 
 .import-panel__builder {
-  flex: 0 1 min(50vw, 560px);
+  flex: 0 1 60vw;
+  min-width: min(60vw, 720px);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
@@ -546,13 +547,15 @@ select {
 }
 
 .listing-list {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 12px;
   display: grid;
   gap: 10px;
 }
 
 .listing-card {
+  min-width: 0;
   border: 1px solid rgba(196, 177, 157, 0.85);
   border-radius: 16px;
   background: rgba(255, 252, 247, 0.96);
