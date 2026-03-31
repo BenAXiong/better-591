@@ -14,7 +14,6 @@
     "start": "node scripts/serve.mjs"
   },
   "dependencies": {
-    "@vercel/blob": "^2.3.2",
     "cheerio": "^1.2.0"
   }
 }

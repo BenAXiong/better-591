@@ -37,15 +37,15 @@ This prototype turns pasted 591 search-result pages into a compact local viewer.
 - Existing photo links and local downloads are preserved in [`data/enrichment.json`](./data/enrichment.json) when you rebuild.
 - You can paste multiple full `Ctrl+A` results pages into the same raw `.txt`. The parser scans each `已為你找到...` block and ignores repeated page chrome between them.
 - If the same property appears multiple times across pasted pages or across different dated raw files, it is kept as a single property in the viewer. The newest snapshot wins.
-- The hosted import button defaults to `Fetch photos` off. That mode is much faster and is the recommended default for Vercel.
+- The hosted import button keeps imports in the current browser only.
 - `npm run build` now also generates a minimal [`public`](./public) directory for Vercel deployments.
 
 ## Hosted On Vercel
 
 The repo can now run in two modes:
 
-- Local mode: the viewer reads from the checked-in generated files and can also persist runtime imports to [`data/runtime-app-data.json`](./data/runtime-app-data.json).
-- Vercel mode: the viewer still boots from the checked-in generated files, but live imports are handled by `/api/import-591` and must be persisted to Vercel Blob.
+- Local mode: the viewer reads from the checked-in generated files, and imports/details are stored in the current browser only.
+- Vercel mode: the viewer still boots from the checked-in generated files, and imports/details are also stored in the current browser only.
 
 ### What is already implemented
 
@@ -53,20 +53,9 @@ The repo can now run in two modes:
 - [`vercel.json`](./vercel.json) pins the Vercel build to `npm run build` with `public` as the output directory.
 - [`api/data.js`](./api/data.js) returns the current app data.
 - [`api/import-591.js`](./api/import-591.js) imports listings from a live 591 results URL.
-- [`scripts/lib/runtime-store.mjs`](./scripts/lib/runtime-store.mjs) stores runtime data in Vercel Blob when `BLOB_READ_WRITE_TOKEN` is available.
+- Live imports and lazy detail enrichment are browser-local and stored in `window.localStorage`.
 - [`web/app.js`](./web/app.js) loads `/api/data` on startup and exposes an `Import 591` panel in the header.
-- [`.vercelignore`](./.vercelignore) keeps local runtime scratch files out of hosted deployments.
-
-### Important requirement
-
-If you deploy this on Vercel and want the in-app `Import 591` button to persist data, you need a Blob store attached to the project.
-
-Without Blob:
-
-- the site still loads
-- the checked-in static data still works
-- runtime imports do not persist
-- the import API returns an explicit configuration error
+- [`.vercelignore`](./.vercelignore) keeps local-only files out of hosted deployments.
 
 ### Manual Vercel setup
 
@@ -81,10 +70,7 @@ I do not have a live Vercel account connector in this session, so I cannot creat
    - Install Command: leave default `npm install`
    - Build Command: leave the detected `npm run build`
    - Output Directory: leave empty in the dashboard, because [`vercel.json`](./vercel.json) now sets it to `public`
-4. After the project exists, add Blob storage from the project dashboard:
-   Storage -> Create Database / Blob -> Blob
-5. Attach that Blob store to the same project so Vercel injects `BLOB_READ_WRITE_TOKEN`.
-6. Redeploy once after Blob is attached.
+4. Deploy.
 
 ### First deploy checklist
 
@@ -104,8 +90,8 @@ That refreshes the static seed files:
 After deployment:
 
 - the page should load from the static seed immediately
-- `/api/data` should report either `runtime` or `local-build` as the source
-- the `Import 591` button should work once Blob is configured
+- `/api/data` should report `local-build` as the source
+- the `Import 591` button should work without any extra storage setup
 
 ### Hosted import behavior
 
@@ -122,15 +108,15 @@ Options:
 
 Recommended hosted workflow:
 
-1. Leave `Fetch photos` off for the first import.
+1. Import from the search URL you want in the current browser.
 2. Confirm the new cards appear and persist after a refresh.
 3. Only enable `Fetch photos` when you want the slower full item-page pass.
 
 ### Local vs hosted persistence
 
-- Local `npm run start`: runtime imports are written to [`data/runtime-app-data.json`](./data/runtime-app-data.json).
-- Vercel: runtime imports are written to Blob storage.
-- Re-running `npm run build` locally regenerates the static seed, but it does not overwrite Blob-hosted runtime imports unless you explicitly clear or replace them through the hosted API.
+- Local `npm run start`: imports and lazy detail enrichment are written to browser `localStorage`.
+- Vercel: imports and lazy detail enrichment are also written to browser `localStorage`.
+- Re-running `npm run build` regenerates the static seed, but each browser keeps its own imported overlay until that browser storage is cleared.
 
 ## Taxonomy Helper
 

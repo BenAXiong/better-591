@@ -552,6 +552,27 @@ select {
   padding: 12px;
   display: grid;
   gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(157, 92, 47, 0.55) rgba(196, 177, 157, 0.18);
+}
+
+.listing-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.listing-list::-webkit-scrollbar-track {
+  background: rgba(196, 177, 157, 0.18);
+  border-radius: 999px;
+}
+
+.listing-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(178, 112, 65, 0.72), rgba(157, 92, 47, 0.92));
+  border-radius: 999px;
+  border: 1px solid rgba(255, 252, 247, 0.72);
+}
+
+.listing-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(178, 112, 65, 0.82), rgba(136, 76, 35, 0.98));
 }
 
 .listing-list__divider {
@@ -653,9 +674,9 @@ select {
 
 .listing-card__name-row {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
   gap: 8px 10px;
 }
 
@@ -663,6 +684,8 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  align-self: start;
+  justify-self: end;
 }
 
 .listing-card__info {
@@ -753,6 +776,7 @@ select {
   font-size: 0.98rem;
   line-height: 1.35;
   font-weight: 600;
+  min-width: 0;
 }
 
 .listing-card__title-link {
