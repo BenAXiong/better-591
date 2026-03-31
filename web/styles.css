@@ -647,11 +647,18 @@ select {
   gap: 8px 10px;
 }
 
+.listing-card__tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .listing-card__info {
   display: inline-flex;
   align-items: center;
 }
 
+.listing-card__pin-button,
 .listing-card__info-trigger {
   width: 20px;
   height: 20px;
@@ -664,6 +671,20 @@ select {
   line-height: 1;
   cursor: help;
   padding: 0;
+}
+
+.listing-card__pin-button {
+  width: auto;
+  min-width: 36px;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.listing-card__pin-button.is-active,
+.listing-card__pin-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: #73431f;
 }
 
 .listing-card__tooltip {
@@ -757,7 +778,7 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  padding: 18px 20px 14px;
+  padding: 18px 24px 14px 20px;
   border-bottom: 1px solid rgba(201, 186, 172, 0.7);
 }
 
@@ -800,7 +821,7 @@ select {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   gap: 14px;
-  padding: 18px 20px;
+  padding: 18px 24px 18px 20px;
 }
 
 .hero {

@@ -3,6 +3,7 @@ import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getViewerData, importViewerData } from "./lib/api-service.mjs";
+import { fetchListingContact } from "./lib/listing-contact.mjs";
 
 const rootDir = process.cwd();
 const webDir = rootDir;
@@ -45,6 +46,35 @@ const server = http.createServer(async (request, response) => {
       const result = await importViewerData(body);
       response.writeHead(result.status, { "content-type": "application/json; charset=utf-8" });
       response.end(JSON.stringify(result.payload));
+      return;
+    }
+
+    if (requestUrl.pathname === "/api/listing-contact") {
+      if ((request.method || "GET").toUpperCase() !== "POST") {
+        response.writeHead(405, {
+          "content-type": "application/json; charset=utf-8",
+          allow: "POST",
+        });
+        response.end(JSON.stringify({ error: "Method not allowed." }));
+        return;
+      }
+
+      const body = await readJsonBody(request);
+      const sourceUrl = String(body?.sourceUrl || "").trim();
+      if (!sourceUrl) {
+        response.writeHead(400, { "content-type": "application/json; charset=utf-8" });
+        response.end(JSON.stringify({ error: "sourceUrl is required." }));
+        return;
+      }
+
+      try {
+        const result = await fetchListingContact(sourceUrl);
+        response.writeHead(200, { "content-type": "application/json; charset=utf-8" });
+        response.end(JSON.stringify(result));
+      } catch (error) {
+        response.writeHead(400, { "content-type": "application/json; charset=utf-8" });
+        response.end(JSON.stringify({ error: error instanceof Error ? error.message : "Unexpected server error." }));
+      }
       return;
     }
 

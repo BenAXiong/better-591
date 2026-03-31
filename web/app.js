@@ -1,4 +1,5 @@
 (function () {
+  const PIN_STORAGE_KEY = "591-viewer:pinned:v1";
   let appData = window.__APP_DATA__ || { listings: [], generatedAt: null };
   const taxonomy = normalizeTaxonomy(window.__TAXONOMY__);
   const root = document.getElementById("app");
@@ -36,6 +37,7 @@
 
   let state = { ...initialState };
   let listingListScrollTop = 0;
+  let pinnedListingIds = loadPinnedListingIds();
   const listingContactCache = {};
   const listingContactPending = new Set();
   let appMeta = {
@@ -315,7 +317,7 @@
   }
 
   function renderListingCard(listing, activeListing) {
-    const isPinned = state.pinnedId === listing.id;
+    const isPinned = isListingPinned(listing.id);
     const isActive = activeListing && activeListing.id === listing.id;
     const depositInfo = getDepositInfo(listing);
     const tooltipPills = [...new Set([]
@@ -343,14 +345,25 @@
                     : escapeHtml(listing.title)
                 }
               </h3>
-              <div class="listing-card__info">
-                <button class="listing-card__info-trigger" type="button" aria-label="Listing info">i</button>
-                <div class="listing-card__tooltip">
-                  <div class="listing-card__tooltip-row">
-                    ${infoRowPills.map((pill) => `<span class="pill pill--muted">${escapeHtml(pill)}</span>`).join("")}
-                  </div>
-                  <div class="listing-card__tooltip-row">
-                    ${tooltipPills.map((pill) => `<span class="pill">${escapeHtml(pill)}</span>`).join("")}
+              <div class="listing-card__tools">
+                <button
+                  class="listing-card__pin-button ${isPinned ? "is-active" : ""}"
+                  type="button"
+                  data-pin-toggle="${listing.id}"
+                  aria-pressed="${isPinned ? "true" : "false"}"
+                  title="${isPinned ? "Pinned to top" : "Pin to top"}"
+                >
+                  Pin
+                </button>
+                <div class="listing-card__info">
+                  <button class="listing-card__info-trigger" type="button" aria-label="Listing info">i</button>
+                  <div class="listing-card__tooltip">
+                    <div class="listing-card__tooltip-row">
+                      ${infoRowPills.map((pill) => `<span class="pill pill--muted">${escapeHtml(pill)}</span>`).join("")}
+                    </div>
+                    <div class="listing-card__tooltip-row">
+                      ${tooltipPills.map((pill) => `<span class="pill">${escapeHtml(pill)}</span>`).join("")}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -603,6 +616,14 @@
       });
     });
 
+    root.querySelectorAll("[data-pin-toggle]").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        togglePinnedListing(event.currentTarget.dataset.pinToggle);
+        render();
+      });
+    });
+
     root.querySelectorAll("[data-card-id]").forEach((card) => {
       const listingId = card.dataset.cardId;
 
@@ -789,7 +810,9 @@
       return true;
     });
 
-    if (state.sortPrice === "none" && state.sortSize === "none") {
+    const hasPinned = filtered.some((listing) => isListingPinned(listing.id));
+
+    if (!hasPinned && state.sortPrice === "none" && state.sortSize === "none") {
       return filtered;
     }
 
@@ -880,6 +903,13 @@
   }
 
   function compareListings(left, right) {
+    const leftPinned = isListingPinned(left.id);
+    const rightPinned = isListingPinned(right.id);
+
+    if (leftPinned !== rightPinned) {
+      return leftPinned ? -1 : 1;
+    }
+
     const priceSort = compareBySortState(left.priceMonthly, right.priceMonthly, state.sortPrice);
     if (priceSort !== 0) {
       return priceSort;
@@ -938,11 +968,15 @@
 
     return [
       { label: "<5坪", max: "5" },
-      { label: "5-8坪", min: "5", max: "8" },
-      { label: "5-8坪", min: "5", max: "8" },
-      { label: "5-8坪", min: "5", max: "8" },
-      { label: "5-8坪", min: "5", max: "8" },
-      { label: "8坪+", min: "8" },
+      { label: ">8坪", min: "8" },
+      { label: ">10坪", min: "10" },
+      { label: ">12坪", min: "12" },
+      { label: ">15坪", min: "15" },
+      { label: ">20坪", min: "20" },
+      { label: ">30坪", min: "30" },
+      { label: ">40坪", min: "40" },
+      { label: ">50坪", min: "50" },
+      { label: ">100坪", min: "100" },
     ];
   }
 
@@ -1093,6 +1127,45 @@
 
   function getImageSource(image) {
     return image?.remoteUrl || image?.src || "";
+  }
+
+  function loadPinnedListingIds() {
+    try {
+      const raw = window.localStorage.getItem(PIN_STORAGE_KEY);
+      if (!raw) {
+        return [];
+      }
+
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.map((value) => String(value)) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function savePinnedListingIds() {
+    try {
+      window.localStorage.setItem(PIN_STORAGE_KEY, JSON.stringify(pinnedListingIds));
+    } catch {
+      // Ignore storage failures and keep the session state only.
+    }
+  }
+
+  function isListingPinned(listingId) {
+    return pinnedListingIds.includes(String(listingId));
+  }
+
+  function togglePinnedListing(listingId) {
+    const normalizedId = String(listingId || "").trim();
+    if (!normalizedId) {
+      return;
+    }
+
+    pinnedListingIds = isListingPinned(normalizedId)
+      ? pinnedListingIds.filter((value) => value !== normalizedId)
+      : [...pinnedListingIds, normalizedId];
+
+    savePinnedListingIds();
   }
 
   function buildPreviewMetaLine(listing) {
