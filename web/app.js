@@ -324,7 +324,7 @@
       .map((listing, index) => {
         const divider =
           dividerIndex > 0 && index === dividerIndex
-            ? '<div class="listing-list__divider" aria-hidden="true"><span>Others</span></div>'
+            ? '<div class="listing-list__divider" aria-hidden="true"></div>'
             : "";
 
         return `${divider}${renderListingCard(listing, activeListing)}`;

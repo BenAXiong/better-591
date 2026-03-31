@@ -555,23 +555,15 @@ select {
 }
 
 .listing-list__divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin: 2px 0 0;
+  height: 1px;
+  margin: 4px 0 2px;
+  background: rgba(196, 177, 157, 0.7);
 }
 
 .listing-list__divider::before,
 .listing-list__divider::after {
-  content: "";
-  flex: 1 1 auto;
+  content: none;
   height: 1px;
-  background: rgba(196, 177, 157, 0.7);
 }
 
 .listing-card {
