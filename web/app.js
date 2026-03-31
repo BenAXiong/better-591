@@ -102,7 +102,6 @@
 
         <div class="toolbar__actions">
           <span class="summary">${filteredCount} / ${appData.listings.length} visible</span>
-          <span class="summary">${formatGeneratedAt(appData.generatedAt)} · ${escapeHtml(appMeta.source || "unknown")}</span>
           <button class="button" id="toggle-import-panel" type="button">${state.importPanelOpen ? "Close Import" : "Import 591"}</button>
           <button class="button" id="reset-filters" type="button">Reset</button>
         </div>
