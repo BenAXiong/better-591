@@ -381,11 +381,27 @@ function parseOwnerParts(parts) {
 }
 
 function parseDistanceParts(parts) {
-  const [nearbyLabel = "", distanceValue = ""] = parts;
+  const compact = parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+  const match = compact.match(/^距\s*(.+?)\s*([0-9][0-9,]*(?:\.\d+)?)\s*(公尺|公里)$/);
+  if (!match) {
+    return {
+      nearbyLabel: "",
+      distanceMeters: null,
+      distanceText: "",
+    };
+  }
+
+  const distanceNumber = Number(match[2].replace(/,/g, ""));
+  const distanceMeters = Number.isFinite(distanceNumber)
+    ? match[3] === "公里"
+      ? distanceNumber * 1000
+      : distanceNumber
+    : null;
+
   return {
-    nearbyLabel: nearbyLabel.replace(/^距/, ""),
-    distanceMeters: distanceValue ? Number(distanceValue.replace(/[^\d]/g, "")) : null,
-    distanceText: [nearbyLabel, distanceValue].filter(Boolean).join(" "),
+    nearbyLabel: match[1].trim(),
+    distanceMeters,
+    distanceText: `距${match[1].trim()} ${match[2]}${match[3]}`,
   };
 }
 

@@ -388,9 +388,10 @@
         type="button"
         data-toggle="favoriteOnly"
         aria-pressed="${checked ? "true" : "false"}"
+        aria-label="${checked ? "Show only favorites" : "Filter favorites"}"
+        title="${checked ? "Show only favorites" : "Filter favorites"}"
       >
         <span class="toggle-button__icon" aria-hidden="true">★</span>
-        <span>Favorites</span>
       </button>
     `;
   }
@@ -1646,9 +1647,10 @@
     const spec = [listing.type, listing.sizePing ? `${listing.sizePing}坪` : "", listing.floorText]
       .filter(Boolean)
       .join(" ");
+    const distance = getValidListingDistanceText(listing);
     const owner = formatPreviewOwner(listing);
 
-    return [spec, listing.distanceText || "", owner].filter(Boolean).join(" · ");
+    return [spec, distance, owner].filter(Boolean).join(" · ");
   }
 
   function formatPreviewOwner(listing) {
@@ -1674,6 +1676,35 @@
     }
 
     return "";
+  }
+
+  function getValidListingDistanceText(listing) {
+    const direct = sanitizeDistanceText(listing?.distanceText);
+    if (direct) {
+      return direct;
+    }
+
+    const nearbyLabel = String(listing?.nearbyLabel || "").trim().replace(/^距/, "");
+    const distanceMeters = Number(listing?.distanceMeters);
+    if (nearbyLabel && Number.isFinite(distanceMeters) && distanceMeters > 0) {
+      return `距${nearbyLabel} ${distanceMeters}公尺`;
+    }
+
+    return "";
+  }
+
+  function sanitizeDistanceText(value) {
+    const compact = String(value || "").replace(/\s+/g, " ").trim();
+    if (!compact) {
+      return "";
+    }
+
+    const match = compact.match(/^距\s*(.+?)\s*([0-9][0-9,]*(?:\.\d+)?)\s*(公尺|公里)$/);
+    if (!match) {
+      return "";
+    }
+
+    return `距${match[1].trim()} ${match[2]}${match[3]}`;
   }
 
   function prefetchListingDetails(listings, activeListing) {
@@ -1853,7 +1884,7 @@
   function getArchiveFilterOptions() {
     return [
       { value: "active", label: "Active" },
-      { value: "all-hidden", label: "All hidden" },
+      { value: "all-hidden", label: "All" },
       { value: "archive", label: "Archive" },
       { value: "blacklist", label: "Blacklist" },
       { value: "other", label: "Other" },

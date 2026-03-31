@@ -403,6 +403,10 @@ select {
   background: rgba(255, 216, 122, 0.22);
 }
 
+.toggle-button--favorite .toggle-button__icon {
+  margin-right: 0;
+}
+
 .toolbar__actions {
   margin-left: auto;
   display: flex;
