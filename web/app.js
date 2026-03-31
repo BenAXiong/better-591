@@ -1238,11 +1238,11 @@
     const latestByPropertyKey = new Map();
 
     base.listings.forEach((listing) => {
-      latestByPropertyKey.set(listing.propertyKey || listing.id, listing);
+      latestByPropertyKey.set(getDuplicateSignature(listing) || listing.propertyKey || listing.id, listing);
     });
 
     override.listings.forEach((listing) => {
-      const key = listing.propertyKey || listing.id;
+      const key = getDuplicateSignature(listing) || listing.propertyKey || listing.id;
       const existing = latestByPropertyKey.get(key);
       if (!existing) {
         latestByPropertyKey.set(key, listing);
@@ -1293,6 +1293,25 @@
       photoCount: images.length,
       lastPhotoFetchAt: primary?.lastPhotoFetchAt || fallback?.lastPhotoFetchAt || null,
     };
+  }
+
+  function getDuplicateSignature(listing) {
+    const address = normalizeDuplicatePart(listing?.exactAddress || listing?.locationText);
+    const price = normalizeDuplicatePart(listing?.priceMonthly);
+    const type = normalizeDuplicatePart(listing?.type);
+    const size = normalizeDuplicatePart(listing?.sizePing);
+    const floor = normalizeDuplicatePart(listing?.floorText);
+    const contact = normalizeDuplicatePart(listing?.contactPhone || [listing?.contactRole, listing?.contactName].filter(Boolean).join(" "));
+
+    if (!address || !price || !type || !size || !floor || !contact) {
+      return "";
+    }
+
+    return [address, type, size, floor, price, contact].join(" | ");
+  }
+
+  function normalizeDuplicatePart(value) {
+    return String(value || "").trim().replace(/\s+/g, "").replaceAll("臺", "台");
   }
 
   function loadPinnedListingIds() {

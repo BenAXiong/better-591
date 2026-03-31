@@ -543,9 +543,10 @@ function dedupeListings(listings) {
   const latestByPropertyKey = new Map();
 
   for (const listing of listings) {
-    const existing = latestByPropertyKey.get(listing.propertyKey);
+    const key = getDuplicateSignature(listing) || listing.propertyKey;
+    const existing = latestByPropertyKey.get(key);
     if (!existing || shouldReplaceListing(existing, listing)) {
-      latestByPropertyKey.set(listing.propertyKey, listing);
+      latestByPropertyKey.set(key, listing);
     }
   }
 
@@ -589,6 +590,25 @@ function createPropertyKey({ title, type, sizePing, floorText, locationText }) {
     .join(" | ");
 
   return createStableId(stableText);
+}
+
+function getDuplicateSignature(listing) {
+  const address = normalizeDuplicatePart(listing.exactAddress || listing.locationText);
+  const price = normalizeDuplicatePart(listing.priceMonthly);
+  const type = normalizeDuplicatePart(listing.type);
+  const size = normalizeDuplicatePart(listing.sizePing);
+  const floor = normalizeDuplicatePart(listing.floorText);
+  const contact = normalizeDuplicatePart(listing.contactPhone || [listing.contactRole, listing.contactName].filter(Boolean).join(" "));
+
+  if (!address || !price || !type || !size || !floor || !contact) {
+    return "";
+  }
+
+  return [address, type, size, floor, price, contact].join(" | ");
+}
+
+function normalizeDuplicatePart(value) {
+  return String(value || "").trim().replace(/\s+/g, "").replaceAll("臺", "台");
 }
 
 function createStableId(sourceKey) {
