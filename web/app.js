@@ -920,17 +920,18 @@
   function getRangePresets(group) {
     if (group === "price") {
       return [
-        { label: "<3k", max: "3000" },
-        { label: "3k-4k", min: "3000", max: "4000" },
-        { label: "4k-5k", min: "4000", max: "5000" },
-        { label: "5k-6k", min: "5000", max: "6000" },
-        { label: "6k-7k", min: "6000", max: "7000" },
-        { label: "7k-8k", min: "7000", max: "8000" },
-        { label: "8k-9k", min: "8000", max: "9000" },
-        { label: "9k-10k", min: "9000", max: "10000" },
-        { label: "10k-11k", min: "10000", max: "11000" },
-        { label: "11k-12k", min: "11000", max: "12000" },
-        { label: "12k+", min: "12000" },
+        { label: "<=5k", max: "5000" },
+        { label: "<=6k", max: "6000" },
+        { label: "<=7k", max: "7000" },
+        { label: "<=8k", max: "8000" },
+        { label: "<=9k", max: "9000" },
+        { label: "<=10k", max: "10000" },
+        { label: "<=12k", max: "12000" },
+        { label: "<=14k", max: "14000" },
+        { label: "<=16k", max: "16000" },
+        { label: "<=18k", max: "18000" },
+        { label: "<=20k", max: "20000" },
+        { label: "20k+", min: "20000" },
       ];
     }
 
