@@ -1,0 +1,8 @@
+node_modules/
+.vercel/
+.env
+.env.*
+data/runtime-app-data.json
+web/photos/
+Thumbs.db
+.DS_Store

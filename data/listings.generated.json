@@ -1,0 +1,2911 @@
+{
+  "generatedAt": "2026-03-30T16:34:36.258Z",
+  "listingCount": 41,
+  "rawFileCount": 1,
+  "listings": [
+    {
+      "id": "c1509521817c",
+      "propertyKey": "c1509521817c",
+      "sourceKey": "2026-03-30 | 台東市 | 時尚、新潮、美學與品味兼備的獨立式套房優選好屋 | 8,800元/月 | 台東市-四維路二段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 0,
+      "title": "時尚、新潮、美學與品味兼備的獨立式套房優選好屋",
+      "cardLabels": [
+        "精選"
+      ],
+      "tagLine": "屋主直租拎包入住隨時可遷入有車位有陽台",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "有車位",
+        "有陽台"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "2F/4F",
+      "locationText": "台東市-四維路二段",
+      "distanceText": "距美術館公車站186公尺",
+      "distanceMeters": 186,
+      "nearbyLabel": "美術館公車站",
+      "ownerText": "屋主李小姐59分鐘內更新昨日22人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "李小姐",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日22人瀏覽",
+      "priceText": "8,800元/月",
+      "priceMonthly": 8800,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20862834",
+      "listingId": "20862834",
+      "images": [
+        {
+          "id": "c1509521817c-img-1",
+          "src": "photos/20862834/01.jpg",
+          "localPath": "photos/20862834/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/05/08/168353919586776206.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-2",
+          "src": "photos/20862834/02.jpg",
+          "localPath": "photos/20862834/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/05/08/168353927281212308.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-3",
+          "src": "photos/20862834/03.jpg",
+          "localPath": "photos/20862834/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/05/08/168353932553651602.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-4",
+          "src": "photos/20862834/05.jpg",
+          "localPath": "photos/20862834/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/05/08/168353939664825002.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-5",
+          "src": "photos/20862834/06.jpg",
+          "localPath": "photos/20862834/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/05/08/168353980872954307.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-6",
+          "src": "photos/20862834/07.jpg",
+          "localPath": "photos/20862834/07.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/05/08/168353997598509305.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-7",
+          "src": "photos/20862834/08.jpg",
+          "localPath": "photos/20862834/08.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/05/08/168354010886723900.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-8",
+          "src": "photos/20862834/09.jpg",
+          "localPath": "photos/20862834/09.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/06/16/168688602704814600.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-9",
+          "src": "photos/20862834/10.jpg",
+          "localPath": "photos/20862834/10.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/06/16/168688606181328109.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-10",
+          "src": "photos/20862834/11.jpg",
+          "localPath": "photos/20862834/11.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/06/16/168688656616187203.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-11",
+          "src": "photos/20862834/12.jpg",
+          "localPath": "photos/20862834/12.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/07/31/172240029109521807.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-12",
+          "src": "photos/20862834/13.jpg",
+          "localPath": "photos/20862834/13.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/07/31/172240044881122401.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-13",
+          "src": "photos/20862834/14.jpg",
+          "localPath": "photos/20862834/14.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/07/31/172240054848070907.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1509521817c-img-14",
+          "src": "photos/20862834/15.jpg",
+          "localPath": "photos/20862834/15.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/07/31/172240063627475105.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 14,
+      "lastPhotoFetchAt": "2026-03-30T14:20:59.271Z"
+    },
+    {
+      "id": "273888812bf0",
+      "propertyKey": "273888812bf0",
+      "sourceKey": "2026-03-30 | 台東市 | 2人電梯套房中華四維路口可短租另有4人房 | 5,500元/月 | 中華社區台東市-中華路一段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 1,
+      "title": "2人電梯套房中華四維路口可短租另有4人房",
+      "cardLabels": [
+        "精選"
+      ],
+      "tagLine": "屋主直租有電梯隨時可遷入有車位押一付一可短租",
+      "tags": [
+        "屋主直租",
+        "隨時可遷入",
+        "可短租",
+        "押一付一",
+        "有車位",
+        "有電梯"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "2F/7F",
+      "locationText": "中華社區台東市-中華路一段",
+      "distanceText": "距中央市場894公尺",
+      "distanceMeters": 894,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主梁小姐59分鐘內更新昨日58人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "梁小姐",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日58人瀏覽",
+      "priceText": "5,500元/月",
+      "priceMonthly": 5500,
+      "isOwnerDirect": true,
+      "isShortRent": true,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20836215",
+      "listingId": "20836215",
+      "images": [
+        {
+          "id": "273888812bf0-img-1",
+          "src": "photos/20836215/01.jpg",
+          "localPath": "photos/20836215/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2019/11/15/157379316740158307.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-2",
+          "src": "photos/20836215/02.jpg",
+          "localPath": "photos/20836215/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2019/11/15/157379316649671402.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-3",
+          "src": "photos/20836215/03.jpg",
+          "localPath": "photos/20836215/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2019/11/15/157379316699916504.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-4",
+          "src": "photos/20836215/04.jpg",
+          "localPath": "photos/20836215/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2019/11/15/157379316742857300.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-5",
+          "src": "photos/20836215/05.jpg",
+          "localPath": "photos/20836215/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2019/11/15/157379317007405001.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-6",
+          "src": "photos/20836215/06.jpg",
+          "localPath": "photos/20836215/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2019/11/15/157379418269234609.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-7",
+          "src": "photos/20836215/07.jpg",
+          "localPath": "photos/20836215/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2019/11/15/157379418236555304.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "273888812bf0-img-8",
+          "src": "photos/20836215/10.jpg",
+          "localPath": "photos/20836215/10.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2019/09/25/156939450606239405.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 8,
+      "lastPhotoFetchAt": "2026-03-30T14:21:56.318Z"
+    },
+    {
+      "id": "8de6f4ed7863",
+      "propertyKey": "8de6f4ed7863",
+      "sourceKey": "2026-03-30 | 台東市 | 「短租另洽」知本市區大套房 | 8,000元/月 | 台東市-知本路三段152號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 2,
+      "title": "「短租另洽」知本市區大套房",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "屋主直租新上架拎包入住隨時可遷入",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "新上架"
+      ],
+      "type": "獨立套房",
+      "sizePing": 11,
+      "floorText": "2F/2F",
+      "locationText": "台東市-知本路三段152號",
+      "distanceText": "距知本派出所371公尺",
+      "distanceMeters": 371,
+      "nearbyLabel": "知本派出所",
+      "ownerText": "屋主明女士34分鐘內更新昨日25人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "明女士",
+      "updateText": "34分鐘內更新",
+      "viewsText": "昨日25人瀏覽",
+      "priceText": "8,000元/月",
+      "priceMonthly": 8000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20933085",
+      "listingId": "20933085",
+      "images": [
+        {
+          "id": "8de6f4ed7863-img-1",
+          "src": "photos/20933085/01.jpg",
+          "localPath": "photos/20933085/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/26/177452717433201903.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-2",
+          "src": "photos/20933085/02.jpg",
+          "localPath": "photos/20933085/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/26/177452717977648503.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-3",
+          "src": "photos/20933085/03.jpg",
+          "localPath": "photos/20933085/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/26/177452718004134508.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-4",
+          "src": "photos/20933085/04.jpg",
+          "localPath": "photos/20933085/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/26/177452717977096905.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-5",
+          "src": "photos/20933085/05.jpg",
+          "localPath": "photos/20933085/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/26/177452717983527708.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-6",
+          "src": "photos/20933085/06.jpg",
+          "localPath": "photos/20933085/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/26/177452717976261102.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-7",
+          "src": "photos/20933085/07.jpg",
+          "localPath": "photos/20933085/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/26/177452718308872907.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8de6f4ed7863-img-8",
+          "src": "photos/20933085/08.jpg",
+          "localPath": "photos/20933085/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/26/177452718313578005.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 8,
+      "lastPhotoFetchAt": "2026-03-30T14:22:26.546Z"
+    },
+    {
+      "id": "1bd1b2d7c3be",
+      "propertyKey": "1bd1b2d7c3be",
+      "sourceKey": "2026-03-30 | 台東市 | 中華路銀行街上典雅舒適套房(309)優選好屋 | 7,000元/月 | 台東市-中華路一段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 3,
+      "title": "中華路銀行街上典雅舒適套房(309)優選好屋",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "屋主直租拎包入住隨時可遷入可短租",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可短租"
+      ],
+      "type": "獨立套房",
+      "sizePing": 5,
+      "floorText": "3F/3F",
+      "locationText": "台東市-中華路一段",
+      "distanceText": "距中央市場385公尺",
+      "distanceMeters": 385,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主邱先生59分鐘內更新昨日40人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "邱先生",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日40人瀏覽",
+      "priceText": "7,000元/月",
+      "priceMonthly": 7000,
+      "isOwnerDirect": true,
+      "isShortRent": true,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "a434309c0de2",
+      "propertyKey": "a434309c0de2",
+      "sourceKey": "2026-03-30 | 台東市 | 近台東大學｜民宿風套房出租（可寵） | 8,500元/月 | 無台東市-富貴街",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 6,
+      "title": "近台東大學｜民宿風套房出租（可寵）",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "有電梯可養寵物有車位",
+      "tags": [
+        "有車位",
+        "有電梯",
+        "可養寵物"
+      ],
+      "type": "獨立套房",
+      "sizePing": 11,
+      "floorText": "6F/7F",
+      "locationText": "無台東市-富貴街",
+      "distanceText": "",
+      "distanceMeters": null,
+      "nearbyLabel": "",
+      "ownerText": "代理人楊小姐59分鐘內更新昨日14人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "楊小姐",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日14人瀏覽",
+      "priceText": "8,500元/月",
+      "priceMonthly": 8500,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "13c017dd469f",
+      "propertyKey": "13c017dd469f",
+      "sourceKey": "2026-03-30 | 台東市 | 市中心正氣路上生活機能佳新建築 | 9,500元/月 | 台東市-正氣路",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 5,
+      "title": "市中心正氣路上生活機能佳新建築",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "屋主直租隨時可遷入",
+      "tags": [
+        "屋主直租",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 20,
+      "floorText": "4F/4F",
+      "locationText": "台東市-正氣路",
+      "distanceText": "距中央市場512公尺",
+      "distanceMeters": 512,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主徐先生59分鐘內更新昨日26人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "徐先生",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日26人瀏覽",
+      "priceText": "9,500元/月",
+      "priceMonthly": 9500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20849270",
+      "listingId": "20849270",
+      "images": [
+        {
+          "id": "13c017dd469f-img-1",
+          "src": "photos/20849270/01.jpg",
+          "localPath": "photos/20849270/01.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/02/22/164550176746979795.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "13c017dd469f-img-2",
+          "src": "photos/20849270/02.jpg",
+          "localPath": "photos/20849270/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/02/22/164550176746937500.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "13c017dd469f-img-3",
+          "src": "photos/20849270/03.jpg",
+          "localPath": "photos/20849270/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/02/22/164550176746942517.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "13c017dd469f-img-4",
+          "src": "photos/20849270/04.jpg",
+          "localPath": "photos/20849270/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/02/22/164550176746938957.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "13c017dd469f-img-5",
+          "src": "photos/20849270/05.jpg",
+          "localPath": "photos/20849270/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/02/22/164550176746933031.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "13c017dd469f-img-6",
+          "src": "photos/20849270/06.jpg",
+          "localPath": "photos/20849270/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/02/11/173925888247263908.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T14:22:53.757Z"
+    },
+    {
+      "id": "98ddc6f94085",
+      "propertyKey": "98ddc6f94085",
+      "sourceKey": "2026-03-30 | 台東市 | 近台東大學｜民宿風套房出租（可寵） | 8,500元/月 | 無台東市-富貴街",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 7,
+      "title": "近台東大學｜民宿風套房出租（可寵）",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "有電梯隨時可遷入可養寵物有車位",
+      "tags": [
+        "隨時可遷入",
+        "有車位",
+        "有電梯",
+        "可養寵物"
+      ],
+      "type": "獨立套房",
+      "sizePing": 11,
+      "floorText": "7F/7F",
+      "locationText": "無台東市-富貴街",
+      "distanceText": "",
+      "distanceMeters": null,
+      "nearbyLabel": "",
+      "ownerText": "代理人楊女士59分鐘內更新昨日38人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "楊女士",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日38人瀏覽",
+      "priceText": "8,500元/月",
+      "priceMonthly": 8500,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "1b1190890d1c",
+      "propertyKey": "1b1190890d1c",
+      "sourceKey": "2026-03-30 | 台東市 | 全新電梯套房 | 6,500元/月 | 台東市-志航路一段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 8,
+      "title": "全新電梯套房",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "屋主直租新上架有電梯隨時可遷入有陽台",
+      "tags": [
+        "屋主直租",
+        "隨時可遷入",
+        "有電梯",
+        "新上架",
+        "有陽台"
+      ],
+      "type": "獨立套房",
+      "sizePing": 10,
+      "floorText": "4F/4F",
+      "locationText": "台東市-志航路一段",
+      "distanceText": "距卑南入口782公尺",
+      "distanceMeters": 782,
+      "nearbyLabel": "卑南入口",
+      "ownerText": "屋主鄭先生59分鐘內更新昨日90人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "鄭先生",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日90人瀏覽",
+      "priceText": "6,500元/月",
+      "priceMonthly": 6500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "d3597c16bb97",
+      "propertyKey": "d3597c16bb97",
+      "sourceKey": "2026-03-30 | 台東市 | 開封街全新翻修套房優選好屋 | 6,000元/月 | 台東市-開封街706號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 9,
+      "title": "開封街全新翻修套房優選好屋",
+      "cardLabels": [
+        "置頂"
+      ],
+      "tagLine": "屋主直租拎包入住隨時可遷入有車位押一付一",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "押一付一",
+        "有車位"
+      ],
+      "type": "獨立套房",
+      "sizePing": 6,
+      "floorText": "2F/3F",
+      "locationText": "台東市-開封街706號",
+      "distanceText": "距變電所686公尺",
+      "distanceMeters": 686,
+      "nearbyLabel": "變電所",
+      "ownerText": "屋主蘇小姐59分鐘內更新昨日32人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "蘇小姐",
+      "updateText": "59分鐘內更新",
+      "viewsText": "昨日32人瀏覽",
+      "priceText": "6,000元/月",
+      "priceMonthly": 6000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "f13ccfeabd45",
+      "propertyKey": "f13ccfeabd45",
+      "sourceKey": "2026-03-30 | 台東市 | 近中華路麥當勞獨立套房#可寵 | 15,500元/月 | 台東市-中華路二段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 10,
+      "title": "近中華路麥當勞獨立套房#可寵",
+      "cardLabels": [
+        "近中華路麥當勞獨立套房#可寵 獨立套房 台東市-中華路二段 591租屋 月租15,500元/月"
+      ],
+      "tagLine": "屋主直租新上架隨時可遷入可報稅可入籍",
+      "tags": [
+        "屋主直租",
+        "隨時可遷入",
+        "新上架",
+        "可入籍"
+      ],
+      "type": "獨立套房",
+      "sizePing": 10,
+      "floorText": "2F/4F",
+      "locationText": "台東市-中華路二段",
+      "distanceText": "",
+      "distanceMeters": null,
+      "nearbyLabel": "",
+      "ownerText": "屋主涂女士7小時內更新昨日0人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "涂女士",
+      "updateText": "7小時內更新",
+      "viewsText": "昨日0人瀏覽",
+      "priceText": "15,500元/月",
+      "priceMonthly": 15500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "5806c7ffede2",
+      "propertyKey": "5806c7ffede2",
+      "sourceKey": "2026-03-30 | 台東市 | （限公教）正市區洛陽街靜巷寬敞大套房 | 5,400元/月 | 台東市-洛陽街",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 11,
+      "title": "（限公教）正市區洛陽街靜巷寬敞大套房",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住",
+      "tags": [
+        "屋主直租",
+        "拎包入住"
+      ],
+      "type": "獨立套房",
+      "sizePing": 9,
+      "floorText": "3F/3F",
+      "locationText": "台東市-洛陽街",
+      "distanceText": "距變電所221公尺",
+      "distanceMeters": 221,
+      "nearbyLabel": "變電所",
+      "ownerText": "屋主陳小姐10小時內更新昨日56人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "陳小姐",
+      "updateText": "10小時內更新",
+      "viewsText": "昨日56人瀏覽",
+      "priceText": "5,400元/月",
+      "priceMonthly": 5400,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "4ac126b72594",
+      "propertyKey": "4ac126b72594",
+      "sourceKey": "2026-03-30 | 台東市 | 近土銀縣府套房 | 6,000元/月 | 台東市-中華路一段376巷",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 12,
+      "title": "近土銀縣府套房",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 6.5,
+      "floorText": "3F/4F",
+      "locationText": "台東市-中華路一段376巷",
+      "distanceText": "距中央市場291公尺",
+      "distanceMeters": 291,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主周女士12小時內更新昨日40人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "周女士",
+      "updateText": "12小時內更新",
+      "viewsText": "昨日40人瀏覽",
+      "priceText": "6,000元/月",
+      "priceMonthly": 6000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "c98e00bedac1",
+      "propertyKey": "c98e00bedac1",
+      "sourceKey": "2026-03-30 | 台東市 | 31號兩間美術館電梯,台電台水.生活機能好,可寵可租補! | 8,000元/月 | 東方明珠台東市-開封街",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 13,
+      "title": "31號兩間美術館電梯,台電台水.生活機能好,可寵可租補!",
+      "cardLabels": [
+        "31號兩間美術館電梯,台電台水.生活機能好,可寵可租補! 獨立套房 東方明珠 591租屋 月租8,000元/月"
+      ],
+      "tagLine": "拎包入住有電梯可養寵物有車位有陽台",
+      "tags": [
+        "拎包入住",
+        "有車位",
+        "有電梯",
+        "可養寵物",
+        "有陽台"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "11F/12F",
+      "locationText": "東方明珠台東市-開封街",
+      "distanceText": "距美術館公車站89公尺",
+      "distanceMeters": 89,
+      "nearbyLabel": "美術館公車站",
+      "ownerText": "代理人吳阿姨23小時內更新昨日14人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "吳阿姨",
+      "updateText": "23小時內更新",
+      "viewsText": "昨日14人瀏覽",
+      "priceText": "8,000元/月",
+      "priceMonthly": 8000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "8d90e8199732",
+      "propertyKey": "8d90e8199732",
+      "sourceKey": "2026-03-30 | 台東市 | 市中心正氣路套房 | 7,000元/月 | 林家臭豆腐對面台東市-正氣路155巷2號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 14,
+      "title": "市中心正氣路套房",
+      "cardLabels": [],
+      "tagLine": "有電梯隨時可遷入押一付一可短租",
+      "tags": [
+        "隨時可遷入",
+        "可短租",
+        "押一付一",
+        "有電梯"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "2F/4F",
+      "locationText": "林家臭豆腐對面台東市-正氣路155巷2號",
+      "distanceText": "距中央市場397公尺",
+      "distanceMeters": 397,
+      "nearbyLabel": "中央市場",
+      "ownerText": "代理人陳小姐昨日更新昨日20人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "陳小姐",
+      "updateText": "昨日更新",
+      "viewsText": "昨日20人瀏覽",
+      "priceText": "7,000元/月",
+      "priceMonthly": 7000,
+      "isOwnerDirect": false,
+      "isShortRent": true,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20839331",
+      "listingId": "20839331",
+      "images": [
+        {
+          "id": "8d90e8199732-img-1",
+          "src": "photos/20839331/02.jpg",
+          "localPath": "photos/20839331/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/01/21/164275792674462208.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8d90e8199732-img-2",
+          "src": "photos/20839331/03.jpg",
+          "localPath": "photos/20839331/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/01/21/16427579694170605.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "8d90e8199732-img-3",
+          "src": "photos/20839331/05.jpg",
+          "localPath": "photos/20839331/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/03/24/164810077018758103.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 3,
+      "lastPhotoFetchAt": "2026-03-30T14:38:54.184Z"
+    },
+    {
+      "id": "00948dbeeb35",
+      "propertyKey": "00948dbeeb35",
+      "sourceKey": "2026-03-30 | 台東市 | 今天電梯大樓可租補可寵分層門禁台電台水 | 9,000元/月 | 中山鑽石大樓台東市-中山路",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 15,
+      "title": "今天電梯大樓可租補可寵分層門禁台電台水",
+      "cardLabels": [
+        "今天電梯大樓可租補可寵分層門禁台電台水 獨立套房 中山鑽石大樓 591租屋 月租9,000元/月"
+      ],
+      "tagLine": "拎包入住有電梯隨時可遷入可開伙可養寵物有車位",
+      "tags": [
+        "拎包入住",
+        "隨時可遷入",
+        "可開伙",
+        "有車位",
+        "有電梯",
+        "可養寵物"
+      ],
+      "type": "獨立套房",
+      "sizePing": 12,
+      "floorText": "8F/12F",
+      "locationText": "中山鑽石大樓台東市-中山路",
+      "distanceText": "距中央市場12公尺",
+      "distanceMeters": 12,
+      "nearbyLabel": "中央市場",
+      "ownerText": "代理人吳阿姨昨日更新昨日18人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "吳阿姨",
+      "updateText": "昨日更新",
+      "viewsText": "昨日18人瀏覽",
+      "priceText": "9,000元/月",
+      "priceMonthly": 9000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": true,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "d9c31138ec71",
+      "propertyKey": "d9c31138ec71",
+      "sourceKey": "2026-03-30 | 台東市 | 立案民宿💪我們不一樣(可租補)優選好屋 | 7,500元/月 | 卑南公園台東市-更生北路712巷26號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 16,
+      "title": "立案民宿💪我們不一樣(可租補)優選好屋",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入免管理費租金補貼",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "3F/3F",
+      "locationText": "卑南公園台東市-更生北路712巷26號",
+      "distanceText": "距臺東火車站960公尺",
+      "distanceMeters": 960,
+      "nearbyLabel": "臺東火車站",
+      "ownerText": "屋主劉先生昨日更新昨日49人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "劉先生",
+      "updateText": "昨日更新",
+      "viewsText": "昨日49人瀏覽",
+      "priceText": "7,500元/月",
+      "priceMonthly": 7500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20862125",
+      "listingId": "20862125",
+      "images": [
+        {
+          "id": "d9c31138ec71-img-1",
+          "src": "photos/20862125/01.jpg",
+          "localPath": "photos/20862125/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/10/177073250157050405.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-2",
+          "src": "photos/20862125/02.jpg",
+          "localPath": "photos/20862125/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/10/177073250168154103.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-3",
+          "src": "photos/20862125/03.jpg",
+          "localPath": "photos/20862125/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/10/177073250161841608.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-4",
+          "src": "photos/20862125/04.jpg",
+          "localPath": "photos/20862125/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/06/177277689482459707.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-5",
+          "src": "photos/20862125/05.jpg",
+          "localPath": "photos/20862125/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/07/177285060636026107.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-6",
+          "src": "photos/20862125/06.jpg",
+          "localPath": "photos/20862125/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/07/177285060804597609.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-7",
+          "src": "photos/20862125/07.jpg",
+          "localPath": "photos/20862125/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/07/177285060644403505.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-8",
+          "src": "photos/20862125/08.jpg",
+          "localPath": "photos/20862125/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/07/177285060651448805.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-9",
+          "src": "photos/20862125/09.jpg",
+          "localPath": "photos/20862125/09.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/07/177285060671228607.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-10",
+          "src": "photos/20862125/10.jpg",
+          "localPath": "photos/20862125/10.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/10/177073250170747502.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-11",
+          "src": "photos/20862125/11.jpg",
+          "localPath": "photos/20862125/11.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/10/177073250198426302.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-12",
+          "src": "photos/20862125/12.jpg",
+          "localPath": "photos/20862125/12.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/10/177073250202069107.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-13",
+          "src": "photos/20862125/13.jpg",
+          "localPath": "photos/20862125/13.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/10/177073250234676604.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-14",
+          "src": "photos/20862125/14.jpg",
+          "localPath": "photos/20862125/14.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/10/177073250248468505.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "d9c31138ec71-img-15",
+          "src": "photos/20862125/15.jpg",
+          "localPath": "photos/20862125/15.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/10/177073250256756306.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 15,
+      "lastPhotoFetchAt": "2026-03-30T14:39:44.104Z"
+    },
+    {
+      "id": "e74caadff163",
+      "propertyKey": "e74caadff163",
+      "sourceKey": "2026-03-30 | 台東市 | 【可租補】市區旅館型套房出租優選好屋 | 8,000元/月 | 台東市-中興路二段450巷",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 17,
+      "title": "【可租補】市區旅館型套房出租優選好屋",
+      "cardLabels": [],
+      "tagLine": "屋主直租新上架拎包入住隨時可遷入有車位",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "有車位",
+        "新上架"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "3F/4F",
+      "locationText": "台東市-中興路二段450巷",
+      "distanceText": "距小心楊桃105公尺",
+      "distanceMeters": 105,
+      "nearbyLabel": "小心楊桃",
+      "ownerText": "屋主林小姐3天前更新昨日80人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "林小姐",
+      "updateText": "3天前更新",
+      "viewsText": "昨日80人瀏覽",
+      "priceText": "8,000元/月",
+      "priceMonthly": 8000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20944894",
+      "listingId": "20944894",
+      "images": [
+        {
+          "id": "e74caadff163-img-1",
+          "src": "photos/20944894/01.jpg",
+          "localPath": "photos/20944894/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/17/177373580775321003.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "e74caadff163-img-2",
+          "src": "photos/20944894/02.jpg",
+          "localPath": "photos/20944894/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/17/177373777012996903.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "e74caadff163-img-3",
+          "src": "photos/20944894/03.jpg",
+          "localPath": "photos/20944894/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/19/177385314591292306.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "e74caadff163-img-4",
+          "src": "photos/20944894/04.jpg",
+          "localPath": "photos/20944894/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/19/177385334919702500.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "e74caadff163-img-5",
+          "src": "photos/20944894/05.jpg",
+          "localPath": "photos/20944894/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/19/177385334923558600.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "e74caadff163-img-6",
+          "src": "photos/20944894/06.jpg",
+          "localPath": "photos/20944894/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/19/177385334923879608.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T14:39:53.225Z"
+    },
+    {
+      "id": "cc25cc6b3f7e",
+      "propertyKey": "cc25cc6b3f7e",
+      "sourceKey": "2026-03-30 | 台東市 | 多種房型,可供包棟,近台東大學,可申請租屋補助，垃圾專人處理優選好屋 | 8,000元/月 | 台東市-中華路四段440巷288號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 18,
+      "title": "多種房型,可供包棟,近台東大學,可申請租屋補助，垃圾專人處理優選好屋",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入有車位有陽台免管理費",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "有車位",
+        "有陽台"
+      ],
+      "type": "獨立套房",
+      "sizePing": 10,
+      "floorText": "1F/3F",
+      "locationText": "台東市-中華路四段440巷288號",
+      "distanceText": "",
+      "distanceMeters": null,
+      "nearbyLabel": "",
+      "ownerText": "屋主吳先生3天前更新昨日49人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "吳先生",
+      "updateText": "3天前更新",
+      "viewsText": "昨日49人瀏覽",
+      "priceText": "8,000元/月",
+      "priceMonthly": 8000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20839921",
+      "listingId": "20839921",
+      "images": [
+        {
+          "id": "cc25cc6b3f7e-img-1",
+          "src": "photos/20839921/01.jpg",
+          "localPath": "photos/20839921/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998095371301905.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-2",
+          "src": "photos/20839921/02.jpg",
+          "localPath": "photos/20839921/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2025/10/09/175998088731824006.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-3",
+          "src": "photos/20839921/03.jpg",
+          "localPath": "photos/20839921/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998089871942509.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-4",
+          "src": "photos/20839921/04.jpg",
+          "localPath": "photos/20839921/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998090804285502.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-5",
+          "src": "photos/20839921/05.jpg",
+          "localPath": "photos/20839921/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998091493370701.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-6",
+          "src": "photos/20839921/06.jpg",
+          "localPath": "photos/20839921/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998092194511101.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-7",
+          "src": "photos/20839921/07.jpg",
+          "localPath": "photos/20839921/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998092927951709.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-8",
+          "src": "photos/20839921/08.jpg",
+          "localPath": "photos/20839921/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2025/10/09/175998093555388403.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-9",
+          "src": "photos/20839921/09.jpg",
+          "localPath": "photos/20839921/09.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2025/10/09/175998094636795909.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "cc25cc6b3f7e-img-10",
+          "src": "photos/20839921/10.jpg",
+          "localPath": "photos/20839921/10.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2025/10/09/175998095913453109.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 10,
+      "lastPhotoFetchAt": "2026-03-30T14:40:16.592Z"
+    },
+    {
+      "id": "f5bb6fcf0bd4",
+      "propertyKey": "f5bb6fcf0bd4",
+      "sourceKey": "2026-03-30 | 台東市 | 中山路寧靜套房,正市區,生活機能超佳! | 4,800元/月 | 文化里台東市-中山路",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 19,
+      "title": "中山路寧靜套房,正市區,生活機能超佳!",
+      "cardLabels": [],
+      "tagLine": "屋主直租新上架拎包入住隨時可遷入押一付一可短租",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可短租",
+        "押一付一",
+        "新上架"
+      ],
+      "type": "獨立套房",
+      "sizePing": 6,
+      "floorText": "3F/3F",
+      "locationText": "文化里台東市-中山路",
+      "distanceText": "距中央市場543公尺",
+      "distanceMeters": 543,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主陳小姐5天前更新昨日30人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "陳小姐",
+      "updateText": "5天前更新",
+      "viewsText": "昨日30人瀏覽",
+      "priceText": "4,800元/月",
+      "priceMonthly": 4800,
+      "isOwnerDirect": true,
+      "isShortRent": true,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20929235",
+      "listingId": "20929235",
+      "images": [
+        {
+          "id": "f5bb6fcf0bd4-img-1",
+          "src": "photos/20929235/01.jpg",
+          "localPath": "photos/20929235/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2020/07/20/159521540051648500.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "f5bb6fcf0bd4-img-2",
+          "src": "photos/20929235/02.jpg",
+          "localPath": "photos/20929235/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2020/07/20/159521534864463800.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "f5bb6fcf0bd4-img-3",
+          "src": "photos/20929235/03.jpg",
+          "localPath": "photos/20929235/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2021/08/25/162988160458568905.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 3,
+      "lastPhotoFetchAt": "2026-03-30T14:40:26.657Z"
+    },
+    {
+      "id": "52f92e7d6c83",
+      "propertyKey": "52f92e7d6c83",
+      "sourceKey": "2026-03-30 | 台東市 | 中華近馬偕東中套房優選好屋 | 5,500元/月 | 台東市-中華路一段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 23,
+      "title": "中華近馬偕東中套房優選好屋",
+      "cardLabels": [],
+      "tagLine": "屋主直租新上架拎包入住近商圈隨時可遷入可開伙",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可開伙",
+        "近商圈",
+        "新上架"
+      ],
+      "type": "獨立套房",
+      "sizePing": 10,
+      "floorText": "2F/3F",
+      "locationText": "台東市-中華路一段",
+      "distanceText": "距臺東轉運站675公尺",
+      "distanceMeters": 675,
+      "nearbyLabel": "臺東轉運站",
+      "ownerText": "屋主蔡先生7天前更新昨日17人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "蔡先生",
+      "updateText": "7天前更新",
+      "viewsText": "昨日17人瀏覽",
+      "priceText": "5,500元/月",
+      "priceMonthly": 5500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": true,
+      "sourceUrl": "https://rent.591.com.tw/20915836",
+      "listingId": "20915836",
+      "images": [
+        {
+          "id": "52f92e7d6c83-img-1",
+          "src": "photos/20915836/01.jpg",
+          "localPath": "photos/20915836/01.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/21/177164482883696104.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-2",
+          "src": "photos/20915836/02.jpg",
+          "localPath": "photos/20915836/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/21/177164483662792203.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-3",
+          "src": "photos/20915836/03.jpg",
+          "localPath": "photos/20915836/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/04/08/168096937742286909.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-4",
+          "src": "photos/20915836/04.jpg",
+          "localPath": "photos/20915836/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/21/177164480474872603.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-5",
+          "src": "photos/20915836/05.jpg",
+          "localPath": "photos/20915836/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/04/08/168096937618996409.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-6",
+          "src": "photos/20915836/06.jpg",
+          "localPath": "photos/20915836/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/04/08/168096938104318901.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-7",
+          "src": "photos/20915836/07.jpg",
+          "localPath": "photos/20915836/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/04/08/168096937938813207.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "52f92e7d6c83-img-8",
+          "src": "photos/20915836/08.jpg",
+          "localPath": "photos/20915836/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/04/22/168216318127463608.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 8,
+      "lastPhotoFetchAt": "2026-03-30T14:41:01.132Z"
+    },
+    {
+      "id": "5dba586f2d2b",
+      "propertyKey": "5dba586f2d2b",
+      "sourceKey": "2026-03-30 | 台東市 | 臨海中正雙人套房優選好屋 | 4,500元/月 | 台東市-臨海路一段230號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 21,
+      "title": "臨海中正雙人套房優選好屋",
+      "cardLabels": [],
+      "tagLine": "屋主直租新上架拎包入住近商圈隨時可遷入可開伙",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可開伙",
+        "近商圈",
+        "新上架"
+      ],
+      "type": "獨立套房",
+      "sizePing": 12,
+      "floorText": "3F/3F",
+      "locationText": "台東市-臨海路一段230號",
+      "distanceText": "距中央市場889公尺",
+      "distanceMeters": 889,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主蔡媽媽7天前更新昨日29人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "蔡媽媽",
+      "updateText": "7天前更新",
+      "viewsText": "昨日29人瀏覽",
+      "priceText": "4,500元/月",
+      "priceMonthly": 4500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": true,
+      "sourceUrl": "https://rent.591.com.tw/20915821",
+      "listingId": "20915821",
+      "images": [
+        {
+          "id": "5dba586f2d2b-img-1",
+          "src": "photos/20915821/01.jpg",
+          "localPath": "photos/20915821/01.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/02/10/167601436779555109.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5dba586f2d2b-img-2",
+          "src": "photos/20915821/02.jpg",
+          "localPath": "photos/20915821/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/02/10/167601436689254109.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5dba586f2d2b-img-3",
+          "src": "photos/20915821/03.jpg",
+          "localPath": "photos/20915821/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/02/10/167601437276595106.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5dba586f2d2b-img-4",
+          "src": "photos/20915821/04.jpg",
+          "localPath": "photos/20915821/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/02/10/167601439340637906.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5dba586f2d2b-img-5",
+          "src": "photos/20915821/05.jpg",
+          "localPath": "photos/20915821/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/02/10/167601462643916301.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 5,
+      "lastPhotoFetchAt": "2026-03-30T14:41:06.405Z"
+    },
+    {
+      "id": "9ceeee8e377a",
+      "propertyKey": "9ceeee8e377a",
+      "sourceKey": "2026-03-30 | 台東市 | 中華東大美食商圈套房優選好屋 | 6,000元/月 | 台東市-中華路一段853號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 22,
+      "title": "中華東大美食商圈套房優選好屋",
+      "cardLabels": [],
+      "tagLine": "屋主直租新上架拎包入住近商圈隨時可遷入可開伙",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可開伙",
+        "近商圈",
+        "新上架"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "3F/3F",
+      "locationText": "台東市-中華路一段853號",
+      "distanceText": "距臺東轉運站675公尺",
+      "distanceMeters": 675,
+      "nearbyLabel": "臺東轉運站",
+      "ownerText": "屋主蔡先生7天前更新昨日28人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "蔡先生",
+      "updateText": "7天前更新",
+      "viewsText": "昨日28人瀏覽",
+      "priceText": "6,000元/月",
+      "priceMonthly": 6000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": true,
+      "sourceUrl": "https://rent.591.com.tw/20915808",
+      "listingId": "20915808",
+      "images": [
+        {
+          "id": "9ceeee8e377a-img-1",
+          "src": "photos/20915808/01.jpg",
+          "localPath": "photos/20915808/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/21/177164405805564607.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "9ceeee8e377a-img-2",
+          "src": "photos/20915808/02.jpg",
+          "localPath": "photos/20915808/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/21/177164402321588201.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "9ceeee8e377a-img-3",
+          "src": "photos/20915808/03.jpg",
+          "localPath": "photos/20915808/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/21/177164404161967201.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "9ceeee8e377a-img-4",
+          "src": "photos/20915808/04.jpg",
+          "localPath": "photos/20915808/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/21/177164398556555008.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "9ceeee8e377a-img-5",
+          "src": "photos/20915808/05.jpg",
+          "localPath": "photos/20915808/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/12/09/167059953878663405.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "9ceeee8e377a-img-6",
+          "src": "photos/20915808/06.jpg",
+          "localPath": "photos/20915808/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/21/177164408627069801.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "9ceeee8e377a-img-7",
+          "src": "photos/20915808/07.jpg",
+          "localPath": "photos/20915808/07.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/12/09/167059953902196604.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 7,
+      "lastPhotoFetchAt": "2026-03-30T14:41:29.521Z"
+    },
+    {
+      "id": "344e1e2c755a",
+      "propertyKey": "344e1e2c755a",
+      "sourceKey": "2026-03-30 | 台東市 | 降～～～👍機能便利美套房🏠 | 5,000元/月 | 台東市-豐榮路",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 24,
+      "title": "降～～～👍機能便利美套房🏠",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入有車位",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "有車位"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "2F/3F",
+      "locationText": "台東市-豐榮路",
+      "distanceText": "距香軒堡7公尺",
+      "distanceMeters": 7,
+      "nearbyLabel": "香軒堡",
+      "ownerText": "屋主游先生7天前更新昨日31人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "游先生",
+      "updateText": "7天前更新",
+      "viewsText": "昨日31人瀏覽",
+      "priceText": "5,000元/月",
+      "priceMonthly": 5000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20879880",
+      "listingId": "20879880",
+      "images": [
+        {
+          "id": "344e1e2c755a-img-1",
+          "src": "photos/20879880/01.jpg",
+          "localPath": "photos/20879880/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2020/05/22/159012872138423201.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "344e1e2c755a-img-2",
+          "src": "photos/20879880/02.jpg",
+          "localPath": "photos/20879880/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2020/05/22/159012872138478781.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 2,
+      "lastPhotoFetchAt": "2026-03-30T14:41:40.855Z"
+    },
+    {
+      "id": "2b14a506ee4f",
+      "propertyKey": "2b14a506ee4f",
+      "sourceKey": "2026-03-30 | 台東市 | 台東市｜分租套房｜租金補貼｜交通便利 | 7,500元/月 | 台東市-傳廣路492號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 25,
+      "title": "台東市｜分租套房｜租金補貼｜交通便利",
+      "cardLabels": [],
+      "tagLine": "近商圈有電梯隨時可遷入租金補貼可報稅可入籍",
+      "tags": [
+        "隨時可遷入",
+        "近商圈",
+        "有電梯",
+        "可入籍"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "6F/7F",
+      "locationText": "台東市-傳廣路492號",
+      "distanceText": "距美術館公車站513公尺",
+      "distanceMeters": 513,
+      "nearbyLabel": "美術館公車站",
+      "ownerText": "仲介林先生8天前更新昨日31人瀏覽",
+      "contactRole": "仲介",
+      "contactName": "林先生",
+      "updateText": "8天前更新",
+      "viewsText": "昨日31人瀏覽",
+      "priceText": "7,500元/月",
+      "priceMonthly": 7500,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20905527",
+      "listingId": "20905527",
+      "images": [
+        {
+          "id": "2b14a506ee4f-img-1",
+          "src": "photos/20905527/01.jpg",
+          "localPath": "photos/20905527/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/23/177423414519544209.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "2b14a506ee4f-img-2",
+          "src": "photos/20905527/02.jpg",
+          "localPath": "photos/20905527/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/23/177423414505931507.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "2b14a506ee4f-img-3",
+          "src": "photos/20905527/03.jpg",
+          "localPath": "photos/20905527/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/23/177423414525709708.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "2b14a506ee4f-img-4",
+          "src": "photos/20905527/04.jpg",
+          "localPath": "photos/20905527/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/23/177423414524610700.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "2b14a506ee4f-img-5",
+          "src": "photos/20905527/05.jpg",
+          "localPath": "photos/20905527/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/23/177423414528191108.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "2b14a506ee4f-img-6",
+          "src": "photos/20905527/06.jpg",
+          "localPath": "photos/20905527/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/23/177423414530782102.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T14:41:57.863Z"
+    },
+    {
+      "id": "614f9d008918",
+      "propertyKey": "614f9d008918",
+      "sourceKey": "2026-03-30 | 台東市 | 近星巴克、麥當勞戶數少安全單純生活機能優 | 11,000元/月 | 台東市-中華路二段154巷69號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 26,
+      "title": "近星巴克、麥當勞戶數少安全單純生活機能優",
+      "cardLabels": [],
+      "tagLine": "拎包入住隨時可遷入有陽台",
+      "tags": [
+        "拎包入住",
+        "隨時可遷入",
+        "有陽台"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "3F/3F",
+      "locationText": "台東市-中華路二段154巷69號",
+      "distanceText": "距巨森早餐吧 豐榮店181公尺",
+      "distanceMeters": 181,
+      "nearbyLabel": "巨森早餐吧豐榮店",
+      "ownerText": "仲介胡先生10天前更新昨日16人瀏覽",
+      "contactRole": "仲介",
+      "contactName": "胡先生",
+      "updateText": "10天前更新",
+      "viewsText": "昨日16人瀏覽",
+      "priceText": "11,000元/月",
+      "priceMonthly": 11000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20765435",
+      "listingId": "20765435",
+      "images": [
+        {
+          "id": "614f9d008918-img-1",
+          "src": "photos/20765435/01.jpg",
+          "localPath": "photos/20765435/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932386127606.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-2",
+          "src": "photos/20765435/02.jpg",
+          "localPath": "photos/20765435/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932387471208.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-3",
+          "src": "photos/20765435/03.jpg",
+          "localPath": "photos/20765435/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932387316208.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-4",
+          "src": "photos/20765435/04.jpg",
+          "localPath": "photos/20765435/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932392024208.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-5",
+          "src": "photos/20765435/05.jpg",
+          "localPath": "photos/20765435/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932393087502.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-6",
+          "src": "photos/20765435/06.jpg",
+          "localPath": "photos/20765435/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932399491408.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-7",
+          "src": "photos/20765435/07.jpg",
+          "localPath": "photos/20765435/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932415994101.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-8",
+          "src": "photos/20765435/08.jpg",
+          "localPath": "photos/20765435/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932420626001.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-9",
+          "src": "photos/20765435/09.jpg",
+          "localPath": "photos/20765435/09.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932421767305.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-10",
+          "src": "photos/20765435/10.jpg",
+          "localPath": "photos/20765435/10.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932424557600.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-11",
+          "src": "photos/20765435/11.jpg",
+          "localPath": "photos/20765435/11.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932426028501.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-12",
+          "src": "photos/20765435/12.jpg",
+          "localPath": "photos/20765435/12.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2024/05/08/171516932432172302.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-13",
+          "src": "photos/20765435/13.jpg",
+          "localPath": "photos/20765435/13.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932446769303.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-14",
+          "src": "photos/20765435/14.jpg",
+          "localPath": "photos/20765435/14.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932452954706.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "614f9d008918-img-15",
+          "src": "photos/20765435/15.jpg",
+          "localPath": "photos/20765435/15.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2024/05/08/171516932451963605.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 15,
+      "lastPhotoFetchAt": "2026-03-30T14:42:17.136Z"
+    },
+    {
+      "id": "2352f6b0066a",
+      "propertyKey": "2352f6b0066a",
+      "sourceKey": "2026-03-30 | 台東市 | 台東市中心中華路新裝修套房出租! | 12,000元/月 | 台東市-中華路一段376巷22號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 27,
+      "title": "台東市中心中華路新裝修套房出租!",
+      "cardLabels": [],
+      "tagLine": "近商圈南北通透租金補貼可報稅",
+      "tags": [
+        "近商圈"
+      ],
+      "type": "獨立套房",
+      "sizePing": 12,
+      "floorText": "3F/4F",
+      "locationText": "台東市-中華路一段376巷22號",
+      "distanceText": "距中央市場295公尺",
+      "distanceMeters": 295,
+      "nearbyLabel": "中央市場",
+      "ownerText": "代理人陳先生10天前更新昨日20人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "陳先生",
+      "updateText": "10天前更新",
+      "viewsText": "昨日20人瀏覽",
+      "priceText": "12,000元/月",
+      "priceMonthly": 12000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "d9acdd451729",
+      "propertyKey": "d9acdd451729",
+      "sourceKey": "2026-03-30 | 台東市 | 台東市中心中華路新裝修套房出租! | 11,000元/月 | 台東市-中華路一段376巷22號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 28,
+      "title": "台東市中心中華路新裝修套房出租!",
+      "cardLabels": [],
+      "tagLine": "近商圈南北通透",
+      "tags": [
+        "近商圈"
+      ],
+      "type": "獨立套房",
+      "sizePing": 12,
+      "floorText": "2F/4F",
+      "locationText": "台東市-中華路一段376巷22號",
+      "distanceText": "距中央市場295公尺",
+      "distanceMeters": 295,
+      "nearbyLabel": "中央市場",
+      "ownerText": "代理人陳先生10天前更新昨日14人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "陳先生",
+      "updateText": "10天前更新",
+      "viewsText": "昨日14人瀏覽",
+      "priceText": "11,000元/月",
+      "priceMonthly": 11000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "11527cd1bd7b",
+      "propertyKey": "11527cd1bd7b",
+      "sourceKey": "2026-03-30 | 台東市 | 《台東市中心，中華路上的優質風格套房》 | 9,000元/月 | 台東市-中華路一段376巷22號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 29,
+      "title": "《台東市中心，中華路上的優質風格套房》",
+      "cardLabels": [],
+      "tagLine": "近商圈",
+      "tags": [
+        "近商圈"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7.5,
+      "floorText": "3F/4F",
+      "locationText": "台東市-中華路一段376巷22號",
+      "distanceText": "距中央市場295公尺",
+      "distanceMeters": 295,
+      "nearbyLabel": "中央市場",
+      "ownerText": "代理人陳先生10天前更新昨日27人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "陳先生",
+      "updateText": "10天前更新",
+      "viewsText": "昨日27人瀏覽",
+      "priceText": "9,000元/月",
+      "priceMonthly": 9000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": null,
+      "listingId": null,
+      "images": [],
+      "hasPhotos": false,
+      "photoCount": 0,
+      "lastPhotoFetchAt": null
+    },
+    {
+      "id": "20b5c43fb5f2",
+      "propertyKey": "20b5c43fb5f2",
+      "sourceKey": "2026-03-30 | 台東市 | 套房出租，限公教人員，禁煙，實況照 | 5,000元/月 | 台東市-光明路104號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 30,
+      "title": "套房出租，限公教人員，禁煙，實況照",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入押一付一",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "押一付一"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "3F/3F",
+      "locationText": "台東市-光明路104號",
+      "distanceText": "距中央市場316公尺",
+      "distanceMeters": 316,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主詹小姐12天前更新昨日27人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "詹小姐",
+      "updateText": "12天前更新",
+      "viewsText": "昨日27人瀏覽",
+      "priceText": "5,000元/月",
+      "priceMonthly": 5000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20887072",
+      "listingId": "20887072",
+      "images": [
+        {
+          "id": "20b5c43fb5f2-img-1",
+          "src": "photos/20887072/01.jpg",
+          "localPath": "photos/20887072/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/13/177095028305549406.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "20b5c43fb5f2-img-2",
+          "src": "photos/20887072/02.jpg",
+          "localPath": "photos/20887072/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/13/177095028309939506.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "20b5c43fb5f2-img-3",
+          "src": "photos/20887072/03.jpg",
+          "localPath": "photos/20887072/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/02/13/177095028302379408.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "20b5c43fb5f2-img-4",
+          "src": "photos/20887072/04.jpg",
+          "localPath": "photos/20887072/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/13/177095028302236405.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "20b5c43fb5f2-img-5",
+          "src": "photos/20887072/05.jpg",
+          "localPath": "photos/20887072/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/02/13/177095028304748003.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 5,
+      "lastPhotoFetchAt": "2026-03-30T13:54:17.894Z"
+    },
+    {
+      "id": "5def2da6a9f9",
+      "propertyKey": "5def2da6a9f9",
+      "sourceKey": "2026-03-30 | 台東市 | 鄰近東海運動公園安靜舒適 | 6,000元/月 | 東海商圈台東市-文山路81號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 31,
+      "title": "鄰近東海運動公園安靜舒適",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "1F/3F",
+      "locationText": "東海商圈台東市-文山路81號",
+      "distanceText": "",
+      "distanceMeters": null,
+      "nearbyLabel": "",
+      "ownerText": "屋主廖先生14天前更新昨日12人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "廖先生",
+      "updateText": "14天前更新",
+      "viewsText": "昨日12人瀏覽",
+      "priceText": "6,000元/月",
+      "priceMonthly": 6000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20874108",
+      "listingId": "20874108",
+      "images": [
+        {
+          "id": "5def2da6a9f9-img-1",
+          "src": "photos/20874108/01.jpg",
+          "localPath": "photos/20874108/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/17/177373389406056006.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5def2da6a9f9-img-2",
+          "src": "photos/20874108/02.jpg",
+          "localPath": "photos/20874108/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/17/177373389419645904.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5def2da6a9f9-img-3",
+          "src": "photos/20874108/03.jpg",
+          "localPath": "photos/20874108/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/17/177373389406267102.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5def2da6a9f9-img-4",
+          "src": "photos/20874108/04.jpg",
+          "localPath": "photos/20874108/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/17/177373389409356802.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5def2da6a9f9-img-5",
+          "src": "photos/20874108/05.jpg",
+          "localPath": "photos/20874108/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/17/177373389413064604.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "5def2da6a9f9-img-6",
+          "src": "photos/20874108/06.jpg",
+          "localPath": "photos/20874108/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/17/177373389393856007.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T13:54:23.670Z"
+    },
+    {
+      "id": "de1dad4f0014",
+      "propertyKey": "de1dad4f0014",
+      "sourceKey": "2026-03-30 | 台東市 | 蘭州街舒適套房 | 5,500元/月 | 台東市-蘭州街9巷1號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 32,
+      "title": "蘭州街舒適套房",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 10,
+      "floorText": "3F/5F",
+      "locationText": "台東市-蘭州街9巷1號",
+      "distanceText": "距小心楊桃24公尺",
+      "distanceMeters": 24,
+      "nearbyLabel": "小心楊桃",
+      "ownerText": "屋主謝女士15天前更新昨日22人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "謝女士",
+      "updateText": "15天前更新",
+      "viewsText": "昨日22人瀏覽",
+      "priceText": "5,500元/月",
+      "priceMonthly": 5500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20869303",
+      "listingId": "20869303",
+      "images": [
+        {
+          "id": "de1dad4f0014-img-1",
+          "src": "photos/20869303/01.jpg",
+          "localPath": "photos/20869303/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/16/177366705857994507.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "de1dad4f0014-img-2",
+          "src": "photos/20869303/02.jpg",
+          "localPath": "photos/20869303/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/16/177366705857844705.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "de1dad4f0014-img-3",
+          "src": "photos/20869303/03.jpg",
+          "localPath": "photos/20869303/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/16/177366705857983004.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "de1dad4f0014-img-4",
+          "src": "photos/20869303/04.jpg",
+          "localPath": "photos/20869303/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/16/177366705857215508.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "de1dad4f0014-img-5",
+          "src": "photos/20869303/05.jpg",
+          "localPath": "photos/20869303/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/16/177366705861767205.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "de1dad4f0014-img-6",
+          "src": "photos/20869303/06.jpg",
+          "localPath": "photos/20869303/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/16/177366706033225906.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T13:54:39.813Z"
+    },
+    {
+      "id": "f3985b5bb9bc",
+      "propertyKey": "f3985b5bb9bc",
+      "sourceKey": "2026-03-30 | 台東市 | 中興路一段_優質獨立套房 | 6,000元/月 | 台東市-中興路一段",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 33,
+      "title": "中興路一段_優質獨立套房",
+      "cardLabels": [],
+      "tagLine": "拎包入住隨時可遷入有車位",
+      "tags": [
+        "拎包入住",
+        "隨時可遷入",
+        "有車位"
+      ],
+      "type": "獨立套房",
+      "sizePing": 6,
+      "floorText": "3F/4F",
+      "locationText": "台東市-中興路一段",
+      "distanceText": "距馬蘭加油站83公尺",
+      "distanceMeters": 83,
+      "nearbyLabel": "馬蘭加油站",
+      "ownerText": "代理人莊先生15天前更新昨日22人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "莊先生",
+      "updateText": "15天前更新",
+      "viewsText": "昨日22人瀏覽",
+      "priceText": "6,000元/月",
+      "priceMonthly": 6000,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20868803",
+      "listingId": "20868803",
+      "images": [
+        {
+          "id": "f3985b5bb9bc-img-1",
+          "src": "photos/20868803/01.jpg",
+          "localPath": "photos/20868803/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/06/06/168602561148778305.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "f3985b5bb9bc-img-2",
+          "src": "photos/20868803/02.jpg",
+          "localPath": "photos/20868803/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2023/06/06/168602560848216100.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "f3985b5bb9bc-img-3",
+          "src": "photos/20868803/03.jpg",
+          "localPath": "photos/20868803/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/06/06/168602561089961501.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "f3985b5bb9bc-img-4",
+          "src": "photos/20868803/04.jpg",
+          "localPath": "photos/20868803/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/06/06/168602565616818309.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 4,
+      "lastPhotoFetchAt": "2026-03-30T13:54:55.735Z"
+    },
+    {
+      "id": "c1d17e0f4a1b",
+      "propertyKey": "c1d17e0f4a1b",
+      "sourceKey": "2026-03-30 | 台東市 | 市中心正氣商圈(家樂福樓上).包水電 | 5,000元/月 | 台東市-正氣路298巷",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 34,
+      "title": "市中心正氣商圈(家樂福樓上).包水電",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入免管理費",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 6,
+      "floorText": "5F/5F",
+      "locationText": "台東市-正氣路298巷",
+      "distanceText": "距中央市場118公尺",
+      "distanceMeters": 118,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主蔡爸爸16天前更新昨日19人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "蔡爸爸",
+      "updateText": "16天前更新",
+      "viewsText": "昨日19人瀏覽",
+      "priceText": "5,000元/月",
+      "priceMonthly": 5000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20759944",
+      "listingId": "20759944",
+      "images": [
+        {
+          "id": "c1d17e0f4a1b-img-1",
+          "src": "photos/20759944/01.jpg",
+          "localPath": "photos/20759944/01.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2021/10/04/163334757745050002.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "c1d17e0f4a1b-img-2",
+          "src": "photos/20759944/02.jpg",
+          "localPath": "photos/20759944/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2023/12/31/170400183900387904.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 2,
+      "lastPhotoFetchAt": "2026-03-30T13:55:07.831Z"
+    },
+    {
+      "id": "da410d3a36a2",
+      "propertyKey": "da410d3a36a2",
+      "sourceKey": "2026-03-30 | 台東市 | 大學路精裝花園套房/離市區近 | 15,000元/月 | 台東市-大學路一段96號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 35,
+      "title": "大學路精裝花園套房/離市區近",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入可開伙有車位有陽台",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可開伙",
+        "有車位",
+        "有陽台"
+      ],
+      "type": "獨立套房樓中樓",
+      "sizePing": 15,
+      "floorText": "2F/2F",
+      "locationText": "台東市-大學路一段96號",
+      "distanceText": "距東大炒鬧食堂0公尺",
+      "distanceMeters": 0,
+      "nearbyLabel": "東大炒鬧食堂",
+      "ownerText": "屋主宋女士18天前更新昨日11人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "宋女士",
+      "updateText": "18天前更新",
+      "viewsText": "昨日11人瀏覽",
+      "priceText": "15,000元/月",
+      "priceMonthly": 15000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": true,
+      "sourceUrl": "https://rent.591.com.tw/20849847",
+      "listingId": "20849847",
+      "images": [
+        {
+          "id": "da410d3a36a2-img-1",
+          "src": "photos/20849847/01.jpg",
+          "localPath": "photos/20849847/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338646271236506.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-2",
+          "src": "photos/20849847/02.jpg",
+          "localPath": "photos/20849847/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338646261554201.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-3",
+          "src": "photos/20849847/03.jpg",
+          "localPath": "photos/20849847/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711353463607.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-4",
+          "src": "photos/20849847/04.jpg",
+          "localPath": "photos/20849847/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/13/177338711361107200.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-5",
+          "src": "photos/20849847/05.jpg",
+          "localPath": "photos/20849847/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/13/177338711351242405.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-6",
+          "src": "photos/20849847/06.jpg",
+          "localPath": "photos/20849847/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/13/177338711372397708.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-7",
+          "src": "photos/20849847/07.jpg",
+          "localPath": "photos/20849847/07.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711343073500.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-8",
+          "src": "photos/20849847/08.jpg",
+          "localPath": "photos/20849847/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711491013602.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-9",
+          "src": "photos/20849847/09.jpg",
+          "localPath": "photos/20849847/09.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711527557505.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-10",
+          "src": "photos/20849847/10.jpg",
+          "localPath": "photos/20849847/10.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711515975104.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-11",
+          "src": "photos/20849847/11.jpg",
+          "localPath": "photos/20849847/11.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/13/177338711560443306.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-12",
+          "src": "photos/20849847/12.jpg",
+          "localPath": "photos/20849847/12.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711526303106.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-13",
+          "src": "photos/20849847/13.jpg",
+          "localPath": "photos/20849847/13.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/13/177338711624669800.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-14",
+          "src": "photos/20849847/14.jpg",
+          "localPath": "photos/20849847/14.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711709630301.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "da410d3a36a2-img-15",
+          "src": "photos/20849847/15.jpg",
+          "localPath": "photos/20849847/15.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/13/177338711678897604.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 15,
+      "lastPhotoFetchAt": "2026-03-30T13:55:30.109Z"
+    },
+    {
+      "id": "89daf15f78d4",
+      "propertyKey": "89daf15f78d4",
+      "sourceKey": "2026-03-30 | 台東市 | 單人套房|生活便利近健身房、全聯等 | 7,200元/月 | 台東市-豐榮路",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 36,
+      "title": "單人套房|生活便利近健身房、全聯等",
+      "cardLabels": [],
+      "tagLine": "拎包入住隨時可遷入租金補貼",
+      "tags": [
+        "拎包入住",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "3F/3F",
+      "locationText": "台東市-豐榮路",
+      "distanceText": "",
+      "distanceMeters": null,
+      "nearbyLabel": "",
+      "ownerText": "代理人張小姐19天前更新昨日10人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "張小姐",
+      "updateText": "19天前更新",
+      "viewsText": "昨日10人瀏覽",
+      "priceText": "7,200元/月",
+      "priceMonthly": 7200,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20786414",
+      "listingId": "20786414",
+      "images": [
+        {
+          "id": "89daf15f78d4-img-1",
+          "src": "photos/20786414/01.jpg",
+          "localPath": "photos/20786414/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/09/177303316469837905.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "89daf15f78d4-img-2",
+          "src": "photos/20786414/02.jpg",
+          "localPath": "photos/20786414/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2026/03/09/177303316481059009.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "89daf15f78d4-img-3",
+          "src": "photos/20786414/03.jpg",
+          "localPath": "photos/20786414/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/09/177303316489011105.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "89daf15f78d4-img-4",
+          "src": "photos/20786414/04.jpg",
+          "localPath": "photos/20786414/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2026/03/09/177303316482710806.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 4,
+      "lastPhotoFetchAt": "2026-03-30T13:55:42.165Z"
+    },
+    {
+      "id": "77fe99e13178",
+      "propertyKey": "77fe99e13178",
+      "sourceKey": "2026-03-30 | 台東市 | 獨立套房出租 | 6,500元/月 | 台東市-中興路六段357巷125號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 37,
+      "title": "獨立套房出租",
+      "cardLabels": [],
+      "tagLine": "屋主直租隨時可遷入",
+      "tags": [
+        "屋主直租",
+        "隨時可遷入"
+      ],
+      "type": "獨立套房",
+      "sizePing": 10,
+      "floorText": "1F/1F",
+      "locationText": "台東市-中興路六段357巷125號",
+      "distanceText": "距喜賀古早味蚵嗲729公尺",
+      "distanceMeters": 729,
+      "nearbyLabel": "喜賀古早味蚵嗲",
+      "ownerText": "屋主陳先生20天前更新昨日11人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "陳先生",
+      "updateText": "20天前更新",
+      "viewsText": "昨日11人瀏覽",
+      "priceText": "6,500元/月",
+      "priceMonthly": 6500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20832323",
+      "listingId": "20832323",
+      "images": [
+        {
+          "id": "77fe99e13178-img-1",
+          "src": "photos/20832323/01.jpg",
+          "localPath": "photos/20832323/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/11/26/148014816979324305.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "77fe99e13178-img-2",
+          "src": "photos/20832323/02.jpg",
+          "localPath": "photos/20832323/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/11/26/148014817120800700.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "77fe99e13178-img-3",
+          "src": "photos/20832323/03.jpg",
+          "localPath": "photos/20832323/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/11/26/148014817179074607.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "77fe99e13178-img-4",
+          "src": "photos/20832323/04.jpg",
+          "localPath": "photos/20832323/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2016/11/26/148014817247148909.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "77fe99e13178-img-5",
+          "src": "photos/20832323/05.jpg",
+          "localPath": "photos/20832323/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/11/26/148014817416671905.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "77fe99e13178-img-6",
+          "src": "photos/20832323/06.jpg",
+          "localPath": "photos/20832323/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/11/26/148014817484251304.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T13:55:57.101Z"
+    },
+    {
+      "id": "acf1a14d81cf",
+      "propertyKey": "acf1a14d81cf",
+      "sourceKey": "2026-03-30 | 台東市 | 小木屋別墅--單/雙人大套房 | 5,000元/月 | 台東市-永安街",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 38,
+      "title": "小木屋別墅--單/雙人大套房",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入有車位可短租",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "可短租",
+        "有車位"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "1F/1F",
+      "locationText": "台東市-永安街",
+      "distanceText": "距卑南入口431公尺",
+      "distanceMeters": 431,
+      "nearbyLabel": "卑南入口",
+      "ownerText": "屋主林小姐23天前更新昨日32人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "林小姐",
+      "updateText": "23天前更新",
+      "viewsText": "昨日32人瀏覽",
+      "priceText": "5,000元/月",
+      "priceMonthly": 5000,
+      "isOwnerDirect": true,
+      "isShortRent": true,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20812612",
+      "listingId": "20812612",
+      "images": [
+        {
+          "id": "acf1a14d81cf-img-1",
+          "src": "photos/20812612/01.jpg",
+          "localPath": "photos/20812612/01.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/12/26/167205994669380609.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "acf1a14d81cf-img-2",
+          "src": "photos/20812612/02.jpg",
+          "localPath": "photos/20812612/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/12/26/167205994665001303.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "acf1a14d81cf-img-3",
+          "src": "photos/20812612/03.jpg",
+          "localPath": "photos/20812612/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/12/26/167205994567588306.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "acf1a14d81cf-img-4",
+          "src": "photos/20812612/04.jpg",
+          "localPath": "photos/20812612/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/12/26/167205994690094302.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 4,
+      "lastPhotoFetchAt": "2026-03-30T10:29:04.221Z"
+    },
+    {
+      "id": "fc133f7613b3",
+      "propertyKey": "fc133f7613b3",
+      "sourceKey": "2026-03-30 | 台東市 | 獨立洗衣機.陽台洗曬-生活機能優@溫馨套房~配合租補~ | 6,500元/月 | 台東市-傳廣路387巷",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 39,
+      "title": "獨立洗衣機.陽台洗曬-生活機能優@溫馨套房~配合租補~",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入有陽台押一付一南北通透",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "押一付一",
+        "有陽台"
+      ],
+      "type": "獨立套房",
+      "sizePing": 8,
+      "floorText": "3F/4F",
+      "locationText": "台東市-傳廣路387巷",
+      "distanceText": "距美術館公車站411公尺",
+      "distanceMeters": 411,
+      "nearbyLabel": "美術館公車站",
+      "ownerText": "屋主蕭小姐23天前更新昨日22人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "蕭小姐",
+      "updateText": "23天前更新",
+      "viewsText": "昨日22人瀏覽",
+      "priceText": "6,500元/月",
+      "priceMonthly": 6500,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20811577",
+      "listingId": "20811577",
+      "images": [
+        {
+          "id": "fc133f7613b3-img-1",
+          "src": "photos/20811577/01.jpg",
+          "localPath": "photos/20811577/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/10/27/147755603592520200.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "fc133f7613b3-img-2",
+          "src": "photos/20811577/02.jpg",
+          "localPath": "photos/20811577/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2016/10/27/147755605411869806.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "fc133f7613b3-img-3",
+          "src": "photos/20811577/03.jpg",
+          "localPath": "photos/20811577/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2016/10/27/147755606872727003.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "fc133f7613b3-img-4",
+          "src": "photos/20811577/04.jpg",
+          "localPath": "photos/20811577/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2016/10/27/147755782608297909.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 4,
+      "lastPhotoFetchAt": "2026-03-30T13:56:06.593Z"
+    },
+    {
+      "id": "36a23ea4c497",
+      "propertyKey": "36a23ea4c497",
+      "sourceKey": "2026-03-30 | 台東市 | #預約看房請電話聯絡#台東寶桑路舒適套房 | 5,000元/月 | 台東市-寶桑路172號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 40,
+      "title": "#預約看房請電話聯絡#台東寶桑路舒適套房",
+      "cardLabels": [],
+      "tagLine": "屋主直租拎包入住隨時可遷入有車位",
+      "tags": [
+        "屋主直租",
+        "拎包入住",
+        "隨時可遷入",
+        "有車位"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "3F/4F",
+      "locationText": "台東市-寶桑路172號",
+      "distanceText": "距中央市場599公尺",
+      "distanceMeters": 599,
+      "nearbyLabel": "中央市場",
+      "ownerText": "屋主李小姐25天前更新昨日20人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "李小姐",
+      "updateText": "25天前更新",
+      "viewsText": "昨日20人瀏覽",
+      "priceText": "5,000元/月",
+      "priceMonthly": 5000,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20628760",
+      "listingId": "20628760",
+      "images": [
+        {
+          "id": "36a23ea4c497-img-1",
+          "src": "photos/20628760/01.jpg",
+          "localPath": "photos/20628760/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2017/04/23/149296248053977201.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "36a23ea4c497-img-2",
+          "src": "photos/20628760/02.jpg",
+          "localPath": "photos/20628760/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2017/04/23/149296172671325301.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "36a23ea4c497-img-3",
+          "src": "photos/20628760/03.jpg",
+          "localPath": "photos/20628760/03.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2017/04/23/149296173267772408.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 3,
+      "lastPhotoFetchAt": "2026-03-30T13:56:11.793Z"
+    },
+    {
+      "id": "3457ca9bd558",
+      "propertyKey": "3457ca9bd558",
+      "sourceKey": "2026-03-30 | 台東市 | 台東獨立優質套房出租(有電梯+停機車位) | 6,800元/月 | 台東市四維路一段套房台東市-四維路一段558巷10號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 41,
+      "title": "台東獨立優質套房出租(有電梯+停機車位)",
+      "cardLabels": [],
+      "tagLine": "拎包入住有電梯隨時可遷入有車位",
+      "tags": [
+        "拎包入住",
+        "隨時可遷入",
+        "有車位",
+        "有電梯"
+      ],
+      "type": "獨立套房",
+      "sizePing": 7,
+      "floorText": "4F/5F",
+      "locationText": "台東市四維路一段套房台東市-四維路一段558巷10號",
+      "distanceText": "距中央市場764公尺",
+      "distanceMeters": 764,
+      "nearbyLabel": "中央市場",
+      "ownerText": "代理人李小姐28天前更新昨日22人瀏覽",
+      "contactRole": "代理人",
+      "contactName": "李小姐",
+      "updateText": "28天前更新",
+      "viewsText": "昨日22人瀏覽",
+      "priceText": "6,800元/月",
+      "priceMonthly": 6800,
+      "isOwnerDirect": false,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20773335",
+      "listingId": "20773335",
+      "images": [
+        {
+          "id": "3457ca9bd558-img-1",
+          "src": "photos/20773335/01.jpg",
+          "localPath": "photos/20773335/01.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/06/01/165407958139299400.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "3457ca9bd558-img-2",
+          "src": "photos/20773335/02.jpg",
+          "localPath": "photos/20773335/02.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/06/01/165407958256621900.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "3457ca9bd558-img-3",
+          "src": "photos/20773335/03.jpg",
+          "localPath": "photos/20773335/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/09/11/166290755963210350.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "3457ca9bd558-img-4",
+          "src": "photos/20773335/04.jpg",
+          "localPath": "photos/20773335/04.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2022/09/11/166290755963267882.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "3457ca9bd558-img-5",
+          "src": "photos/20773335/05.jpg",
+          "localPath": "photos/20773335/05.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/09/11/166290755963208959.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "3457ca9bd558-img-6",
+          "src": "photos/20773335/06.jpg",
+          "localPath": "photos/20773335/06.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2022/09/11/166290755963249547.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 6,
+      "lastPhotoFetchAt": "2026-03-30T13:56:18.142Z"
+    },
+    {
+      "id": "badc2a1cdb86",
+      "propertyKey": "badc2a1cdb86",
+      "sourceKey": "2026-03-30 | 台東市 | 近台東大學優質平價套房 | 4,200元/月 | 台東市-豐盛路26巷37號",
+      "sourceFile": "2026-03-30_台東市.txt",
+      "captureDate": "2026-03-30",
+      "captureCity": "台東市",
+      "locationGroup": "台東市",
+      "orderInFile": 42,
+      "title": "近台東大學優質平價套房",
+      "cardLabels": [],
+      "tagLine": "屋主直租隨時可遷入有車位",
+      "tags": [
+        "屋主直租",
+        "隨時可遷入",
+        "有車位"
+      ],
+      "type": "獨立套房",
+      "sizePing": 5,
+      "floorText": "1F/2F",
+      "locationText": "台東市-豐盛路26巷37號",
+      "distanceText": "距中豪企業社178公尺",
+      "distanceMeters": 178,
+      "nearbyLabel": "中豪企業社",
+      "ownerText": "屋主許雅筑50天前更新昨日13人瀏覽",
+      "contactRole": "屋主",
+      "contactName": "許雅筑",
+      "updateText": "50天前更新",
+      "viewsText": "昨日13人瀏覽",
+      "priceText": "4,200元/月",
+      "priceMonthly": 4200,
+      "isOwnerDirect": true,
+      "isShortRent": false,
+      "canCook": false,
+      "sourceUrl": "https://rent.591.com.tw/20667617",
+      "listingId": "20667617",
+      "images": [
+        {
+          "id": "badc2a1cdb86-img-1",
+          "src": "photos/20667617/01.jpg",
+          "localPath": "photos/20667617/01.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2013/06/19/137163117276852509.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-2",
+          "src": "photos/20667617/02.jpg",
+          "localPath": "photos/20667617/02.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2013/06/19/137163117429498300.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-3",
+          "src": "photos/20667617/03.jpg",
+          "localPath": "photos/20667617/03.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2013/06/19/137163117574178507.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-4",
+          "src": "photos/20667617/04.jpg",
+          "localPath": "photos/20667617/04.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2013/06/19/137163117869237301.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-5",
+          "src": "photos/20667617/05.jpg",
+          "localPath": "photos/20667617/05.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2013/06/19/137163118042228306.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-6",
+          "src": "photos/20667617/06.jpg",
+          "localPath": "photos/20667617/06.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2013/06/19/137163118172119005.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-7",
+          "src": "photos/20667617/07.jpg",
+          "localPath": "photos/20667617/07.jpg",
+          "remoteUrl": "https://img2.591.com.tw/house/2013/06/19/137163125940831601.jpg!1000x.water2.jpg"
+        },
+        {
+          "id": "badc2a1cdb86-img-8",
+          "src": "photos/20667617/08.jpg",
+          "localPath": "photos/20667617/08.jpg",
+          "remoteUrl": "https://img1.591.com.tw/house/2013/06/19/137163127611327504.jpg!1000x.water2.jpg"
+        }
+      ],
+      "hasPhotos": true,
+      "photoCount": 8,
+      "lastPhotoFetchAt": "2026-03-30T13:56:28.794Z"
+    }
+  ]
+}
