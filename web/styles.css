@@ -354,6 +354,10 @@ select {
   gap: 10px;
 }
 
+.toolbar > .field--archive + .toggle-row {
+  margin-left: -10px;
+}
+
 .toggle-button {
   display: inline-flex;
   align-items: center;
