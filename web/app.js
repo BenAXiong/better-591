@@ -35,6 +35,7 @@
     pinnedId: null,
     hoveredId: null,
     previewMode: "photos",
+    previewDetailsOpen: false,
     openDropdown: null,
     imageIndexes: {},
     importPanelOpen: false,
@@ -114,7 +115,7 @@
       nextList.scrollTop = listingListScrollTop;
     }
 
-    bindToolbarEvents(listings.length);
+    bindToolbarEvents(activeListing);
     bindCardEvents(listings);
     bindThumbnailEvents(activeListing);
     prefetchListingDetails(listings, activeListing);
@@ -124,7 +125,7 @@
   function renderToolbar(options, filteredCount) {
     return `
       <header class="toolbar">
-        <button class="button button--icon" id="reset-filters" type="button" aria-label="Reset filters" title="Reset filters">↺</button>
+        <button class="button button--icon button--reset" id="reset-filters" type="button" aria-label="Reset filters" title="Reset filters">↺</button>
         ${renderSelectField("area", "Area", options.areas, state.area)}
         ${renderSelectField("district", "District", options.districts, state.district, true)}
         ${renderSelectField("type", "Type", options.types, state.type, true)}
@@ -584,6 +585,82 @@
     `;
   }
 
+  function renderPreviewDrawerIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M14.5 6.5 9 12l5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+  }
+
+  function renderPreviewDetailDrawer(listing) {
+    const ownerRemark = String(listing?.ownerRemark || "").trim();
+    const facilities = normalizeStringArray(listing?.facilities)
+      .map((value) => value.trim())
+      .filter(Boolean);
+    const serviceNotes = normalizeServiceNotes(listing?.serviceNotes)
+      .map((note) => ({
+        label: String(note?.label || "").trim(),
+        value: String(note?.value || "").trim(),
+      }))
+      .filter((note) => note.label || note.value);
+    const detailStateMessage = getPreviewDetailStateMessage(listing);
+
+    return `
+      <aside id="preview-details-drawer" class="preview__drawer ${state.previewDetailsOpen ? "is-open" : ""}" aria-hidden="${state.previewDetailsOpen ? "false" : "true"}">
+        <div class="preview__drawer-inner">
+          <section class="preview__drawer-section">
+            <h3 class="preview__drawer-title">屋主說</h3>
+            ${
+              ownerRemark
+                ? `<p class="preview__drawer-copy">${renderMultilineContent(ownerRemark)}</p>`
+                : `<p class="preview__drawer-empty">${escapeHtml(detailStateMessage || "No owner note available.")}</p>`
+            }
+          </section>
+
+          <section class="preview__drawer-section">
+            <h3 class="preview__drawer-title">設備與服務</h3>
+            ${
+              facilities.length || serviceNotes.length
+                ? `
+                  ${
+                    facilities.length
+                      ? `
+                        <div class="preview__drawer-block">
+                          <div class="preview__drawer-pills">
+                            ${facilities.map((value) => `<span class="pill pill--muted">${escapeHtml(value)}</span>`).join("")}
+                          </div>
+                        </div>
+                      `
+                      : ""
+                  }
+                  ${
+                    serviceNotes.length
+                      ? `
+                        <dl class="preview__service-notes">
+                          ${serviceNotes
+                            .map(
+                              (note) => `
+                                <div class="preview__service-row">
+                                  <dt>${escapeHtml(note.label || "Info")}</dt>
+                                  <dd>${renderMultilineContent(note.value || "-")}</dd>
+                                </div>
+                              `,
+                            )
+                            .join("")}
+                        </dl>
+                      `
+                      : ""
+                  }
+                `
+                : `<p class="preview__drawer-empty">${escapeHtml(detailStateMessage || "No service info available.")}</p>`
+            }
+          </section>
+        </div>
+      </aside>
+    `;
+  }
+
   function renderPreview(listing, listings) {
     if (!listing) {
       return `
@@ -603,7 +680,7 @@
     const mappedSummary = `${mappableListings.length} / ${listings.length} mapped`;
 
     return `
-      <section class="preview">
+      <section class="preview ${state.previewDetailsOpen ? "preview--details-open" : ""}">
         <div class="preview__header">
           <div class="preview__main">
             <div class="preview__title-row">
@@ -681,11 +758,25 @@
               </div>
             `
         }
+
+        <button
+          class="preview__drawer-toggle ${state.previewDetailsOpen ? "is-open" : ""}"
+          id="preview-details-toggle"
+          type="button"
+          aria-label="${state.previewDetailsOpen ? "Close details panel" : "Open details panel"}"
+          aria-expanded="${state.previewDetailsOpen ? "true" : "false"}"
+          aria-controls="preview-details-drawer"
+          title="${state.previewDetailsOpen ? "Close details panel" : "Open details panel"}"
+        >
+          ${renderPreviewDrawerIcon()}
+        </button>
+
+        ${renderPreviewDetailDrawer(listing)}
       </section>
     `;
   }
 
-  function bindToolbarEvents(filteredCount) {
+  function bindToolbarEvents(activeListing) {
     root.querySelectorAll("[data-dropdown-trigger]").forEach((element) => {
       element.addEventListener("click", (event) => {
         event.stopPropagation();
@@ -804,6 +895,7 @@
           ...initialState,
           imageIndexes: state.imageIndexes,
           previewMode: state.previewMode,
+          previewDetailsOpen: state.previewDetailsOpen,
           importUrl: state.importUrl,
           importRegion: state.importRegion,
           importKind: state.importKind,
@@ -812,6 +904,17 @@
           importPhotos: state.importPhotos,
           importPanelOpen: state.importPanelOpen,
         };
+        render();
+      });
+    }
+
+    const previewDetailsToggle = document.getElementById("preview-details-toggle");
+    if (previewDetailsToggle) {
+      previewDetailsToggle.addEventListener("click", () => {
+        state.previewDetailsOpen = !state.previewDetailsOpen;
+        if (state.previewDetailsOpen && activeListing) {
+          void ensureListingDetail(activeListing);
+        }
         render();
       });
     }
@@ -1960,6 +2063,30 @@
     }
 
     return `距${match[1].trim()} ${match[2]}${match[3]}`;
+  }
+
+  function getPreviewDetailStateMessage(listing) {
+    if (!listing) {
+      return "";
+    }
+
+    if (listingDetailPending.has(listing.id)) {
+      return "Loading live 591 detail...";
+    }
+
+    if (listingDetailFailed.has(listing.id)) {
+      return "Live 591 detail unavailable for this listing.";
+    }
+
+    if (needsListingDetail(listing)) {
+      return "Loading live 591 detail...";
+    }
+
+    return "";
+  }
+
+  function renderMultilineContent(value) {
+    return escapeHtml(String(value || "")).replace(/\r?\n/g, "<br>");
   }
 
   function prefetchListingDetails(listings, activeListing) {
