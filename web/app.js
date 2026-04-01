@@ -8,6 +8,24 @@
   const LEAFLET_CSS_INTEGRITY = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
   const LEAFLET_JS_SRC = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
   const LEAFLET_JS_INTEGRITY = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
+  const FACILITY_CATALOG = [
+    { id: "fridge", label: "冰箱", aliases: ["冰箱"] },
+    { id: "washer", label: "洗衣機", aliases: ["洗衣機"] },
+    { id: "tv", label: "電視", aliases: ["電視"] },
+    { id: "ac", label: "冷氣", aliases: ["冷氣", "冷暖氣", "冷暖空調"] },
+    { id: "heater", label: "熱水器", aliases: ["熱水器", "電熱水器", "瓦斯熱水器"] },
+    { id: "bed", label: "床", aliases: ["床", "雙人床", "單人床"] },
+    { id: "wardrobe", label: "衣櫃", aliases: ["衣櫃", "衣櫥"] },
+    { id: "cable", label: "第四台", aliases: ["第四台", "有線電視"] },
+    { id: "wifi", label: "網路", aliases: ["網路", "無線網路", "WiFi", "wifi", "Wi-Fi"] },
+    { id: "gas", label: "天然瓦斯", aliases: ["天然瓦斯", "瓦斯"] },
+    { id: "sofa", label: "沙發", aliases: ["沙發"] },
+    { id: "desk", label: "桌椅", aliases: ["桌椅", "書桌椅", "桌子", "椅子", "書桌"] },
+    { id: "balcony", label: "陽台", aliases: ["陽台"] },
+    { id: "elevator", label: "電梯", aliases: ["電梯"] },
+    { id: "parking", label: "平面車位", aliases: ["平面車位", "車位", "汽車位"] },
+  ];
+  const FACILITY_ALIAS_MAP = buildFacilityAliasMap();
   const embeddedAppData = normalizeAppData(window.__APP_DATA__);
   const storedAppData = loadStoredAppData();
   let appData = mergeAppDataSets(embeddedAppData, storedAppData);
@@ -609,6 +627,7 @@
     const facilities = normalizeStringArray(listing?.facilities)
       .map((value) => value.trim())
       .filter(Boolean);
+    const facilityState = getFacilityDisplayState(facilities);
     const serviceNotes = normalizeServiceNotes(listing?.serviceNotes)
       .map((note) => ({
         label: String(note?.label || "").trim(),
@@ -616,6 +635,11 @@
       }))
       .filter((note) => note.label || note.value);
     const detailStateMessage = getPreviewDetailStateMessage(listing);
+    const showFacilityGrid =
+      !detailStateMessage
+      || facilities.length > 0
+      || serviceNotes.length > 0
+      || Boolean(listing?.detailFetchedAt);
 
     return `
       <aside id="preview-details-drawer" class="preview__drawer ${state.previewDetailsOpen ? "is-open" : ""}" aria-hidden="${state.previewDetailsOpen ? "false" : "true"}">
@@ -635,12 +659,30 @@
               facilities.length || serviceNotes.length
                 ? `
                   ${
-                    facilities.length
+                    showFacilityGrid
                       ? `
                         <div class="preview__drawer-block">
-                          <div class="preview__drawer-pills">
-                            ${facilities.map((value) => `<span class="pill pill--muted">${escapeHtml(value)}</span>`).join("")}
+                          <div class="preview__facility-grid">
+                            ${facilityState.catalog
+                              .map(
+                                (item) => `
+                                  <div class="preview__facility-item ${item.active ? "is-active" : "is-inactive"}" title="${escapeAttribute(item.label)}">
+                                    <span class="preview__facility-icon" aria-hidden="true">${renderFacilityIcon(item.id)}</span>
+                                    <span class="preview__facility-label">${escapeHtml(item.label)}</span>
+                                  </div>
+                                `,
+                              )
+                              .join("")}
                           </div>
+                          ${
+                            facilityState.extras.length
+                              ? `
+                                <div class="preview__drawer-extras">
+                                  ${facilityState.extras.map((value) => `<span class="pill pill--muted">${escapeHtml(value)}</span>`).join("")}
+                                </div>
+                              `
+                              : ""
+                          }
                         </div>
                       `
                       : ""
@@ -670,6 +712,85 @@
         </div>
       </aside>
     `;
+  }
+
+  function buildFacilityAliasMap() {
+    const map = new Map();
+    FACILITY_CATALOG.forEach((item) => {
+      [item.label, ...(item.aliases || [])].forEach((value) => {
+        map.set(normalizeFacilityKey(value), item.label);
+      });
+    });
+    return map;
+  }
+
+  function getFacilityDisplayState(facilities) {
+    const normalizedValues = normalizeStringArray(facilities)
+      .map((value) => value.trim())
+      .filter(Boolean);
+    const activeLabels = new Set();
+    const extras = [];
+
+    normalizedValues.forEach((value) => {
+      const canonical = FACILITY_ALIAS_MAP.get(normalizeFacilityKey(value));
+      if (canonical) {
+        activeLabels.add(canonical);
+      } else {
+        extras.push(value);
+      }
+    });
+
+    return {
+      catalog: FACILITY_CATALOG.map((item) => ({
+        ...item,
+        active: activeLabels.has(item.label),
+      })),
+      extras,
+    };
+  }
+
+  function normalizeFacilityKey(value) {
+    return String(value || "")
+      .trim()
+      .replace(/\s+/g, "")
+      .toLowerCase();
+  }
+
+  function renderFacilityIcon(iconId) {
+    switch (iconId) {
+      case "fridge":
+        return `<svg viewBox="0 0 24 24"><rect x="7" y="3.5" width="10" height="17" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 11.5h10M10 7.8h.01M10 15.8h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+      case "washer":
+        return `<svg viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="13" r="4.1" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7.5h.01M11 7.5h.01M14 7.5h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+      case "tv":
+        return `<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 19h5M12 16v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+      case "ac":
+        return `<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="4.8" rx="1.7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 13.5c0 1-.8 1.4-.8 2.2 0 .7.5 1 .5 1.8m4-4c0 1-.8 1.4-.8 2.2 0 .7.5 1 .5 1.8m4-4c0 1-.8 1.4-.8 2.2 0 .7.5 1 .5 1.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
+      case "heater":
+        return `<svg viewBox="0 0 24 24"><rect x="6.5" y="5" width="11" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8.3c1.4 1.4 2.3 2.3 2.3 3.4A2.3 2.3 0 0 1 12 14a2.3 2.3 0 0 1-2.3-2.3c0-1.1.9-2 2.3-3.4Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 17.2h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+      case "bed":
+        return `<svg viewBox="0 0 24 24"><path d="M5 10.5h14v6H5Zm0 0V8.8A1.8 1.8 0 0 1 6.8 7h3.7a1.5 1.5 0 0 1 1.5 1.5v2m0 0h7A1.5 1.5 0 0 1 20.5 12v4.5M5 18.5v2m14-2v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      case "wardrobe":
+        return `<svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 4v16M10.2 11.5h.01M13.8 11.5h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+      case "cable":
+        return `<svg viewBox="0 0 24 24"><path d="M7.5 7.5h9v6.5h-9Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 18.5h4M12 14v4.5M8 5 5.5 2.5M16 5l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+      case "wifi":
+        return `<svg viewBox="0 0 24 24"><path d="M4.5 9.5a11.5 11.5 0 0 1 15 0M7.5 12.5a7.5 7.5 0 0 1 9 0M10.3 15.3a3.6 3.6 0 0 1 3.4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18.2" r="1.1" fill="currentColor"/></svg>`;
+      case "gas":
+        return `<svg viewBox="0 0 24 24"><path d="M12 4.2c2.7 2.9 4.5 5.1 4.5 7.7A4.5 4.5 0 1 1 7.5 12c0-2.6 1.8-4.8 4.5-7.8Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 9.2c1.2 1.2 2 2.2 2 3.3A2 2 0 0 1 12 14.5a2 2 0 0 1-2-2c0-1.1.8-2.1 2-3.3Z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>`;
+      case "sofa":
+        return `<svg viewBox="0 0 24 24"><path d="M6.5 11.5V9.8A1.8 1.8 0 0 1 8.3 8h7.4a1.8 1.8 0 0 1 1.8 1.8v1.7M5 12.5h14v5H5Zm0 0A1.5 1.5 0 0 0 3.5 14v2.5M19 12.5a1.5 1.5 0 0 1 1.5 1.5V16.5M6 17.5v2m12-2v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      case "desk":
+        return `<svg viewBox="0 0 24 24"><path d="M4.5 9.5h15M6.5 9.5v8M17.5 9.5v8M9.5 13.5h5M9.5 17.5v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+      case "balcony":
+        return `<svg viewBox="0 0 24 24"><path d="M6 5.5h12v6H6Zm0 8h12M8 11.5v6M12 11.5v6M16 11.5v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+      case "elevator":
+        return `<svg viewBox="0 0 24 24"><rect x="6.5" y="4" width="11" height="16" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8 9.8 10.6h4.4L12 8Zm0 8 2.2-2.6H9.8L12 16Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
+      case "parking":
+        return `<svg viewBox="0 0 24 24"><path d="M8 19V5.5h5.2a3.2 3.2 0 1 1 0 6.4H8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      default:
+        return `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+    }
   }
 
   function renderPreview(listing, listings) {
