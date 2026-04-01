@@ -587,7 +587,7 @@
     return `
       <section class="preview">
         <div class="preview__header">
-          <div>
+          <div class="preview__main">
             <div class="preview__title-row">
               <h2 class="preview__title">${escapeHtml(listing.title)}</h2>
               ${listing.updateText ? `<span class="preview__updated">${escapeHtml(listing.updateText)}</span>` : ""}
@@ -600,8 +600,8 @@
               <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
             </div>
             <div class="preview__mode-switch" role="tablist" aria-label="Preview mode" aria-orientation="vertical">
-              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos" aria-label="Photos" title="Photos">◫</button>
-              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map" aria-label="Map" title="Map">⌖</button>
+              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos" aria-label="Photos" title="Photos">🖼</button>
+              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map" aria-label="Map" title="Map">🌐</button>
             </div>
           </div>
         </div>
@@ -987,7 +987,8 @@
         throw new Error(payload.error || `Import failed with HTTP ${response.status}`);
       }
 
-      appData = mergeAppDataSets(appData, payload.importedAppData);
+      const mergeResult = mergeAppDataSetsWithStats(appData, payload.importedAppData);
+      appData = mergeResult.appData;
       saveStoredAppData(appData);
       appMeta = {
         source: "browser-local",
@@ -997,7 +998,7 @@
         },
       };
       state.importPending = false;
-      state.importMessage = `Imported ${payload.importedCount || 0} listing(s).`;
+      state.importMessage = formatImportSummaryMessage(payload.importedCount || 0, mergeResult.stats);
       state.importTone = "success";
       state.pinnedId = null;
       state.hoveredId = null;
@@ -1528,6 +1529,65 @@
     };
   }
 
+  function mergeAppDataSetsWithStats(baseAppData, overrideAppData) {
+    const base = normalizeAppData(baseAppData);
+    const override = normalizeAppData(overrideAppData);
+
+    if (override.listings.length === 0) {
+      return {
+        appData: base,
+        stats: {
+          newCount: 0,
+          updatedCount: 0,
+          unchangedCount: 0,
+        },
+      };
+    }
+
+    const latestByPropertyKey = new Map();
+    let newCount = 0;
+    let updatedCount = 0;
+    let unchangedCount = 0;
+
+    base.listings.forEach((listing) => {
+      latestByPropertyKey.set(getDuplicateSignature(listing) || listing.propertyKey || listing.id, listing);
+    });
+
+    override.listings.forEach((listing) => {
+      const key = getDuplicateSignature(listing) || listing.propertyKey || listing.id;
+      const existing = latestByPropertyKey.get(key);
+      if (!existing) {
+        latestByPropertyKey.set(key, listing);
+        newCount += 1;
+        return;
+      }
+
+      const merged = mergeListingSnapshots(listing, existing);
+      if (areListingsMeaningfullyEqual(existing, merged)) {
+        unchangedCount += 1;
+      } else {
+        updatedCount += 1;
+      }
+
+      latestByPropertyKey.set(key, merged);
+    });
+
+    return {
+      appData: {
+        generatedAt: override.generatedAt || base.generatedAt || null,
+        listingCount: latestByPropertyKey.size,
+        rawFileCount: Math.max(base.rawFileCount || 0, override.rawFileCount || 0),
+        importMeta: override.importMeta || base.importMeta || null,
+        listings: [...latestByPropertyKey.values()],
+      },
+      stats: {
+        newCount,
+        updatedCount,
+        unchangedCount,
+      },
+    };
+  }
+
   function mergeListingSnapshots(primary, fallback) {
     const primaryImages = Array.isArray(primary?.images) ? primary.images : [];
     const fallbackImages = Array.isArray(fallback?.images) ? fallback.images : [];
@@ -1566,6 +1626,80 @@
       photoCount: images.length,
       lastPhotoFetchAt: primary?.lastPhotoFetchAt || fallback?.lastPhotoFetchAt || null,
     };
+  }
+
+  function areListingsMeaningfullyEqual(left, right) {
+    return JSON.stringify(normalizeListingForComparison(left)) === JSON.stringify(normalizeListingForComparison(right));
+  }
+
+  function normalizeListingForComparison(listing) {
+    return {
+      id: listing?.id || "",
+      propertyKey: listing?.propertyKey || "",
+      listingId: listing?.listingId || "",
+      title: listing?.title || "",
+      cardLabels: normalizeStringArray(listing?.cardLabels),
+      tags: normalizeStringArray(listing?.tags),
+      type: listing?.type || "",
+      sizePing: listing?.sizePing ?? null,
+      floorText: listing?.floorText || "",
+      locationText: listing?.locationText || "",
+      locationGroup: listing?.locationGroup || "",
+      distanceText: listing?.distanceText || "",
+      distanceMeters: listing?.distanceMeters ?? null,
+      nearbyLabel: listing?.nearbyLabel || "",
+      contactRole: listing?.contactRole || "",
+      contactName: listing?.contactName || "",
+      updateText: listing?.updateText || "",
+      viewsText: listing?.viewsText || "",
+      priceText: listing?.priceText || "",
+      priceMonthly: listing?.priceMonthly ?? null,
+      isOwnerDirect: Boolean(listing?.isOwnerDirect),
+      isShortRent: Boolean(listing?.isShortRent),
+      canCook: Boolean(listing?.canCook),
+      sourceUrl: listing?.sourceUrl || "",
+      exactAddress: listing?.exactAddress || "",
+      latitude: listing?.latitude ?? null,
+      longitude: listing?.longitude ?? null,
+      facilities: normalizeStringArray(listing?.facilities),
+      serviceNotes: normalizeServiceNotes(listing?.serviceNotes),
+      genderPolicy: listing?.genderPolicy || "",
+      ownerRemark: listing?.ownerRemark || "",
+      contactPhone: listing?.contactPhone || "",
+      images: normalizeImages(listing?.images),
+      hasPhotos: Boolean(listing?.hasPhotos),
+      photoCount: listing?.photoCount ?? 0,
+    };
+  }
+
+  function normalizeStringArray(values) {
+    return (Array.isArray(values) ? values : []).map((value) => String(value || ""));
+  }
+
+  function normalizeServiceNotes(values) {
+    return (Array.isArray(values) ? values : []).map((note) => ({
+      label: String(note?.label || ""),
+      value: String(note?.value || ""),
+    }));
+  }
+
+  function normalizeImages(images) {
+    return (Array.isArray(images) ? images : []).map((image) => ({
+      src: String(image?.src || ""),
+      localPath: String(image?.localPath || ""),
+      remoteUrl: String(image?.remoteUrl || ""),
+    }));
+  }
+
+  function formatImportSummaryMessage(importedCount, stats) {
+    const summaryParts = [
+      `${importedCount} imported`,
+      `${stats?.newCount || 0} new`,
+      `${stats?.updatedCount || 0} updated`,
+      `${stats?.unchangedCount || 0} unchanged`,
+    ];
+
+    return summaryParts.join(" · ");
   }
 
   function getDuplicateSignature(listing) {
