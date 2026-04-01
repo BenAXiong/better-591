@@ -24,6 +24,7 @@ export async function importViewerData(body) {
   const searchUrl = String(body?.searchUrl || "").trim();
   const importAllPages = Boolean(body?.importAllPages);
   const includePhotos = body?.includePhotos !== false;
+  const knownListings = Array.isArray(body?.knownListings) ? body.knownListings : [];
 
   if (!searchUrl) {
     return failure(400, "searchUrl is required.");
@@ -37,6 +38,7 @@ export async function importViewerData(body) {
     searchUrl,
     importAllPages,
     includePhotos,
+    knownListings,
   });
 
   return {
@@ -45,6 +47,7 @@ export async function importViewerData(body) {
     payload: {
       importedAppData: imported,
       importedCount: imported.listingCount,
+      optimization: imported.optimization || null,
       storage: {
         mode: "browser-local",
         target: "window.localStorage",

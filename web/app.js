@@ -979,6 +979,7 @@
           searchUrl: state.importUrl.trim(),
           importAllPages: state.importAllPages,
           includePhotos: state.importPhotos,
+          knownListings: buildKnownImportListings(appData.listings),
         }),
       });
 
@@ -998,7 +999,7 @@
         },
       };
       state.importPending = false;
-      state.importMessage = formatImportSummaryMessage(payload.importedCount || 0, mergeResult.stats);
+      state.importMessage = formatImportSummaryMessage(payload.importedCount || 0, mergeResult.stats, payload.optimization);
       state.importTone = "success";
       state.pinnedId = null;
       state.hoveredId = null;
@@ -1691,13 +1692,49 @@
     }));
   }
 
-  function formatImportSummaryMessage(importedCount, stats) {
+  function buildKnownImportListings(listings) {
+    return (Array.isArray(listings) ? listings : []).map((listing) => ({
+      id: listing?.id || "",
+      propertyKey: listing?.propertyKey || "",
+      listingId: listing?.listingId || "",
+      sourceUrl: listing?.sourceUrl || "",
+      title: listing?.title || "",
+      type: listing?.type || "",
+      sizePing: listing?.sizePing ?? null,
+      floorText: listing?.floorText || "",
+      locationText: listing?.locationText || "",
+      priceMonthly: listing?.priceMonthly ?? null,
+      contactRole: listing?.contactRole || "",
+      contactName: listing?.contactName || "",
+      contactPhone: listing?.contactPhone || "",
+      exactAddress: listing?.exactAddress || "",
+      latitude: listing?.latitude ?? null,
+      longitude: listing?.longitude ?? null,
+      facilities: normalizeStringArray(listing?.facilities),
+      serviceNotes: normalizeServiceNotes(listing?.serviceNotes),
+      genderPolicy: listing?.genderPolicy || "",
+      ownerRemark: listing?.ownerRemark || "",
+      detailFetchedAt: listing?.detailFetchedAt || null,
+      images: normalizeImages(listing?.images),
+      lastPhotoFetchAt: listing?.lastPhotoFetchAt || null,
+    }));
+  }
+
+  function formatImportSummaryMessage(importedCount, stats, optimization) {
     const summaryParts = [
       `${importedCount} imported`,
       `${stats?.newCount || 0} new`,
       `${stats?.updatedCount || 0} updated`,
       `${stats?.unchangedCount || 0} unchanged`,
     ];
+
+    if (optimization) {
+      summaryParts.push(`${optimization.cacheHits || 0} cached`);
+      if (optimization.detailFetches || optimization.photoFetches) {
+        summaryParts.push(`${optimization.detailFetches || 0} detail fetches`);
+        summaryParts.push(`${optimization.photoFetches || 0} photo fetches`);
+      }
+    }
 
     return summaryParts.join(" · ");
   }

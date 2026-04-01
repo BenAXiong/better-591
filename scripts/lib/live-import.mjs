@@ -13,6 +13,7 @@ export async function importListingsFromSearch({
   searchUrl,
   importAllPages = false,
   includePhotos = false,
+  knownListings = [],
 }) {
   const pages = importAllPages
     ? await collectAllPages(searchUrl)
@@ -24,11 +25,10 @@ export async function importListingsFromSearch({
 
   const rawListings = pages.flatMap((page) => parseListingsFromSearchHtml(page));
   const deduped = dedupeListings(rawListings);
-
-  let listings = deduped;
-  if (includePhotos) {
-    listings = await attachPhotoUrls(deduped);
-  }
+  const hydrated = await hydrateImportedListings(deduped, knownListings, {
+    includePhotos,
+  });
+  const listings = hydrated.listings;
 
   return {
     generatedAt: new Date().toISOString(),
@@ -41,6 +41,7 @@ export async function importListingsFromSearch({
       pageCount: pages.length,
       includePhotos,
     },
+    optimization: hydrated.optimization,
     listings,
   };
 }
@@ -242,12 +243,39 @@ function parseListingsFromSearchHtml({ html, url }) {
   return listings;
 }
 
-async function attachPhotoUrls(listings) {
+async function hydrateImportedListings(listings, knownListings, { includePhotos }) {
+  const knownIndex = buildKnownListingIndex(knownListings);
   const hydrated = [];
+  const optimization = {
+    knownCount: Array.isArray(knownListings) ? knownListings.length : 0,
+    cacheHits: 0,
+    detailFetches: 0,
+    photoFetches: 0,
+  };
 
   for (const listing of listings) {
+    const known = findKnownListing(knownIndex, listing);
+    const cachedListing = known ? mergeListingMetadata(listing, known) : listing;
+
+    if (!includePhotos) {
+      if (known) {
+        optimization.cacheHits += 1;
+      }
+      hydrated.push(cachedListing);
+      continue;
+    }
+
     if (!listing.sourceUrl) {
-      hydrated.push(listing);
+      if (known) {
+        optimization.cacheHits += 1;
+      }
+      hydrated.push(cachedListing);
+      continue;
+    }
+
+    if (known && hasReusableDetail(known) && hasReusablePhotos(known)) {
+      optimization.cacheHits += 1;
+      hydrated.push(cachedListing);
       continue;
     }
 
@@ -255,13 +283,15 @@ async function attachPhotoUrls(listings) {
       const html = await downloadText(listing.sourceUrl);
       const photoUrls = extractPhotoUrlsFromHtml(html);
       const detail = extractListingDetailFromHtml(html);
-      const detailedListing = mergeListingDetail(listing, detail);
+      const detailedListing = mergeListingDetail(cachedListing, detail);
+      optimization.detailFetches += 1;
 
       if (photoUrls.length === 0) {
         hydrated.push(detailedListing);
         continue;
       }
 
+      optimization.photoFetches += 1;
       hydrated.push({
         ...detailedListing,
         images: photoUrls.map((src, index) => buildImageRecord(listing.listingId || listing.id, src, index)),
@@ -271,11 +301,14 @@ async function attachPhotoUrls(listings) {
       });
     } catch (error) {
       console.warn(`Failed to fetch photos for ${listing.title}: ${error.message}`);
-      hydrated.push(listing);
+      hydrated.push(cachedListing);
     }
   }
 
-  return hydrated;
+  return {
+    listings: hydrated,
+    optimization,
+  };
 }
 
 async function downloadText(url) {
@@ -554,6 +587,64 @@ function mergeListingMetadata(primary, fallback) {
 
 function mapLegacyGenderPolicy(allGendersAllowed) {
   return allGendersAllowed === true ? "any" : null;
+}
+
+function buildKnownListingIndex(knownListings) {
+  const index = new Map();
+
+  for (const listing of Array.isArray(knownListings) ? knownListings : []) {
+    for (const key of getKnownLookupKeys(listing)) {
+      if (key && !index.has(key)) {
+        index.set(key, listing);
+      }
+    }
+  }
+
+  return index;
+}
+
+function findKnownListing(index, listing) {
+  for (const key of getKnownLookupKeys(listing)) {
+    if (key && index.has(key)) {
+      return index.get(key);
+    }
+  }
+
+  return null;
+}
+
+function getKnownLookupKeys(listing) {
+  const listingId = String(listing?.listingId || extractListingIdFromUrl(listing?.sourceUrl) || "").trim();
+  const sourceUrl = String(listing?.sourceUrl || "").trim();
+  const signature = getDuplicateSignature(listing);
+  const propertyKey = String(listing?.propertyKey || "").trim();
+  const id = String(listing?.id || "").trim();
+
+  return [
+    listingId ? `listingId:${listingId}` : "",
+    sourceUrl ? `sourceUrl:${sourceUrl}` : "",
+    signature ? `signature:${signature}` : "",
+    propertyKey ? `propertyKey:${propertyKey}` : "",
+    id ? `id:${id}` : "",
+  ].filter(Boolean);
+}
+
+function hasReusableDetail(listing) {
+  return Boolean(
+    String(listing?.exactAddress || "").trim()
+      && Number.isFinite(Number(listing?.latitude))
+      && Number.isFinite(Number(listing?.longitude))
+      && Array.isArray(listing?.facilities) && listing.facilities.length > 0
+      && Array.isArray(listing?.serviceNotes) && listing.serviceNotes.length > 0
+      && String(listing?.ownerRemark || "").trim()
+      && String(listing?.contactPhone || "").trim()
+      && String(listing?.genderPolicy || "").trim()
+      && String(listing?.genderPolicy || "").trim() !== "unknown"
+  );
+}
+
+function hasReusablePhotos(listing) {
+  return Array.isArray(listing?.images) && listing.images.length > 0;
 }
 
 function getTaipeiDate() {
