@@ -125,7 +125,7 @@ select {
 }
 
 .field--archive {
-  min-width: 124px;
+  min-width: auto;
 }
 
 .field--preset {
