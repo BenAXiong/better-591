@@ -124,6 +124,7 @@
   function renderToolbar(options, filteredCount) {
     return `
       <header class="toolbar">
+        <button class="button button--icon" id="reset-filters" type="button" aria-label="Reset filters" title="Reset filters">↺</button>
         ${renderSelectField("area", "Area", options.areas, state.area)}
         ${renderSelectField("district", "District", options.districts, state.district, true)}
         ${renderSelectField("type", "Type", options.types, state.type, true)}
@@ -144,7 +145,6 @@
         <div class="toolbar__actions">
           <span class="summary">${filteredCount} / ${appData.listings.length}</span>
           <button class="button" id="toggle-import-panel" type="button">${state.importPanelOpen ? "Close Import" : "Import"}</button>
-          <button class="button" id="reset-filters" type="button">Reset</button>
         </div>
 
         ${state.importPanelOpen ? renderImportPanel() : ""}
@@ -566,6 +566,24 @@
     `;
   }
 
+  function renderPreviewModeIcon(mode) {
+    if (mode === "map") {
+      return `
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3.5c4.694 0 8.5 3.806 8.5 8.5s-3.806 8.5-8.5 8.5-8.5-3.806-8.5-8.5 3.806-8.5 8.5-8.5Zm0 0c2.05 2.178 3.1 5.088 3.1 8.5s-1.05 6.322-3.1 8.5m0-17c-2.05 2.178-3.1 5.088-3.1 8.5s1.05 6.322 3.1 8.5m-7.4-8.5h14.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+    }
+
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="3.5" y="5" width="17" height="14" rx="2.5" ry="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="8.5" cy="9.5" r="1.4" fill="currentColor"/>
+        <path d="M5.5 16l4.2-4.2 3.1 3.1 2.3-2.3 3.4 3.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+  }
+
   function renderPreview(listing, listings) {
     if (!listing) {
       return `
@@ -600,8 +618,8 @@
               <p class="preview__deposit">${escapeHtml(getDepositInfo(listing) || "no deposit info")}</p>
             </div>
             <div class="preview__mode-switch" role="tablist" aria-label="Preview mode" aria-orientation="vertical">
-              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos" aria-label="Photos" title="Photos">🖼</button>
-              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map" aria-label="Map" title="Map">🌐</button>
+              <button class="preview__mode-button ${state.previewMode === "photos" ? "is-active" : ""}" type="button" data-preview-mode="photos" aria-label="Photos" title="Photos">${renderPreviewModeIcon("photos")}</button>
+              <button class="preview__mode-button ${state.previewMode === "map" ? "is-active" : ""}" type="button" data-preview-mode="map" aria-label="Map" title="Map">${renderPreviewModeIcon("map")}</button>
             </div>
           </div>
         </div>

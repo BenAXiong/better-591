@@ -433,6 +433,17 @@ select {
   cursor: pointer;
 }
 
+.button--icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
 .button:hover {
   border-color: var(--accent);
 }
@@ -1036,19 +1047,20 @@ select {
   display: inline-grid;
   grid-auto-flow: row;
   gap: 4px;
-  padding: 4px;
+  padding: 4px 3px;
   border: 1px solid rgba(196, 177, 157, 0.84);
   border-radius: 16px;
   background: rgba(255, 252, 247, 0.92);
   min-height: 64px;
+  width: max-content;
 }
 
 .preview__mode-button {
   flex: 1 1 auto;
   min-height: 0;
-  min-width: 32px;
-  width: 32px;
-  padding: 0;
+  min-width: 0;
+  width: auto;
+  padding: 0 4px;
   border: 0;
   border-radius: 12px;
   background: transparent;
@@ -1056,11 +1068,20 @@ select {
   font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .preview__mode-button.is-active {
   background: var(--accent-soft);
   color: #73431f;
+}
+
+.preview__mode-button svg {
+  display: block;
+  width: 16px;
+  height: 16px;
 }
 
 .preview__map-summary {
