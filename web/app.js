@@ -445,7 +445,10 @@
           aria-label="${escapeAttribute(`${label} sort: ${sortState}`)}"
           title="${escapeAttribute(`${label} sort: ${sortState}`)}"
         >
-          <span class="sort-button__icon">▲▼</span>
+          <span class="sort-button__icon" aria-hidden="true">
+            <span>▲</span>
+            <span>▼</span>
+          </span>
         </button>
       </div>
     `;
