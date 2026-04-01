@@ -490,7 +490,9 @@ select {
 }
 
 .toggle-row {
-  display: flex;
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
@@ -552,7 +554,8 @@ select {
 .toolbar__actions {
   margin-left: auto;
   display: flex;
-  flex-wrap: wrap;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 10px;
 }
@@ -560,6 +563,7 @@ select {
 .summary {
   color: var(--muted);
   font-size: 0.84rem;
+  white-space: nowrap;
 }
 
 .button {
