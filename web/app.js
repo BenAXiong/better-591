@@ -3,6 +3,7 @@
   const PIN_STORAGE_KEY = "591-viewer:pinned:v1";
   const FAVORITE_STORAGE_KEY = "591-viewer:favorites:v1";
   const ARCHIVE_STORAGE_KEY = "591-viewer:archive:v1";
+  const THEME_STORAGE_KEY = "591-viewer:theme:v1";
   const DETAIL_PREFETCH_LIMIT = 8;
   const LEAFLET_CSS_HREF = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
   const LEAFLET_CSS_INTEGRITY = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
@@ -52,6 +53,7 @@
     favoriteOnly: false,
     pinnedId: null,
     hoveredId: null,
+    theme: loadThemePreference(),
     previewMode: "photos",
     previewDetailsOpen: false,
     openDropdown: null,
@@ -95,6 +97,7 @@
         }
       : null,
   };
+  applyThemePreference(state.theme);
 
   function render() {
     const currentList = document.getElementById("listing-list");
@@ -149,21 +152,24 @@
         ${renderSelectField("type", "Type", options.types, state.type, true)}
         ${renderRangeField("price", "Price", state.priceMin, state.priceMax)}
         ${renderRangeField("size", "Size", state.sizeMin, state.sizeMax)}
-        ${renderArchiveFilterField(state.archiveFilter)}
 
         <div class="toggle-row">
-          ${renderFavoriteToggle(state.favoriteOnly)}
           ${renderToggle("ownerDirectOnly", "屋主直租", state.ownerDirectOnly)}
           ${renderToggle("shortRentOnly", "可短租", state.shortRentOnly)}
           ${renderToggle("cookOnly", "可開伙", state.cookOnly)}
           ${renderGenderPolicyToggle(state.genderPolicyFilter)}
           ${renderToggle("newOnly", "新上架", state.newOnly)}
           ${renderToggle("availableNowOnly", "隨時可遷入", state.availableNowOnly)}
+          ${renderFavoriteToggle(state.favoriteOnly)}
+          ${renderArchiveFilterField(state.archiveFilter)}
         </div>
 
         <div class="toolbar__actions">
           <span class="summary">${filteredCount} / ${appData.listings.length}</span>
           <button class="button" id="toggle-import-panel" type="button">${state.importPanelOpen ? "Close Import" : "Import"}</button>
+          <button class="button button--icon button--theme ${state.theme === "dark" ? "is-active" : ""}" id="toggle-theme" type="button" aria-label="${state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}" title="${state.theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}">
+            ${renderThemeIcon(state.theme)}
+          </button>
         </div>
 
         ${state.importPanelOpen ? renderImportPanel() : ""}
@@ -440,6 +446,23 @@
       >
         <span class="toggle-button__icon" aria-hidden="true">★</span>
       </button>
+    `;
+  }
+
+  function renderThemeIcon(theme) {
+    if (theme === "dark") {
+      return `
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M15.5 3.8a7.9 7.9 0 1 0 4.7 14.3A8.8 8.8 0 1 1 15.5 3.8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+    }
+
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M12 2.8v2.4M12 18.8v2.4M21.2 12h-2.4M5.2 12H2.8M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7M18.5 18.5l-1.7-1.7M7.2 7.2 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
     `;
   }
 
@@ -1025,9 +1048,10 @@
       resetButton.addEventListener("click", () => {
         state = {
           ...initialState,
+          theme: state.theme,
           imageIndexes: state.imageIndexes,
-          previewMode: state.previewMode,
           previewDetailsOpen: state.previewDetailsOpen,
+          previewMode: state.previewMode,
           importUrl: state.importUrl,
           importRegion: state.importRegion,
           importKind: state.importKind,
@@ -1056,6 +1080,16 @@
       toggleImportPanel.addEventListener("click", () => {
         state.importPanelOpen = !state.importPanelOpen;
         state.importMessage = "";
+        render();
+      });
+    }
+
+    const themeToggle = document.getElementById("toggle-theme");
+    if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+        state.theme = state.theme === "dark" ? "light" : "dark";
+        saveThemePreference(state.theme);
+        applyThemePreference(state.theme);
         render();
       });
     }
@@ -2088,6 +2122,28 @@
     } catch {
       return {};
     }
+  }
+
+  function loadThemePreference() {
+    try {
+      const value = window.localStorage.getItem(THEME_STORAGE_KEY);
+      return value === "dark" ? "dark" : "light";
+    } catch {
+      return "light";
+    }
+  }
+
+  function saveThemePreference(theme) {
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme === "dark" ? "dark" : "light");
+    } catch {
+      // Ignore localStorage failures.
+    }
+  }
+
+  function applyThemePreference(theme) {
+    const normalized = theme === "dark" ? "dark" : "light";
+    document.documentElement.dataset.theme = normalized;
   }
 
   function saveArchivedListingReasons() {
