@@ -1489,6 +1489,36 @@ select {
   line-height: 1.6;
 }
 
+[data-theme="dark"] .preview__drawer-toggle {
+  border-color: rgba(108, 89, 77, 0.86);
+  background: rgba(33, 25, 20, 0.96);
+  box-shadow: -8px 10px 22px rgba(0, 0, 0, 0.24);
+}
+
+[data-theme="dark"] .preview__drawer-toggle:hover {
+  border-color: rgba(208, 138, 85, 0.44);
+}
+
+[data-theme="dark"] .preview__drawer {
+  border-left-color: rgba(108, 89, 77, 0.82);
+  background: rgba(26, 20, 16, 0.97);
+  box-shadow: -20px 0 34px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme="dark"] .preview__facility-item.is-active {
+  color: #efc7a9;
+}
+
+[data-theme="dark"] .preview__facility-icon {
+  background: rgba(132, 117, 105, 0.12);
+  border-color: rgba(132, 117, 105, 0.2);
+}
+
+[data-theme="dark"] .preview__facility-item.is-active .preview__facility-icon {
+  background: rgba(208, 138, 85, 0.14);
+  border-color: rgba(208, 138, 85, 0.24);
+}
+
 .preview__mode-switch {
   display: inline-grid;
   grid-auto-flow: row;
