@@ -4,6 +4,7 @@
   const FAVORITE_STORAGE_KEY = "591-viewer:favorites:v1";
   const ARCHIVE_STORAGE_KEY = "591-viewer:archive:v1";
   const THEME_STORAGE_KEY = "591-viewer:theme:v1";
+  const PRESET_STORAGE_KEY = "591-viewer:filter-presets:v1";
   const DETAIL_PREFETCH_LIMIT = 8;
   const LEAFLET_CSS_HREF = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
   const LEAFLET_CSS_INTEGRITY = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
@@ -27,6 +28,25 @@
     { id: "parking", label: "平面車位", aliases: ["平面車位", "車位", "汽車位"] },
   ];
   const FACILITY_ALIAS_MAP = buildFacilityAliasMap();
+  const FILTER_PRESET_KEYS = [
+    "area",
+    "district",
+    "type",
+    "priceMin",
+    "priceMax",
+    "sizeMin",
+    "sizeMax",
+    "sortPrice",
+    "sortSize",
+    "archiveFilter",
+    "ownerDirectOnly",
+    "shortRentOnly",
+    "cookOnly",
+    "genderPolicyFilter",
+    "newOnly",
+    "availableNowOnly",
+    "favoriteOnly",
+  ];
   const embeddedAppData = normalizeAppData(window.__APP_DATA__);
   const storedAppData = loadStoredAppData();
   let appData = mergeAppDataSets(embeddedAppData, storedAppData);
@@ -75,6 +95,7 @@
   let pinnedListingIds = loadPinnedListingIds();
   let favoriteListingIds = loadFavoriteListingIds();
   let archivedListingReasons = loadArchivedListingReasons();
+  let filterPresets = loadFilterPresets();
   let leafletLoaderPromise = null;
   let previewMapToken = 0;
   let previewMapState = {
@@ -147,6 +168,7 @@
     return `
       <header class="toolbar">
         <button class="button button--icon button--reset" id="reset-filters" type="button" aria-label="Reset filters" title="Reset filters">↺</button>
+        ${renderPresetField()}
         ${renderSelectField("area", "Area", options.areas, state.area)}
         ${renderSelectField("district", "District", options.districts, state.district, true)}
         ${renderSelectField("type", "Type", options.types, state.type, true)}
@@ -293,6 +315,71 @@
           }
         </div>
       </div>
+    `;
+  }
+
+  function renderPresetField() {
+    const isOpen = state.openDropdown === "filterPresets";
+
+    return `
+      <div class="field field--dropdown field--preset">
+        <div class="dropdown">
+          <button
+            class="dropdown__trigger dropdown__trigger--preset ${isOpen ? "is-open" : ""}"
+            type="button"
+            data-dropdown-trigger="filterPresets"
+            aria-expanded="${isOpen ? "true" : "false"}"
+            aria-label="Filter presets"
+            title="Save and load filter presets"
+          >
+            <span class="dropdown__trigger-icon" aria-hidden="true">${renderPresetIcon()}</span>
+          </button>
+          ${
+            isOpen
+              ? `
+                <div class="dropdown__menu dropdown__menu--preset">
+                  <div class="preset-menu">
+                    <div class="preset-menu__header">Filter presets</div>
+                    <div class="preset-menu__composer">
+                      <input class="preset-menu__input" id="preset-name-input" type="text" placeholder="Preset name" maxlength="40" />
+                      <button class="preset-menu__save" type="button" data-preset-save>Save current</button>
+                    </div>
+                    ${
+                      filterPresets.length
+                        ? `
+                          <div class="preset-menu__list">
+                            ${filterPresets
+                              .map(
+                                (preset) => `
+                                  <div class="preset-menu__item">
+                                    <button class="preset-menu__load" type="button" data-preset-load="${escapeAttribute(preset.id)}" title="${escapeAttribute(`Load ${preset.name}`)}">
+                                      ${escapeHtml(preset.name)}
+                                    </button>
+                                    <button class="preset-menu__delete" type="button" data-preset-delete="${escapeAttribute(preset.id)}" aria-label="${escapeAttribute(`Delete ${preset.name}`)}" title="${escapeAttribute(`Delete ${preset.name}`)}">×</button>
+                                  </div>
+                                `,
+                              )
+                              .join("")}
+                          </div>
+                        `
+                        : `<div class="preset-menu__empty">No saved presets yet.</div>`
+                    }
+                  </div>
+                </div>
+              `
+              : ""
+          }
+        </div>
+      </div>
+    `;
+  }
+
+  function renderPresetIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M6.5 4.5h11a1.5 1.5 0 0 1 1.5 1.5v13l-4.5-2.8-4.5 2.8-4.5-2.8V6a1.5 1.5 0 0 1 1.5-1.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M9 8.5h6M9 11.5h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
     `;
   }
 
@@ -954,6 +1041,39 @@
           }
         }
         state.openDropdown = null;
+        render();
+      });
+    });
+
+    const presetSaveButton = document.querySelector("[data-preset-save]");
+    if (presetSaveButton) {
+      presetSaveButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const input = document.getElementById("preset-name-input");
+        const name = input ? input.value.trim() : "";
+        if (!name) {
+          input?.focus();
+          return;
+        }
+
+        saveFilterPreset(name);
+        render();
+      });
+    }
+
+    root.querySelectorAll("[data-preset-load]").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.stopPropagation();
+        loadFilterPreset(event.currentTarget.dataset.presetLoad);
+        state.openDropdown = null;
+        render();
+      });
+    });
+
+    root.querySelectorAll("[data-preset-delete]").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.stopPropagation();
+        deleteFilterPreset(event.currentTarget.dataset.presetDelete);
         render();
       });
     });
@@ -2144,6 +2264,91 @@
   function applyThemePreference(theme) {
     const normalized = theme === "dark" ? "dark" : "light";
     document.documentElement.dataset.theme = normalized;
+  }
+
+  function loadFilterPresets() {
+    try {
+      const raw = JSON.parse(window.localStorage.getItem(PRESET_STORAGE_KEY) || "[]");
+      return Array.isArray(raw)
+        ? raw
+            .map((preset) => ({
+              id: String(preset?.id || ""),
+              name: String(preset?.name || "").trim(),
+              filters: preset?.filters && typeof preset.filters === "object" ? preset.filters : {},
+            }))
+            .filter((preset) => preset.id && preset.name)
+        : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveFilterPresets() {
+    try {
+      window.localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(filterPresets));
+    } catch {
+      // Ignore localStorage failures.
+    }
+  }
+
+  function extractCurrentFilterPreset() {
+    return FILTER_PRESET_KEYS.reduce((snapshot, key) => {
+      snapshot[key] = state[key];
+      return snapshot;
+    }, {});
+  }
+
+  function saveFilterPreset(name) {
+    const normalizedName = String(name || "").trim();
+    if (!normalizedName) {
+      return;
+    }
+
+    const filters = extractCurrentFilterPreset();
+    const existing = filterPresets.find((preset) => preset.name.toLowerCase() === normalizedName.toLowerCase());
+
+    if (existing) {
+      existing.name = normalizedName;
+      existing.filters = filters;
+    } else {
+      filterPresets = [
+        {
+          id: createPresetId(),
+          name: normalizedName,
+          filters,
+        },
+        ...filterPresets,
+      ];
+    }
+
+    saveFilterPresets();
+  }
+
+  function loadFilterPreset(presetId) {
+    const preset = filterPresets.find((item) => item.id === presetId);
+    if (!preset) {
+      return;
+    }
+
+    FILTER_PRESET_KEYS.forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(preset.filters, key)) {
+        state[key] = preset.filters[key];
+      }
+    });
+
+    const districts = getAvailableDistrictsForArea(state.area);
+    if (state.district !== "all" && !districts.includes(state.district)) {
+      state.district = "all";
+    }
+  }
+
+  function deleteFilterPreset(presetId) {
+    filterPresets = filterPresets.filter((preset) => preset.id !== presetId);
+    saveFilterPresets();
+  }
+
+  function createPresetId() {
+    return `preset_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
   }
 
   function saveArchivedListingReasons() {
