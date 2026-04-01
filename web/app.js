@@ -344,7 +344,7 @@
     const options = getArchiveFilterOptions();
     const currentOption = options.find((option) => option.value === currentValue) || options[0];
     const isOpen = state.openDropdown === "archiveFilter";
-    const triggerLabel = currentValue === "active" ? "Archived" : currentOption.label;
+    const tooltipLabel = "Show hidden/archived listings";
 
     return `
       <div class="field field--dropdown field--archive">
@@ -354,9 +354,10 @@
             type="button"
             data-dropdown-trigger="archiveFilter"
             aria-expanded="${isOpen ? "true" : "false"}"
-            aria-label="${escapeAttribute(`Archived: ${currentOption.label}`)}"
+            aria-label="${escapeAttribute(`${tooltipLabel}: ${currentOption.label}`)}"
+            title="${escapeAttribute(tooltipLabel)}"
           >
-            <span class="dropdown__trigger-text">${escapeHtml(triggerLabel)}</span>
+            <span class="dropdown__trigger-icon" aria-hidden="true">${renderArchiveFilterIcon()}</span>
             <span class="dropdown__caret">▾</span>
           </button>
           ${
@@ -383,6 +384,16 @@
           }
         </div>
       </div>
+    `;
+  }
+
+  function renderArchiveFilterIcon() {
+    return `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4.5 6.5h15l-1.2 11.1a2 2 0 0 1-2 1.8H7.7a2 2 0 0 1-2-1.8L4.5 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M9.5 10.5h5m-4 3h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M8 6.5V5.2A1.7 1.7 0 0 1 9.7 3.5h4.6A1.7 1.7 0 0 1 16 5.2v1.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
     `;
   }
 
